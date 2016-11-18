@@ -4,16 +4,10 @@
 #include "stdafx.h"
 
 #include <iostream>
-#include <fstream>
 
 using namespace std;
 
-void readDbs(string name)
-{
-    ifstream dbs;
-    dbs.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
-    dbs.open(name);
-}
+void readDbs(string name);
 
 int main()
 {
@@ -29,4 +23,3 @@ int main()
     }
     return 0;
 }
-
