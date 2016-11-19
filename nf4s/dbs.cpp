@@ -9,13 +9,13 @@ void readDbs(string name)
     dbs.open(name);
 }
 
-double DbsTransform::det(void)
+double DbsTransform::det(void) const
 {
     return cosXX * sinYX - cosYX * sinXX;
 }
 
 
-DbsPoint operator*(DbsTransform& t, DbsPoint& p)
+DbsPoint operator*(const DbsTransform& t, const DbsPoint& p)
 {
     class DbsPoint z;
     z.x = t.cosXX * p.x + t.cosYX * p.y + t.deltaX;

@@ -27,7 +27,7 @@ public:
     double deltaX, deltaY;
 
 //    DbsPoint operator *(DbsPoint& pt);
-    double det(void);
+    double det(void) const;
 };
 
-DbsPoint operator*(DbsTransform& t, DbsPoint& p);
+DbsPoint operator*(const DbsTransform& t, const DbsPoint& p);
