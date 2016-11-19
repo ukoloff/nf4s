@@ -8,3 +8,18 @@ void readDbs(string name)
     dbs.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
     dbs.open(name);
 }
+
+double DbsTransform::det(void)
+{
+    return cosXX * sinYX - cosYX * sinXX;
+}
+
+
+DbsPoint operator*(DbsTransform& t, DbsPoint& p)
+{
+    class DbsPoint z;
+    z.x = t.cosXX * p.x + t.cosYX * p.y + t.deltaX;
+    z.y = t.sinXX * p.x + t.sinYX * p.y + t.deltaY;
+    z.t = t.det() < 0 ? -p.t : p.t;
+    return z;
+}
