@@ -1,17 +1,15 @@
 // nf4s.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
-
 #include <iostream>
 
-using namespace std;
-
-void readDbs(string name);
+#include "stdafx.h"
+#include "Dbs.h"
 
 int main()
 {
     cout << "Hello, world!" << endl;
+    cout << sizeof DbsPoint << endl;
     try {
         readDbs("C:\\geodet\\ring.DBS");
     }
