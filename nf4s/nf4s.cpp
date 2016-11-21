@@ -9,9 +9,10 @@
 int main()
 {
     cout << "Hello, world!" << endl;
-    cout << sizeof DbsPoint << endl;
+    cout << sizeof dbs::P << endl;
+    cout << sizeof dbs::Node << endl;
     try {
-        readDbs("C:\\geodet\\ring.DBS");
+        dbs::File::read("C:\\geodet\\ring.DBS");
     }
     catch(exception &e){
         cerr << "Exception: " << e.what() << endl;

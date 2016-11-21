@@ -1,33 +1,33 @@
 #pragma once
 
-using namespace std;
-
 static_assert(2 == sizeof(short), "Invalid short int!");
 
-void readDbs(string name);
+using namespace std;
 
-// typedef class DbsPoint DbsPoint;
-// typedef class DbsTransform DbsTransform;
-
-class DbsPoint;
-class DbsTransform;
-
-class DbsPoint
+namespace dbs
 {
-public:
-    double x;
-    double y;
-    double t;
-};
+  struct P
+  {
+      float x, y;
+  };
 
-class DbsTransform
-{
-public:
-    double cosXX, sinXX, cosYX, sinYX;
-    double deltaX, deltaY;
+  struct Node: P
+  {
+      float bulge;
+  };
 
-//    DbsPoint operator *(DbsPoint& pt);
-    double det(void) const;
-};
+  struct O2
+  {
+      P x, y, delta;
 
-DbsPoint operator*(const DbsTransform& t, const DbsPoint& p);
+      double det() const;
+      P operator * (const P& p);
+      Node operator * (const Node& n);
+  };
+
+  struct File
+  {
+    static void read(std::string name);
+  };
+}
+
