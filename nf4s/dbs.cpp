@@ -22,3 +22,11 @@ dbs::P dbs::O2::operator*(const dbs::P& p)
     z.y = x.y * p.x + y.y * p.y + delta.y;
     return z;
 }
+
+dbs::Node dbs::O2::operator*(const dbs::Node& node)
+{
+    dbs::Node z;
+    (dbs::P)z = (*this) * (dbs::P)node;
+    z.bulge = det() > 0 ? node.bulge : -node.bulge;
+    return z;
+}
