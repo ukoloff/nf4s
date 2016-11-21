@@ -6,7 +6,7 @@
 
 int main()
 {
-    //amCATInputDomain Domain(1, 120, 100, 2);
+    amCATInputDomain Domain(1, 120, 100, 2);
 
     return 0;
 }
