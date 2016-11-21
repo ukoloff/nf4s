@@ -1,3 +1,4 @@
+#include <iostream>
 #include <fstream>
 
 #include "Dbs.h"
@@ -15,7 +16,7 @@ double dbs::O2::det(void) const
 }
 
 
-dbs::P dbs::O2::operator*(const dbs::P& p)
+dbs::P dbs::O2::operator*(const dbs::P& p) const
 {
     dbs::P z;
     z.x = x.x * p.x + y.x * p.y + delta.x;
@@ -23,10 +24,16 @@ dbs::P dbs::O2::operator*(const dbs::P& p)
     return z;
 }
 
-dbs::Node dbs::O2::operator*(const dbs::Node& node)
+dbs::Node dbs::O2::operator*(const dbs::Node& node) const
 {
     dbs::Node z;
-    (dbs::P)z = (*this) * (dbs::P)node;
+    dbs::P* p = &z;
+    *p = (*this) * *(dbs::P*)&node;
     z.bulge = det() > 0 ? node.bulge : -node.bulge;
     return z;
+}
+
+void dbs::Node::dump()
+{
+    cout << "[" << x << ", " << y << ", " << bulge << "]" << endl;
 }

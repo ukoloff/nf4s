@@ -14,6 +14,7 @@ namespace dbs
   struct Node: P
   {
       float bulge;
+      void dump();
   };
 
   struct O2
@@ -21,8 +22,8 @@ namespace dbs
       P x, y, delta;
 
       double det() const;
-      P operator * (const P& p);
-      Node operator * (const Node& n);
+      P operator * (const P& p) const;
+      Node operator * (const Node& n) const;
   };
 
   struct File
@@ -30,4 +31,3 @@ namespace dbs
     static void read(std::string name);
   };
 }
-
