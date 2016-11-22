@@ -1,7 +1,5 @@
 #pragma once
 
-static_assert(2 == sizeof(short), "Invalid short int!");
-
 using namespace std;
 
 namespace dbs

@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "Dbs.h"
+#include "iDbs.h"
 
 void dbs::File::read(string name)
 {
