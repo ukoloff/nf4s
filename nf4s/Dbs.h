@@ -4,6 +4,12 @@ using namespace std;
 
 namespace dbs
 {
+  class Error : runtime_error
+  {
+  public:
+      Error(const string& message) : runtime_error(message) {}
+  };
+
   struct P
   {
       float x, y;
