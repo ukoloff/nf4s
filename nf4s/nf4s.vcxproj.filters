@@ -41,5 +41,8 @@
     <ClCompile Include="dbs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dbsRead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

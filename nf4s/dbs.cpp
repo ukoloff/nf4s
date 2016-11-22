@@ -1,15 +1,6 @@
 #include <iostream>
-#include <fstream>
 
 #include "Dbs.h"
-#include "iDbs.h"
-
-void dbs::File::read(string name)
-{
-    ifstream src;
-    src.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
-    src.open(name);
-}
 
 double dbs::O2::det(void) const
 {

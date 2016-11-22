@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dbs.cpp" />
+    <ClCompile Include="dbsRead.cpp" />
     <ClCompile Include="nf4s.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
