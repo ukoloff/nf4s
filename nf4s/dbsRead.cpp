@@ -14,14 +14,12 @@ void dbs::File::read(string name)
     ifstream src;
     string buf;
     //src.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
-    src.open(name);
+    src.open(name, src.binary);
     while(true)
     {
-        std::cout << "@" << src.tellg() << std::endl;
         buf.resize(sizeof(dbs::i::Base));
         dbs::i::Base* base = (dbs::i::Base*)buf.data();
         src.read((char*)base, sizeof(dbs::i::Base));
-        std::cout << "@" << src.tellg() << "//" << src.gcount() << std::endl;
         if (base->eof())
             break;
         size_t sz = base->size();
@@ -29,10 +27,7 @@ void dbs::File::read(string name)
             throw dbs::Error("Record too short!");
         buf.resize(sizeof(dbs::i::Rec));
         dbs::i::Rec* rec = (dbs::i::Rec*)buf.data();
-        char * qw = (char*)((dbs::i::Base*)rec + 1);
-        size_t zx = sizeof(dbs::i::Rec) - sizeof(dbs::i::Base);
-        src.read(qw, zx);
-        std::cout << "@" << src.tellg() << "//" << src.gcount() << std::endl;
+        src.read((char*)((dbs::i::Base*)rec + 1), sizeof(dbs::i::Rec) - sizeof(dbs::i::Base));
         if(rec->length2 != rec->length)
             throw dbs::Error("Record length mismatch!");
         parser pr;
@@ -54,7 +49,6 @@ void dbs::File::read(string name)
         buf.resize(sz);
         rec = (dbs::i::Rec*)buf.data();
         src.read((char*)(rec + 1), sz - sizeof(*rec));
-        std::cout << "@" << src.tellg() << "//" << src.gcount() << std::endl;
         (*pr)(*rec);
     }
 }
