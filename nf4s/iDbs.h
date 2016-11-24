@@ -54,7 +54,13 @@ namespace dbs {
         // Record 26: detail name
         struct R26 : Rid
         {
-            char name[8];
+            char partid[8];
+
+            string name() const;
+            void name(string);
+
+            static void swap(string&);
+            static void rtrim(string&);
         };
 
         // Record 27: detail area & perimeter
@@ -78,7 +84,7 @@ namespace dbs {
             void (Loader::*dispatcher)();
 
             vector <Path> paths;
-            map <short, size_t> iPaths;
+            map <short, size_t> iPaths, iParts;
                 
             Loader(dbs::File& dbs) : dst(dbs) {};
             void load(ifstream&);
