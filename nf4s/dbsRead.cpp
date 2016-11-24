@@ -3,30 +3,35 @@
 #include "Dbs.h"
 #include "iDbs.h"
 
-typedef void (*parser)(dbs::i::Rec&);
-static void parse1(dbs::i::Rec&);
-static void parse8(dbs::i::Rec&);
-static void parse26(dbs::i::Rec&);
-
 void dbs::File::read(string name)
 {
     ifstream src;
-    string buf;
-    //src.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
+    src.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
     src.open(name, src.binary);
+    dbs::i::Loader z(*this);
+    z.load(src);
+}
+
+void dbs::i::Loader::read2(size_t sz)
+{
+    size_t prev = buffer.size();
+    if (sz < prev)
+        prev = 0, buffer.erase();
+    buffer.resize(sz);
+    src.read(raw + prev, sz - prev);
+}
+
+void dbs::i::Loader::load(ifstream &)
+{
     while(true)
     {
-        buf.resize(sizeof(dbs::i::Base));
-        dbs::i::Base* base = (dbs::i::Base*)buf.data();
-        src.read((char*)base, sizeof(dbs::i::Base));
-        if (base->eof())
+        read2(sizeof(dbs::i::Base));
+        if (rec->eof())
             break;
         size_t sz = base->size();
         if (sz < sizeof(dbs::i::Rec))
             throw dbs::Error("Record too short!");
-        buf.resize(sizeof(dbs::i::Rec));
-        dbs::i::Rec* rec = (dbs::i::Rec*)buf.data();
-        src.read((char*)((dbs::i::Base*)rec + 1), sizeof(dbs::i::Rec) - sizeof(dbs::i::Base));
+        read2(sizeof(dbs::i::Rec));
         if(rec->length2 != rec->length)
             throw dbs::Error("Record length mismatch!");
         parser pr;
@@ -45,9 +50,7 @@ void dbs::File::read(string name)
             src.seekg(sz - sizeof(*rec), ios_base::cur);
             continue;
         }
-        buf.resize(sz);
-        rec = (dbs::i::Rec*)buf.data();
-        src.read((char*)(rec + 1), sz - sizeof(*rec));
+        read2(sz);
         (*pr)(*rec);
     }
 }

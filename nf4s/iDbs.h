@@ -65,18 +65,20 @@ namespace dbs {
             ifstream& src;
             dbs::File& dst;
             string buffer;
-            size_t offset;
             union
             {
                 char* raw;
-                R1 r1;
-                R8 r8;
-                R26 r26;
+                Rec* rec;
+                R1* r1;
+                R8* r8;
+                R26* r26;
             };
 
-            void reset() { offset = 0; }
-            void resize(size_t);
-            void read(size_t);
+
+            Loader(dbs::File&) : dst(dbs) {};
+            void load(ifstream&);
+
+            void read2(size_t);
 
             void parse1();
             void parse8();
