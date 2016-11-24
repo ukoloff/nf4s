@@ -73,11 +73,15 @@ namespace dbs {
                 R8* r8;
                 R26* r26;
             };
-
+            void (Loader::*dispatcher)();
+                
             Loader(dbs::File& dbs) : dst(dbs) {};
             void load(ifstream&);
 
             void read2(size_t);
+            void skip2(size_t);
+
+            void dispatch();
 
             void parse1();
             void parse8();

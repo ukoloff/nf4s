@@ -18,7 +18,13 @@ void dbs::i::Loader::read2(size_t sz)
     if (sz < prev)
         prev = 0, buffer.erase();
     buffer.resize(sz);
+    raw = (char*)buffer.data();
     src->read(raw + prev, sz - prev);
+}
+
+void dbs::i::Loader::skip2(size_t sz)
+{
+    src->ignore(sz - buffer.size());
 }
 
 void dbs::i::Loader::load(ifstream& source)
@@ -35,37 +41,43 @@ void dbs::i::Loader::load(ifstream& source)
         read2(sizeof(*rec));
         if(rec->length2 != rec->length)
             throw dbs::Error("Record length mismatch!");
-/*
-        parser pr;
-        switch(rec->kind)
+        dispatch();
+        if(!dispatcher)
         {
-        case 1:
-            pr = parse1;
-            break;
-        case 8:
-            pr = parse8;
-            break;
-        case 26:
-            pr = parse26;
-            break;
-        default:
-            src.seekg(sz - sizeof(*rec), ios_base::cur);
+            skip2(sz);
             continue;
         }
-*/
         read2(sz);
-        //(*pr)(*rec);
+        (this->*dispatcher)();
     }
 }
 
-static void parse1(dbs::i::Rec&)
+void dbs::i::Loader::dispatch()
+{
+    switch (rec->kind)
+    {
+    case 1:
+        dispatcher = &Loader::parse1;
+        break;
+    case 8:
+        dispatcher = &Loader::parse8;
+        break;
+    case 26:
+        dispatcher = &Loader::parse26;
+        break;
+    default:
+        dispatcher = 0;
+    }
+}
+
+void dbs::i::Loader::parse1()
 {
 }
 
-static void parse8(dbs::i::Rec&)
+void dbs::i::Loader::parse8()
 {
 }
 
-static void parse26(dbs::i::Rec&)
+void dbs::i::Loader::parse26()
 {
 }

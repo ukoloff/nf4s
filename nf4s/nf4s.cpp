@@ -13,7 +13,7 @@ int main()
     try {
         dbs::File f;
         f.read("C:\\geodet\\ring.DBS");
-        throw new dbs::Error("Oops");
+        // throw new dbs::Error("Oops");
     }
     catch(exception &e){
         cerr << "Exception: " << e.what() << endl;
