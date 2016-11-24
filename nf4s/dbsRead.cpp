@@ -50,6 +50,8 @@ void dbs::i::Loader::load(ifstream& source)
         read2(sz);
         (this->*dispatcher)();
     }
+    // combine dst.parts from paths + refs
+
 }
 
 void dbs::i::Loader::dispatch()
