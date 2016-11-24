@@ -1,5 +1,7 @@
 #pragma once
 
+#include<vector>
+
 using namespace std;
 
 namespace dbs
@@ -30,8 +32,21 @@ namespace dbs
       Node operator * (const Node& n) const;
   };
 
+  struct Path
+  {
+      vector <Node> nodes;
+  };
+
+  struct Part
+  {
+      string name;
+      vector <Path> paths;
+  };
+
   struct File
   {
-    void read(std::string name);
+      vector <Part> parts;
+
+      void read(std::string name);
   };
 }

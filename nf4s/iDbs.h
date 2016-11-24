@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 static_assert(2 == sizeof(short), "Invalid short int!");
 
 namespace dbs {
@@ -74,6 +76,9 @@ namespace dbs {
                 R26* r26;
             };
             void (Loader::*dispatcher)();
+
+            vector <Path> paths;
+            map <short, size_t> iPaths;
                 
             Loader(dbs::File& dbs) : dst(dbs) {};
             void load(ifstream&);
