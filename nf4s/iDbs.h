@@ -84,7 +84,8 @@ namespace dbs {
             void (Loader::*dispatcher)();
 
             vector <Path> paths;
-            map <short, size_t> iPaths, iParts;
+            vector <vector<short>> refs;
+            map <short, size_t> iPaths, iParts, iRefs;
                 
             Loader(dbs::File& dbs) : dst(dbs) {};
             void load(ifstream&);

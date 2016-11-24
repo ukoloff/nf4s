@@ -82,6 +82,12 @@ void dbs::i::Loader::parse1()
 
 void dbs::i::Loader::parse8()
 {
+    vector<short> ref;
+    size_t count = (r8->size() - sizeof(*r8)) / sizeof(r8->ids[0]);
+    for (size_t i = 0; i < count; i++)
+        ref.push_back(r8->ids[i].id);
+    iRefs[r8->id] = refs.size();
+    refs.push_back(ref);
 }
 
 void dbs::i::Loader::parse26()
