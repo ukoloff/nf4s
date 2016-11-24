@@ -32,6 +32,6 @@ namespace dbs
 
   struct File
   {
-    static void read(std::string name);
+    void read(std::string name);
   };
 }

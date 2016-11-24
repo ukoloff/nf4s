@@ -11,7 +11,8 @@ int main()
     cout << "Hello, world!" << endl;
 
     try {
-        dbs::File::read("C:\\geodet\\ring.DBS");
+        dbs::File f;
+        f.read("C:\\geodet\\ring.DBS");
         throw new dbs::Error("Oops");
     }
     catch(exception &e){

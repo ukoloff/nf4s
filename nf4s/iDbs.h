@@ -75,8 +75,8 @@ namespace dbs {
             };
 
 
-            Loader(dbs::File&) : dst(dbs) {};
-            void load(ifstream&);
+            Loader(dbs::File& dbs, ifstream& source) : dst(dbs), src(source) {};
+            void load();
 
             void read2(size_t);
 
