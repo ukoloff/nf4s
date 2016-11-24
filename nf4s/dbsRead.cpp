@@ -8,8 +8,8 @@ void dbs::File::read(string name)
     ifstream src;
     src.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
     src.open(name, src.binary);
-    dbs::i::Loader z(*this, src);
-    z.load();
+    dbs::i::Loader z(*this);
+    z.load(src);
 }
 
 void dbs::i::Loader::read2(size_t sz)
@@ -18,11 +18,12 @@ void dbs::i::Loader::read2(size_t sz)
     if (sz < prev)
         prev = 0, buffer.erase();
     buffer.resize(sz);
-    src.read(raw + prev, sz - prev);
+    src->read(raw + prev, sz - prev);
 }
 
-void dbs::i::Loader::load()
+void dbs::i::Loader::load(ifstream& source)
 {
+    src = &source;
     while(true)
     {
         read2(sizeof(dbs::i::Base));

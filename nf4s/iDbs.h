@@ -62,7 +62,7 @@ namespace dbs {
         };
 
         struct Loader {
-            ifstream& src;
+            ifstream* src;
             dbs::File& dst;
             string buffer;
             union
@@ -74,9 +74,8 @@ namespace dbs {
                 R26* r26;
             };
 
-
-            Loader(dbs::File& dbs, ifstream& source) : dst(dbs), src(source) {};
-            void load();
+            Loader(dbs::File& dbs) : dst(dbs) {};
+            void load(ifstream&);
 
             void read2(size_t);
 
