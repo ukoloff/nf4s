@@ -1,4 +1,3 @@
-#include <iostream>
 #include <sstream>
 #include <fstream>
 
@@ -66,7 +65,6 @@ void dbs::i::Loader::load(ifstream& source)
             dst.parts.push_back(prt);
         }
         part = &dst.parts[iParts[z.first]];
-        cout << "part#" << z.first << endl;
         for (auto& id : refs[z.second])
         {
             if (!iPaths.count(id))

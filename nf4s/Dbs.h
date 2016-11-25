@@ -1,5 +1,6 @@
 #pragma once
 
+#include<ostream>
 #include<vector>
 
 using namespace std;
@@ -20,6 +21,7 @@ namespace dbs
   struct Node: P
   {
       float bulge;
+
       void dump();
   };
 
@@ -35,12 +37,15 @@ namespace dbs
   struct Path
   {
       vector <Node> nodes;
+      void yaml(ostream&);
   };
 
   struct Part
   {
       string name;
       vector <Path> paths;
+
+      void yaml(ostream&);
   };
 
   struct File
@@ -48,5 +53,6 @@ namespace dbs
       vector <Part> parts;
 
       void read(std::string name);
+      void yaml(ostream&);
   };
 }

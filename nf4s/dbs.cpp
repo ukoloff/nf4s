@@ -25,7 +25,24 @@ dbs::Node dbs::O2::operator*(const dbs::Node& node) const
     return z;
 }
 
-void dbs::Node::dump()
+void dbs::Path::yaml(ostream & out)
 {
-    cout << "[" << x << ", " << y << ", " << bulge << "]" << endl;
+    out << "  -\n";
+    for(auto & n : nodes)
+        out << "    - [" << n.x << ", " << n.y << ", " << n.bulge << "]\n";
+}
+
+void dbs::Part::yaml(ostream & out)
+{
+    out << "  partid: \"" << name.c_str() << "\"\n";
+    out << "  paths:\n";
+    for (auto & p : paths)
+        p.yaml(out);
+}
+
+void dbs::File::yaml(ostream & out)
+{
+    out << "-\n";
+    for (auto & p : parts)
+        p.yaml(out);
 }
