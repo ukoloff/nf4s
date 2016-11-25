@@ -1,3 +1,5 @@
+#include <iostream>
+#include <sstream>
 #include <fstream>
 
 #include "Dbs.h"
@@ -51,7 +53,27 @@ void dbs::i::Loader::load(ifstream& source)
         (this->*dispatcher)();
     }
     // combine dst.parts from paths + refs
-
+    for(auto const& z: iRefs)
+    {
+        Part* part;
+        if (!iParts.count(z.first))
+        {
+            ostringstream partid;
+            partid << "#" << z.first;
+            Part prt;
+            prt.name = partid.str();
+            iParts[z.first] = dst.parts.size();
+            dst.parts.push_back(prt);
+        }
+        part = &dst.parts[iParts[z.first]];
+        cout << "part#" << z.first << endl;
+        for (auto& id : refs[z.second])
+        {
+            if (!iPaths.count(id))
+                throw Error("PathID not found!");
+            part->paths.push_back(paths[iPaths[id]]);
+        }
+    }
 }
 
 void dbs::i::Loader::dispatch()
