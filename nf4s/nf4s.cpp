@@ -8,16 +8,19 @@
 
 int main()
 {
-    try {
+    try 
+    {
         dbs::File f;
         f.read("C:\\geodet\\ring.DBS");
         f.yaml(cout);
         // throw new dbs::Error("Oops");
     }
-    catch(exception &e){
+    catch(exception &e)
+    {
         cerr << "Exception: " << e.what() << endl;
     }
-    catch(...) {
+    catch(...) 
+    {
         cerr << "Unknown exception!" << endl;
     }
     return 0;
