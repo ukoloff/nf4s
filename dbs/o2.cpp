@@ -13,11 +13,10 @@ dbs::P dbs::O2::operator*(const dbs::P& p) const
     return z;
 }
 
-dbs::Node dbs::O2::operator*(const dbs::Node& node) const
+dbs::Node dbs::O2::operator*(const dbs::Node & node) const
 {
     dbs::Node z;
-    dbs::P* p = &z;
-    *p = (*this) * *(dbs::P*)&node;
+    z.to_p() = (*this) * node.to_p();
     z.bulge = det() > 0 ? node.bulge : -node.bulge;
     return z;
 }

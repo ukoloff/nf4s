@@ -30,7 +30,7 @@ namespace dbs
       void json(ostream &, bool pretty = false);
       void yaml(ostream & out) { json(out); }
 
-      const P & to_p() const { return *(P*)this; }
+      P & to_p() const { return *(P*)this; }
   };
 
   struct O2
