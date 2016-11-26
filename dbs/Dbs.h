@@ -22,7 +22,8 @@ namespace dbs
   {
       float bulge;
 
-      void dump();
+      void json(ostream &, bool pretty = false);
+      void yaml(ostream & out);
   };
 
   struct O2
@@ -37,6 +38,8 @@ namespace dbs
   struct Path
   {
       vector <Node> nodes;
+
+      void json(ostream &, bool pretty = false);
       void yaml(ostream&);
   };
 
@@ -45,6 +48,7 @@ namespace dbs
       string name;
       vector <Path> paths;
 
+      void json(ostream &, bool pretty = false);
       void yaml(ostream&);
 
       static const string quote(const string&);
@@ -55,6 +59,8 @@ namespace dbs
       vector <Part> parts;
 
       void read(std::string name);
+
+      void json(ostream &, bool pretty = false);
       void yaml(ostream&);
   };
 }

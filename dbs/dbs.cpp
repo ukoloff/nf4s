@@ -29,8 +29,11 @@ dbs::Node dbs::O2::operator*(const dbs::Node& node) const
 void dbs::Path::yaml(ostream & out)
 {
     out << "  -\t\t# " << nodes.size() << " nodes\n";
-    for(auto & n : nodes)
-        out << "    - [" << n.x << ", " << n.y << ", " << n.bulge << "]\n";
+    for (auto & n : nodes)
+    {
+        out << "    - ";
+        n.yaml(out);
+    }
 }
 
 void dbs::Part::yaml(ostream & out)
@@ -70,4 +73,60 @@ const string dbs::Part::quote(const string & src)
     }
     dst << src.substr(i, src.npos) << '"';
     return dst.str();
+}
+
+void dbs::Node::json(ostream & out, bool pretty)
+{
+    auto space = pretty ? " " : "";
+    out << '[' << x << ',' << space << y << ',' << space << bulge << ']';
+}
+
+void dbs::Node::yaml(ostream & out)
+{
+    json(out);
+    out << '\n';
+}
+
+void dbs::Path::json(ostream & out, bool pretty)
+{
+    bool first = true;
+    out << '[';
+    for(auto & node : nodes)
+    {
+        if (!first)
+            out << ',';
+        if (pretty)
+            out << (first ? " " : "\n  ");
+        first = false;
+        node.json(out, pretty);
+    }
+    out << ']';
+}
+
+void dbs::Part::json(ostream & out, bool pretty)
+{
+    bool first = true;
+    out << '{';
+    for(auto & path : paths)
+    {
+        if (!first)
+            out << ',';
+        first = false;
+        path.json(out, pretty);
+    }
+    out << '}';
+}
+
+void dbs::File::json(ostream & out, bool pretty)
+{
+    bool first = true;
+    out << '[';
+    for (auto & part : parts)
+    {
+        if (!first)
+            out << ',';
+        first = false;
+        part.json(out, pretty);
+    }
+    out << ']';
 }

@@ -17,6 +17,9 @@ int main(int argc, char *argv[])
         dbs::File f;
         f.read(argv[1]);
         f.yaml(cout);
+        f.json(cout);
+        cout << "\n";
+        f.json(cout, true);
         // throw new dbs::Error("Oops");
     }
     catch(exception &e)
