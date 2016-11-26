@@ -16,6 +16,11 @@ int main(int argc, char *argv[])
     {
         dbs::File f;
         f.read(argv[1]);
+
+        dbs::Part p;
+        p.name = "a\\b\"c";
+        f.parts.push_back(p);
+
         f.yaml(cout);
         f.json(cout);
         cout << "\n";

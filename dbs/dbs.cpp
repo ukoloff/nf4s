@@ -96,7 +96,7 @@ void dbs::Path::json(ostream & out, bool pretty)
         if (!first)
             out << ',';
         if (pretty)
-            out << (first ? " " : "\n  ");
+            out << "\n  ";
         first = false;
         node.json(out, pretty);
     }
@@ -106,15 +106,20 @@ void dbs::Path::json(ostream & out, bool pretty)
 void dbs::Part::json(ostream & out, bool pretty)
 {
     bool first = true;
-    out << '{';
+    auto eol = pretty ? "\n  " : "";
+    auto space = pretty ? " " : "";
+    out << '{' << eol << "\"partid\":" << space << quote(name).c_str() << "," << eol << "\"paths\":" << space << '[';
     for(auto & path : paths)
     {
         if (!first)
             out << ',';
+        out << eol;
         first = false;
         path.json(out, pretty);
     }
-    out << '}';
+    if (pretty)
+        out << '\n';
+    out << "]}";
 }
 
 void dbs::File::json(ostream & out, bool pretty)
@@ -129,4 +134,6 @@ void dbs::File::json(ostream & out, bool pretty)
         part.json(out, pretty);
     }
     out << ']';
+    if (pretty)
+        out << '\n';
 }
