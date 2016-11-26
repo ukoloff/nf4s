@@ -18,7 +18,7 @@ namespace dbs
   {
       float x, y;
 
-      const complex<float> & to_c() const { return *(complex<float>*)this; }
+      complex<float> & to_c() const { return *(complex<float>*)this; }
 
       const auto operator == (const P & p) const { return to_c() == p.to_c(); }
   };
@@ -32,6 +32,7 @@ namespace dbs
       void dxf(ostream &);
 
       P & to_p() const { return *(P*)this; }
+      auto & to_c() const { return to_p().to_c(); }
   };
 
   struct O2
