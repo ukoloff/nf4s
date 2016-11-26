@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         f.json(cout);
         cout << "\n";
         f.json(cout, true);
-        // throw new dbs::Error("Oops");
+        // throw dbs::Error("Oops");
     }
     catch(exception &e)
     {

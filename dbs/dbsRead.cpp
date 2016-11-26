@@ -68,7 +68,7 @@ void dbs::i::Loader::load(ifstream& source)
         for (auto& id : refs[z.second])
         {
             if (!iPaths.count(id))
-                throw Error("PathID not found!");
+                throw dbs::Error("PathID not found!");
             part->paths.push_back(paths[iPaths[id]]);
         }
     }
