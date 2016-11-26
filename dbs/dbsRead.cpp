@@ -128,8 +128,8 @@ void dbs::i::R26::rtrim(string& s)
 void dbs::i::R26::swap(string& s)
 {
     size_t n = s.length() / 2;
-    for (size_t i = 0; i < n; i += 2)
-        std::swap(s[i], s[i + 1]);
+    for (size_t i = 0; i < n; i++)
+        std::swap(s[2*i], s[2*i + 1]);
 }
 
 void dbs::i::R26::name(string s)
