@@ -145,6 +145,7 @@
     <ClCompile Include="r26.cpp" />
     <ClCompile Include="read.cpp" />
     <ClCompile Include="json.cpp" />
+    <ClCompile Include="span.cpp" />
     <ClCompile Include="yaml.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

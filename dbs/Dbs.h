@@ -8,12 +8,14 @@ using namespace std;
 
 namespace dbs
 {
+  // Our errors
   class Error : public runtime_error
   {
   public:
       Error(const string & message) : runtime_error(message) {}
   };
 
+  // 2D Point
   struct P
   {
       float x, y;
@@ -23,6 +25,7 @@ namespace dbs
       const auto operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
+  // Point inside DBS file
   struct Node: P
   {
       float bulge;
@@ -35,6 +38,17 @@ namespace dbs
       auto & to_c() const { return to_p().to_c(); }
   };
 
+  // Point-to-Point (line or arc)
+  struct Span
+  {
+      P a;
+      float bulge;
+      P b;
+
+      const auto to_c() const { return b.to_c() - a.to_c(); }
+  };
+
+  // Gemetry transformation (rotate + mirror + shift)
   struct O2
   {
       P x, y, delta;
@@ -44,6 +58,7 @@ namespace dbs
       Node operator * (const Node& n) const;
   };
 
+  // Polyline
   struct Path
   {
       vector <Node> nodes;
@@ -56,6 +71,19 @@ namespace dbs
       void reverse();
   };
 
+  // Iterator over Spans
+  struct iSpan
+  {
+      const Path & path;
+      size_t next;
+
+      iSpan(const Path & p) : path(p) { next = 0; }
+
+      Span * get();
+  };
+
+
+  // Part
   struct Part
   {
       string name;
@@ -68,6 +96,7 @@ namespace dbs
       static const string quote(const string&);
   };
 
+  // DBS file itself
   struct File
   {
       vector <Part> parts;
