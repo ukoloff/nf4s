@@ -46,6 +46,8 @@ namespace dbs
       P b;
 
       const auto to_c() const { return b.to_c() - a.to_c(); }
+      const float radius() const;
+      const complex<float> operator [](float) const;
   };
 
   // Gemetry transformation (rotate + mirror + shift)
