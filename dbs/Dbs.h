@@ -3,6 +3,7 @@
 #include <complex>
 #include <ostream>
 #include <vector>
+#include <stdexcept>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ namespace dbs
 
       Complex & to_c() const { return *(Complex*)this; }
 
-      const auto operator == (const P & p) const { return to_c() == p.to_c(); }
+      const bool operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
   // Point inside DBS file
@@ -37,7 +38,7 @@ namespace dbs
       void dxf(ostream &);
 
       P & to_p() const { return *(P*)this; }
-      auto & to_c() const { return to_p().to_c(); }
+      Complex & to_c() const { return to_p().to_c(); }
   };
 
   // Point-to-Point (line or arc)
@@ -47,7 +48,7 @@ namespace dbs
       float bulge;
       P b;
 
-      const auto to_c() const { return b.to_c() - a.to_c(); }
+      const Complex to_c() const { return b.to_c() - a.to_c(); }
       const float radius() const;
       const Complex operator [](float) const;
   };
