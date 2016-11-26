@@ -96,6 +96,8 @@ void dbs::i::Loader::parse1()
     size_t count = (r1->size() - sizeof(*r1)) / sizeof(r1->nodes[0]);
     for (size_t i = 0; i < count; i++)
         path.nodes.push_back(r1->o2 * r1->nodes[i]);
+    if (r1->rev)
+        path.reverse();
     iPaths[r1->id] = paths.size();
     paths.push_back(path);
 }

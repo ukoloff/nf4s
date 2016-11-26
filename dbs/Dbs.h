@@ -50,6 +50,7 @@ namespace dbs
       void yaml(ostream &);
 
       bool closed() const;
+      void reverse();
   };
 
   struct Part
