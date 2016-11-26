@@ -24,9 +24,18 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dbs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iDbs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="nf4s.cpp">
+    <ClCompile Include="dbs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbsRead.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
