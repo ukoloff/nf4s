@@ -1,7 +1,5 @@
 #include <sstream>
-#include <fstream>
 
-#include "Dbs.h"
 #include "iDbs.h"
 
 void dbs::File::read(string name)
@@ -68,7 +66,7 @@ void dbs::i::Loader::load(ifstream& source)
         for (auto& id : refs[z.second])
         {
             if (!iPaths.count(id))
-                throw Error("PathID not found!");
+                throw dbs::Error("PathID not found!");
             part->paths.push_back(paths[iPaths[id]]);
         }
     }
@@ -98,6 +96,8 @@ void dbs::i::Loader::parse1()
     size_t count = (r1->size() - sizeof(*r1)) / sizeof(r1->nodes[0]);
     for (size_t i = 0; i < count; i++)
         path.nodes.push_back(r1->o2 * r1->nodes[i]);
+    if (r1->rev)
+        path.reverse();
     iPaths[r1->id] = paths.size();
     paths.push_back(path);
 }
@@ -118,35 +118,4 @@ void dbs::i::Loader::parse26()
     part.name = r26->name();
     iParts[r26->id] = dst.parts.size();
     dst.parts.push_back(part);
-}
-
-void dbs::i::R26::rtrim(string& s)
-{
-    s.erase(s.find_last_not_of(" \n\r\t") + 1); 
-}
-
-void dbs::i::R26::swap(string& s)
-{
-    size_t n = s.length() / 2;
-    for (size_t i = 0; i < n; i += 2)
-        std::swap(s[i], s[i + 1]);
-}
-
-void dbs::i::R26::name(string s)
-{
-    s.erase(sizeof(partid), string::npos);
-    rtrim(s);
-    s.resize(sizeof(partid), ' ');
-    swap(s);
-    memcpy(partid, s.c_str(), sizeof(partid));
-}
-
-string dbs::i::R26::name() const
-{
-    string res;
-    res.resize(sizeof(partid));
-    memcpy((char*)res.c_str(), partid, sizeof(partid));
-    swap(res);
-    rtrim(res);
-    return res;
 }

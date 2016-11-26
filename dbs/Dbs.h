@@ -1,28 +1,38 @@
 #pragma once
 
-#include<ostream>
-#include<vector>
+#include <complex>
+#include <ostream>
+#include <vector>
 
 using namespace std;
 
 namespace dbs
 {
-  class Error : runtime_error
+  class Error : public runtime_error
   {
   public:
-      Error(const string& message) : runtime_error(message) {}
+      Error(const string & message) : runtime_error(message) {}
   };
 
   struct P
   {
       float x, y;
+
+      complex<float> & to_c() const { return *(complex<float>*)this; }
+
+      const auto operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
   struct Node: P
   {
       float bulge;
 
-      void dump();
+      void json(ostream &, bool = false);
+      void yaml(ostream & out) { json(out); }
+      void dxf(ostream &);
+
+      P & to_p() const { return *(P*)this; }
+      auto & to_c() const { return to_p().to_c(); }
   };
 
   struct O2
@@ -37,7 +47,13 @@ namespace dbs
   struct Path
   {
       vector <Node> nodes;
-      void yaml(ostream&);
+
+      void json(ostream &, bool pretty = false);
+      void yaml(ostream &);
+      void dxf(ostream &);
+
+      bool closed() const;
+      void reverse();
   };
 
   struct Part
@@ -45,7 +61,11 @@ namespace dbs
       string name;
       vector <Path> paths;
 
-      void yaml(ostream&);
+      void json(ostream &, bool pretty = false);
+      void yaml(ostream &);
+      void dxf(ostream &);
+
+      static const string quote(const string&);
   };
 
   struct File
@@ -53,6 +73,9 @@ namespace dbs
       vector <Part> parts;
 
       void read(std::string name);
+
+      void json(ostream &, bool pretty = false);
       void yaml(ostream&);
+      void dxf(ostream &);
   };
 }

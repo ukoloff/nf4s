@@ -1,6 +1,9 @@
 #pragma once
 
 #include <map>
+#include <fstream>
+
+#include "Dbs.h"
 
 static_assert(2 == sizeof(short), "Invalid short int!");
 
@@ -35,11 +38,16 @@ namespace dbs {
             short id, _04;
         };
 
-        // Record 1: geometry
-        struct R1 : Rid
+        // Record 2: geometry clone
+        struct R2 : Rid
         {
             short subType, _05, isText, _06, isAuto, _07, group, _08, orig, _09, rev, _0A;
             dbs::O2 o2;
+        };
+
+        // Record 1: geometry
+        struct R1 : R2
+        {
             dbs::Node nodes[];
         };
 

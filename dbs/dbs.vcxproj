@@ -136,12 +136,16 @@
   <ItemGroup>
     <ClInclude Include="Dbs.h" />
     <ClInclude Include="iDbs.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dbs.cpp" />
-    <ClCompile Include="dbsRead.cpp" />
+    <ClCompile Include="dxf.cpp" />
+    <ClCompile Include="o2.cpp" />
+    <ClCompile Include="path.cpp" />
+    <ClCompile Include="r26.cpp" />
+    <ClCompile Include="read.cpp" />
+    <ClCompile Include="json.cpp" />
+    <ClCompile Include="yaml.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

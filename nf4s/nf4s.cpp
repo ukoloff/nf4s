@@ -16,8 +16,18 @@ int main(int argc, char *argv[])
     {
         dbs::File f;
         f.read(argv[1]);
+        /*
+        dbs::Part p;
+        p.name = "a\\b\"c";
+        f.parts.push_back(p);
+
         f.yaml(cout);
-        // throw new dbs::Error("Oops");
+        f.json(cout);
+        cout << "\n";
+        f.json(cout, true);
+        */
+        f.dxf(cout);
+        // throw dbs::Error("Oops");
     }
     catch(exception &e)
     {
