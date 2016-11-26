@@ -46,6 +46,8 @@ namespace dbs
       vector <Path> paths;
 
       void yaml(ostream&);
+
+      static const string quote(const string&);
   };
 
   struct File

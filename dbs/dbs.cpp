@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "Dbs.h"
 
@@ -34,7 +35,7 @@ void dbs::Path::yaml(ostream & out)
 
 void dbs::Part::yaml(ostream & out)
 {
-    out << "  partid: \"" << name.c_str() << "\"\n";
+    out << "  partid: " << quote(name).c_str() << "\n";
     out << "  paths:\t# " << paths.size() << "\n";
     for (auto & p : paths)
         p.yaml(out);
@@ -45,4 +46,28 @@ void dbs::File::yaml(ostream & out)
     out << "-\n";
     for (auto & p : parts)
         p.yaml(out);
+}
+
+const string dbs::Part::quote(const string & src)
+{
+    ostringstream dst;
+    dst << '"';
+    size_t i = 0;
+    for(;;)
+    {
+        auto j = src.find_first_of("\r\n\"\\", i);
+        if (src.npos == j)
+            break;
+        dst << src.substr(i, j - i) << '\\';
+        i = j + 1;
+        char c = src[j];
+        switch(c)
+        {
+        case '\r': c = 'r'; break;
+        case '\n': c = 'n'; break;
+        }
+        dst << c;
+    }
+    dst << src.substr(i, src.npos) << '"';
+    return dst.str();
 }
