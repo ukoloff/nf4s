@@ -1,0 +1,150 @@
+Turbo Dump  Version 5.0.13.1 Copyright (c) 1988, 1997 Borland International
+                      Display of File KAP.DLL
+
+Old Executable Header
+
+DOS File Size                                       E200h  ( 57856. )
+Load Image Size                                      210h  (   528. )
+Relocation Table entry count                          0000h  (     0. )
+Relocation Table address                              0040h  (    64. )
+Size of header record      (in paragraphs)            0004h  (     4. )
+Minimum Memory Requirement (in paragraphs)            000Fh  (    15. )
+Maximum Memory Requirement (in paragraphs)            FFFFh  ( 65535. )
+File load checksum                                    0000h  (     0. )
+Overlay Number                                        001Ah  (    26. )
+
+Initial Stack Segment  (SS:SP)			  0000:00B8
+Program Entry Point    (CS:IP)			  0000:0000
+
+
+Portable Executable (PE) File
+
+Header base: 00000200
+
+CPU type                 80386
+Flags                    A18E [ executable 32bit library ]
+DLL flags                0000 [ ]
+Linker Version           2.19
+Time stamp               5AAA2878
+O/S Version              1.0
+User Version             0.0
+Subsystem Version        4.0
+Subsystem                0002 [ Windows GUI ]
+Object count             00000006
+Symbols offset           00000000
+Symbols count            00000000
+Optional header size     00E0
+Magic #                  10B
+Code size                0000B000
+Init Data size           0000D000
+Uninit Data size         00000000
+Entry RVA                00001000
+Image base               00400000
+Code base                00001000
+Data base                0000C000
+Object/File align        00001000/00000200
+Reserved                 00000000
+Image size               0001D000
+Header size              00000400
+Checksum                 00000000
+Stack reserve/commit     00100000/00002000
+Heap reserve/commit      00100000/00001000
+Number interesting RVAs  00000010
+Name                   RVA       Size  
+------------------  --------  --------
+Exports             0001B000  000000E7
+Imports             0001A000  000004E4
+Resources           00000000  00000000
+Exceptions          00000000  00000000
+Security            00000000  00000000
+Fixups              0001C000  0000088C
+Debug               00000000  00000000
+Description         00000000  00000000
+TLS                 00000000  00000000
+Callbacks           00000000  00000000
+reserved            00000000  00000000
+reserved            00000000  00000000
+reserved            00000000  00000000
+reserved            00000000  00000000
+reserved            00000000  00000000
+
+Object table:
+#   Name      VirtSize    RVA     PhysSize  Phys off  Flags   
+--  --------  --------  --------  --------  --------  --------
+01  .text     0000B000  00001000  0000A400  00000600  60000020 [CER]
+02  .data     0000D000  0000C000  00002400  0000AA00  C0000040 [IRW]
+03  .tls      00001000  00019000  00000200  0000CE00  C0000040 [IRW]
+04  .idata    00001000  0001A000  00000600  0000D000  40000040 [IR]
+05  .edata    00001000  0001B000  00000200  0000D600  40000040 [IR]
+06  .reloc    00001000  0001C000  00000A00  0000D800  50000040 [ISR]
+
+Key to section flags:
+  C - contains code
+  E - executable
+  I - contains initialized data
+  R - readable
+  S - shareable
+  W - writeable
+
+Imports from KERNEL32.dll
+    CloseHandle
+    CreateFileA
+    EnterCriticalSection
+    ExitProcess
+    FreeEnvironmentStringsA
+    GetACP
+    GetCPInfo
+    GetCurrentThreadId
+    GetDateFormatA
+    GetEnvironmentStrings
+    GetFileAttributesA
+    GetFileType
+    GetLastError
+    GetLocalTime
+    GetModuleFileNameA
+    GetModuleHandleA
+    GetProcAddress
+    GetStartupInfoA
+    GetStdHandle
+    GetStringTypeW
+    GetVersion
+    GetVersionExA
+    GlobalMemoryStatus
+    InitializeCriticalSection
+    LeaveCriticalSection
+    LocalAlloc
+    LocalFree
+    MultiByteToWideChar
+    RaiseException
+    RtlUnwind
+    SetConsoleCtrlHandler
+    SetFilePointer
+    SetHandleCount
+    TlsAlloc
+    TlsFree
+    TlsGetValue
+    TlsSetValue
+    UnhandledExceptionFilter
+    VirtualAlloc
+    VirtualFree
+    VirtualQuery
+    WideCharToMultiByte
+    WriteFile
+
+Imports from USER32.dll
+    EnumThreadWindows
+    MessageBoxA
+
+Exports from kap.dll
+  7 exported name(s), 7 export addresse(s).  Ordinal base is 1.
+    Ordinal RVA       Name
+    ------- --------  ----
+    0000    00002dfc  __lockDebuggerData()
+    0001    00002e24  __unlockDebuggerData()
+    0002    00001258  AddRectangle
+    0003    00001190  GetPosition
+    0004    00001304  Kapral
+    0005    00001240  SetParameters
+    0006    0000c244  __DebuggerHookData
+
+

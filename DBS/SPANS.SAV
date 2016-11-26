@@ -1,0 +1,676 @@
+{$A-,B-,D+,F-,G-,L+,N+,O-,P-,Q-,R-,S-,T-,V-,X+}
+Unit Spans;
+Interface uses
+  SirMath;
+
+Const
+  nfArc=$0001;                  { Ребро является дугой }
+  nfMark=$8000;                 { Отметка, что ребро обработано }
+  nfBadA=$0100;                 { Вершина A не входит }
+  nfBadB=$0200;                 { Вершина B не входит }
+
+Type
+  PVertex=^TVertex;
+  PNode=^TNode;
+
+  TVertex=Object(TComplex)
+    Src, Dst: PNode; 
+  End;
+
+  TNode=Object
+    A, B: PVertex;      { Начальная и конечная точки }
+    K: Float;           { Тангенс четверти угловой меры дуги }
+    Flags: Word;
+
+    Procedure Setup(Const Wrapper: TNode);
+    Procedure MakeArc(R: Float);
+    Procedure Free;
+
+    Function CircuitStart: PNode;
+
+    Procedure GetPoint(At: Float; Var Point: TComplex);
+    Procedure GetVector(At: Float; Var Vector: TComplex);
+    Procedure VectorAt(Const At: TComplex; Var Vector: TComplex);
+    Function IndexOf(Const Point: TComplex): Float;
+    Function GetLeastCircle(Var C: TComplex): Float;
+    Function GetMaxProj(Const UniDir: TComplex): Float;
+    Procedure GetRect(Var R: TRectan);
+    Procedure UniteTo(Var R: TRectan);
+
+    Function FarFrom(Const Another: TNode): Boolean;
+
+    Function WithLine(Const LP, LV: TComplex; Var Li1, Li2: Float): Integer;
+    Function L_C(Const Arc: TNode; Var P1, P2: TComplex): Boolean;
+    Function C_C(Const Arc: TNode; Var P1, P2: TComplex): Boolean;
+    Function LastPoint(Const Start, Vector: TComplex): Float;
+    Procedure GetArcK(Var ComplexK: TComplex); { Для дуги }
+    Function Kof(Const ThruPoint: TComplex): Float;
+    Function Radius: Float;
+    Procedure Center(Var C: TComplex);
+    Function ViewAngle(Const ViewPoint: TComplex): Float;
+
+    Function GetP: Float;
+    Function GetS: Float;
+
+    Function Dist(Const From: TComplex): Float;
+    Function Sections(Accuracy: Float): Word;
+
+    Procedure Revert;
+    Function CopyCircuit: PNode;
+  End;
+
+Implementation
+
+Var
+  Inner: Boolean;
+
+Function Signum(Const Vector1, Vector2: TComplex): Boolean;
+Begin
+  If Inner Then
+    Signum:= Vector2.cXc(Vector1)>0
+  Else
+    Signum:= Vector1.cXc(Vector2)>0
+End;
+
+{TNode}
+Procedure TNode.Setup(Const Wrapper: TNode);
+{Концы уже заданы, а кривизну подсчитаем, полагая, что это ребро
+является частью большего ребра - Wrapper'а }
+Var
+  X, Y: TComplex;
+Begin
+  Flags:=Wrapper.Flags And nfArc;
+  If Flags=0 Then
+    Exit;
+  Wrapper.VectorAt(A^, X);
+  Y:=B^; Y.Sub(A^); X.Divide(Y);
+{ Сейчас X - как будто получен с помощью GetArcK }
+  K:=X.Im/(X.Abs+X.Re);
+End;
+
+Procedure TNode.MakeArc(R: Float);
+{По заданным концам и радиусу (со знаком) устанавливает кривизну дуги.
+Выбирает "более плоскую" из двух возможных}
+Var
+  X: Float;
+Begin
+  X:=A^.Dist(B^)/2/R;
+  K:=X/(1+Sqrt(1-Sqr(X)));
+  Flags:=nfArc;
+End;
+
+Procedure TNode.Free;
+Begin
+  If A^.Src=Nil Then
+    Dispose(A)
+  Else
+    A^.Dst:=Nil;
+  If B^.Dst=Nil Then
+    Dispose(B)
+  Else
+    B^.Src:=Nil;
+  Dispose(@Self);
+End;
+
+Function TNode.CircuitStart: PNode;
+{Возвращает первый спан разомкнутого контура
+или его же для замкнутого}
+Var
+  P, Q: PNode;
+Begin
+  P:=@Self;
+  Repeat
+    Q:=P^.A^.Src;
+    If Q=Nil Then
+     Begin
+      CircuitStart:=P;
+      Exit;
+     End;
+    If Q=@Self Then
+     Begin
+      CircuitStart:=@Self;
+      Exit;
+     End;
+    P:=Q
+  Until False;
+End;
+
+Procedure TNode.GetPoint(At: Float; Var Point: TComplex);
+{Находит точку, лежащую на ребре по ее условной позиции;
+начальная вершина=0, конечная=1}
+Var
+  T, KX: TComplex;
+Begin
+  Point:=A^;
+  Point.Expand(1-At);
+  T:=B^;
+  If Flags And nfArc<>0 Then
+   Begin {Дуга; считаем параметрическое представление}
+    GetArcK(KX);
+    KX.Expand(At);
+    T.Mul(KX);
+    Point.Add(T);
+    KX.Re:=KX.Re+1-At;
+    Point.Divide(KX);
+   End
+  Else
+   Begin {Отрезок}
+    T.Expand(At);
+    Point.Add(T);
+   End;
+End;
+
+Function TNode.IndexOf(Const Point: TComplex): Float;
+{По известной точке, находит ее условную позицию на ребре (0-1)}
+Var
+  X, Y, KX: TComplex;
+Begin
+  X:=Point; X.Sub(A^);
+  Y:=B^;
+  If Flags And nfArc<>0 Then
+   Begin
+    Y.Sub(Point);
+    GetArcK(KX);
+    Y.Mul(KX); Y.Add(X);
+   End
+  Else
+    Y.Sub(A^);
+  If X.SqrAbs>2*Y.SqrAbs Then
+    IndexOf:=-1  {Точка заведомо вне дуги}
+  Else
+   Begin
+    X.Divide(Y);
+    IndexOf:=X.Re;
+   End;
+End;
+
+Procedure TNode.GetVector(At: Float; Var Vector: TComplex);
+{По позиции точки находит касательный вектор к ребру в этой точке}
+Var
+  KX: TComplex;
+Begin
+  Vector:=B^;
+  Vector.Sub(A^);
+  If Flags And nfArc<>0 Then
+   Begin
+    GetArcK(KX);
+    Vector.Mul(KX);
+    KX.Expand(At);
+    KX.Re:=KX.Re+1-At;
+    KX.Mul(KX);
+    Vector.Divide(KX);
+   End;
+End;
+
+Procedure TNode.VectorAt(Const At: TCompleX; Var Vector: TComplex);
+{По заданной точке находит касательный вектор к ребру в ней}
+Var
+  R, X, KX: TComplex;
+Begin
+  R:=B^; R.Sub(A^);
+  If Flags And nfArc<>0 Then
+   Begin
+    X:=At;
+    X.Sub(B^);
+    GetArcK(KX);
+    X.Mul(KX);
+    X.Add(A^);
+    X.Sub(At);
+    X.Mul(X);
+    R.Mul(KX);
+    X.Divide(R);
+    R:=X
+   End;
+  Vector:=R
+End;
+
+Procedure TNode.GetArcK(Var ComplexK: TComplex);
+{Строит комплексное число, характеризующее кривизну дуги
+и применяемое в параметрическом представлении дуги}
+Begin
+  ComplexK.Assign(1-Sqr(K), 2*K);
+  ComplexK.Contract(1+Sqr(K));
+End;
+
+Function TNode.Kof(Const ThruPoint: TComplex): Float;
+{Находит параметр кривизны для дуги с заданными концами,
+проходящей через указанную точку}
+Var
+  vA, vB: TComplex;
+Begin
+  vA:=ThruPoint; vA.Sub(A^);
+  vB:=B^; vB.Sub(ThruPoint); vB.Conj;
+  vA.Mul(vB);
+  Kof:=vA.Im/(vA.Abs+vA.Re);
+End;
+
+Function TNode.Radius: Float;
+{Находит ЗНАКОВЫЙ радиус окружности, на которой лежит дуга}
+Begin
+  Radius:=A^.Dist(B^)*(1+Sqr(K))/4/K;
+End;
+
+Procedure TNode.Center(Var C: TComplex);
+{Находит центр окружности, на которой лежит дуга}
+Var
+  P: TComplex;
+Begin
+  P:=A^; C:=P;
+  C.Add(B^); C.Contract(2);
+  P.Sub(B^); P.Expand((1/K-K)/4); P.MulI;
+  C.Add(P);
+End;
+
+Function TNode.Sections(Accuracy: Float): Word;
+{На сколько частей нужно разбить спан для приближения
+ломаной с заданной точностью}
+Begin
+  Accuracy:=Abs(A^.Dist(B^)/Accuracy*K*(1+Sqr(K))/2)-Sqr(K);
+  If Accuracy<=1 Then
+    Sections:=1
+  Else
+    Sections:=1+Trunc(Sqrt(Accuracy));
+End;
+
+Function TNode.GetP: Float;
+{Длина ребра}
+Var
+  R: Float;
+Begin
+  R:=A^.Dist(B^);
+  If Flags And nfArc<>0 Then
+    R:=(ArcTan(K)/K)*(1+Sqr(K))*R;
+  GetP:=R
+End;
+
+Function TNode.GetS: Float;
+{Элемент площади}
+Var
+  S: Float;
+Begin
+  S:=B^.cXc(A^)/2;
+  If Flags And nfArc<>0 Then
+    S:=(ArcTan(K)*Sqr(1+Sqr(K))-(1-Sqr(K))*K)/Sqr(K)/8*Sqr(A^.Dist(B^))+S;
+  GetS:=S;
+End;
+
+Function TNode.ViewAngle(Const ViewPoint: TComplex): Float;
+{Угол (в радианах), под которым спан виден из точки}
+Var
+  X, Y: TComplex;
+  Res: Float Absolute Y;
+Begin
+  X:=ViewPoint; X.Sub(B^);
+  Y:=ViewPoint; Y.Sub(A^); Y.Conj;
+  X.Mul(Y);
+  Res:=X.Arg;
+  If Flags And nfArc<>0 Then
+    If X.Im>0 Then
+     Begin
+      If X.Im<K*(X.Abs-X.Re) Then
+        Res:=Res-2*Pi
+     End
+    Else If X.Im>K*(X.Abs-X.Re) Then
+      Res:=Res+2*Pi;
+  ViewAngle:=Res;
+End;
+
+Function TNode.GetLeastCircle(Var C: TComplex): Float;
+{Строит наименьший круг, содержащий ребро}
+Begin
+  If(Flags And nfArc=0)Or(Abs(K)<=1)Then
+   Begin { Отрезок, либо "плоская" дуга}
+    C:=A^;
+    C.Add(B^);
+    C.Contract(2);
+    GetLeastCircle:=A^.Dist(B^)/2;
+   End
+  Else
+   Begin  { Дуга угловой меры более 180 градусов }
+    Center(C);
+    GetLeastCircle:=Abs(Radius)
+   End;
+End;
+
+Function TNode.GetMaxProj(Const UniDir: TComplex): Float;
+{Определяет проекцию наиболее удаленой точки в направлении Dir}
+Var
+  X, Y: TComplex;
+  IsB: Boolean;
+Begin
+  X:=B^; X.Sub(A^);
+  Y:=UniDir; Y.Conj; X.Mul(Y);
+  IsB:= X.Re>=0;  {Точка B дальше в направлении, чем A}
+  If Flags And nfArc<>0 Then
+   Begin
+    GetArcK(Y);
+    If IsB Then
+      Y.Re:=-Y.Re;
+    X.Mul(Y);  {Рассчет вектора в дальнем конце}
+    If X.Re>0 Then
+     Begin {Дальняя точка - внутри дуги}
+      Center(X);
+      GetMaxProj:=UniDir.cVc(X)+Abs(Radius);
+      Exit
+     End
+   End;
+  If IsB Then
+    GetMaxProj:=B^.cVc(UniDir)
+  Else
+    GetMaxProj:=A^.cVc(UniDir);
+End;
+
+(*************************************************************
+Function TNode.GetMaxProj(Const Dir: TComplex): Float;
+{Определяет проекцию наиболее удаленой точки в направлении Dir}
+Var
+  PA, PB: Float;
+  Neg: Boolean;
+  X: TComplex;
+Begin
+  PA:=Dir.cVc(A^);
+  PB:=Dir.cVc(B^);
+  Neg:=PB>PA;
+  If Neg Then
+    PA:=PB;
+  If Flags And nfArc<>0 Then
+   Begin
+    If Neg Then
+     Begin
+      GetVector(1, X);
+      X.Negate
+     End
+    Else
+      GetVector(0, X);
+    If Dir.cVc(X)>0 Then
+     Begin
+      Center(X);
+      PA:=Dir.cVc(X)+Abs(Radius)*Dir.Abs;
+     End;
+   End;
+  GetMaxProj:=PA;
+End;
+***********************************************************)
+
+Procedure TNode.UniteTo(Var R: TRectan);
+{Модифицирует прямоугольник, чтобы он содержал ребро;
+Вроде должна работать побыстрее
+(для многих контуров) чем просто GetRect}
+Var
+  Rec: TRectan;
+Begin
+  If R.Empty Then
+    GetRect(R)
+  Else If Flags And nfArc=0 Then
+   Begin
+    R.Catch(A^);
+    R.Catch(B^);
+   End
+  Else If Not R.OnCircle(Rec.Min, GetLeastCircle(Rec.Min)) Then
+   Begin
+    GetRect(Rec);
+    R.Union(Rec);
+   End;
+End;
+
+Procedure TNode.GetRect(Var R: TRectan);
+{Возвращает прямоугольник, содержащий ребро}
+Var
+  Dir: TComplex;
+Begin
+  If Flags And nfArc<>0 Then
+   Begin {Общая процедура применяется для дуги}
+    Dir:=cx_1;
+    R.Max.Re:=GetMaxProj(Dir);
+    Dir.Assign(-1, 0);
+    R.Min.Re:=-GetMaxProj(Dir);
+    Dir:=cx_i;
+    R.Max.Im:=GetMaxProj(Dir);
+    Dir.Assign(0, -1);
+    R.Min.Im:=-GetMaxProj(Dir);
+   End
+  Else
+   Begin {Отрезок рассчитаем быстрее}
+    R.Min:=A^; R.Max:=R.Min;
+    R.Catch(B^);
+   End;
+End;
+
+
+Function TNode.FarFrom(Const Another: TNode): Boolean;
+{Сравнительно быстрый тест, определяющий, что ребра
+наверняка не могут пересекаться}
+Var
+  C, CA: TComplex;
+  R: Float;
+Begin
+  R:=GetLeastCircle(C)+Another.GetLeastCircle(CA);
+  FarFrom:=C.Dist(CA)>=R;
+End;
+
+Function TNode.L_C(Const Arc: TNode; Var P1, P2: TComplex): Boolean;
+{Пересекает прямую с окружностью}
+Var
+  X, Y: TComplex;
+Begin
+  L_C:=False;
+  Arc.Center(X); X.Sub(A^);
+  Y:=B^; Y.Sub(A^); Y.Invert;
+  X.Mul(Y);
+  Y.Re:=Y.SqrAbs*Sqr(Arc.Radius)-Sqr(X.Im);
+  If Y.Re<=0 Then
+    Exit;
+  X.Im:=Sqrt(Y.Re);
+  GetPoint(X.Re+X.Im, P1);
+  GetPoint(X.Re-X.Im, P2);
+  L_C:=True;
+End;
+
+Function TNode.C_C(Const Arc: TNode; Var P1, P2: TComplex): Boolean;
+{Пересекает две окружности}
+Var
+  C1, C2, D: TComplex;
+  R1, R2, L, H: Float;
+Begin
+  C_C:=False;
+  Center(C1); Arc.Center(C2);
+  R1:=Abs(Radius); R2:=Abs(Arc.Radius);
+  D:=C1; D.Sub(C2); L:=D.SqrAbs;
+  H:=(L-Sqr(R1-R2))*(Sqr(R1+R2)-L);
+  If H<=0 Then
+    Exit;
+  D.MulI;
+  D.Expand(Sqrt(H)/2/L);
+  R1:=(Sqr(R1)-Sqr(R2))/2/L;
+  C1.Expand(0.5-R1); C2.Expand(0.5+R1);
+  C1.Add(C2);
+  P1:=C1; P1.Add(D);
+  P2:=C1; P2.Sub(D);
+  C_C:=True;
+End;
+
+Function TNode.LastPoint(Const Start, Vector: TComplex): Float;
+{Находит точку пересечения луча со спаном}
+ Procedure LineRaw;
+ Var
+   V, D: TComplex;
+   Raw, Span, Det: Float;
+ Begin
+   V:=B^; V.Sub(A^);
+   D:=Start; D.Sub(A^);
+   Span:=D.cXc(Vector);  Raw:=D.cXc(V);
+   Det:=V.cXc(Vector);
+   If Det<0 Then
+    Begin
+     Det:=-Det; Span:=-Span; Raw:=-Raw;
+    End;
+    If(Raw<0)Or(Span<0)Or(Span>Det)Then
+      Exit;
+    LastPoint:=Raw/Det
+ End;
+ Procedure ArcRaw;
+ Begin
+   (*******  Не доделано *******)
+ End;
+Begin
+  LastPoint:=-1;
+  If Flags And nfArc=0 Then
+    LineRaw
+  Else
+    ArcRaw;
+End;
+
+Function TNode.Dist(Const From: TComplex): Float;
+{Расстояние от ребра до точки}
+Var
+  X, Y: TComplex;
+Begin
+  If Flags And nfArc=0 Then
+   Begin
+    X:=From; X.Sub(A^);
+    Y:=B^; Y.Sub(A^); Y.Conj;
+    X.Mul(Y);
+    If X.Re<0 Then
+      X:=A^
+    Else If X.Re>Y.SqrAbs Then
+      X:=B^
+    Else
+     Begin
+      Dist:=Abs(X.Im)/Y.Abs;
+      Exit
+     End;
+    Dist:=X.Dist(From);
+    Exit
+   End;
+  X:=A^; X.Sub(From);
+  Y:=B^; Y.Sub(From);
+  If Y.SqrAbs<X.SqrAbs Then
+   Begin
+    X:=Y;
+    GetVector(1, Y);
+    Y.Negate;
+   End
+  Else
+    GetVector(0, Y);
+  If Y.cVc(X)>0 Then
+    Dist:=X.Abs
+  Else
+   Begin
+    Center(X);
+    Dist:=Abs(X.Dist(From)-Abs(Radius))
+   End;
+End;
+
+Procedure TNode.Revert;
+Var
+  P: Pointer;
+Begin
+  If A^.Dst=@Self Then
+   Begin
+    A^.Dst:=A^.Src;
+    A^.Src:=@Self;
+   End;
+  If B^.Src=@Self Then
+   Begin
+    B^.Src:=B^.Dst;
+    B^.Dst:=@Self;
+   End;
+  P:=A;
+  A:=B;
+  B:=P;
+  If Flags And nfArc<>0 Then
+    K:=-K;
+End;
+
+Function TNode.CopyCircuit: PNode;
+Var
+  P, Q, R, Sav1: PNode;
+Begin
+  CopyCircuit:=Nil;
+  If @Self=Nil Then
+    Exit;
+  P:=CircuitStart;
+  Sav1:=P;
+  R:=Nil;
+  Repeat
+    New(Q);
+    Q^:=P^;
+    New(Q^.A);
+    Q^.A^:=P^.A^;
+    Q^.A^.Dst:=Q;
+    If R<>Nil Then
+     Begin
+      Q^.A^.Src:=R;
+      Q^.B:=R^.B;
+      R^.B:=Q^.A;
+     End
+    Else
+     Begin
+      Q^.B:=Q^.A;
+      CopyCircuit:=Q;
+     End;
+    Q^.B^.Src:=Q;
+    R:=Q;
+    If P^.B^.Dst=Nil Then
+     Begin {Разомкнутый контур}
+      Q^.B^.Src:=Nil;
+      New(Q^.B);
+      Q^.B^:=P^.B^;
+      Q^.B^.Src:=Q;
+      Break;
+     End;
+    P:=P^.B^.Dst;
+  Until P=Sav1;
+End;
+
+Function TNode.WithLine(Const LP, LV: TComplex; Var Li1, Li2: Float): Integer;
+{Находит точки пересечения с прямой и возвращает их индексы
+относительно прямой; не включает конечную точку}
+Var
+  X, Y: TComplex;
+  i_S, iL, Det: Float;
+  i, j: Integer;
+Begin
+  WithLine:=0;
+  If Flags And nfArc=0 Then
+   Begin {Отрезокъ}
+    X:=A^; Y:=B^; Y.Sub(X); X.Sub(LP);
+    i_S:=X.cXc(LV); iL:=X.cXc(Y); Det:=LV.cXc(Y);
+    If Det<0 Then
+     Begin
+      Det:=-Det; i_S:=-i_S; iL:=-iL;
+     End;
+    If(i_S<0)Or(i_S>=Det)Then
+      Exit;
+    WithLine:=1;
+    Li1:=iL/Det;
+   End
+  Else
+   Begin        {Дуга}
+    Center(X); X.Sub(LP); X.Divide(LV);
+    Det:=Sqr(Radius)/LV.SqrAbs-Sqr(X.Im);
+    If Det<=0 Then
+      Exit;
+    Det:=Sqrt(Det);
+    j:=0;
+    For i:=1 To 2 Do
+     Begin
+      iL:=X.Re+Det;
+      Y:=LV; Y.Expand(iL); Y.Add(LP);
+      i_S:=IndexOf(Y);
+      If(i_S>=0)And(i_S<1)Then
+       Begin
+        Inc(j);
+        If j=1 Then
+          Li1:=iL
+        Else
+          Li2:=iL
+       End;
+      Det:=-Det
+     End;
+    WithLine:=j;
+   End
+End;
+
+End.
+

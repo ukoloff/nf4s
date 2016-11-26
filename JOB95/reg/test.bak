@@ -1,0 +1,6 @@
+extern "C" int _stdcall IsRegistered(void);
+
+void main(void)
+{
+  IsRegistered();
+}

@@ -1,0 +1,1207 @@
+{$A-,B-,D+,F-,G-,I+,N+,O-,P-,Q-,R-,S-,T-,V-,X+}
+Unit SirDBS;
+Interface
+Uses
+  Classes,
+  SirMath,
+  Spans;
+
+Type
+  TIndex=Class(TCollectionItem)
+    No: Integer;      {Не путать с Index !!! Просто число;
+                       Index не используется ваще}
+  End;
+
+  TGeo=Object
+    Cos1, Sin1, Cos2, Sin2, X0, Y0: Single;
+
+    Procedure Set1;
+    Function Reversed: TGeo;
+    Procedure OnTo(Var X: TComplex);
+    Procedure GotFrom(Var X: TComplex);
+    Function Det: Float;
+    Function Aspect: Float;  {-1<=Aspect<=1}
+
+    Procedure Add(Const Disp: TComplex);
+  End;
+
+  TOriginal=Class(TIndex) {Один оригинальный контур}
+    Nodes: PNode;          {Владеет им}
+
+    Destructor Destroy; Override;
+
+    Function Valid: Boolean;
+    Function Closed: Boolean;
+
+    Procedure AddPoint(Const A: TComplex);
+    Procedure SetK(aK: Float);
+    Procedure BreakPoint(Const B: TComplex);
+  Protected
+    Function NewNode: PNode; Virtual;
+    Function LastPoint: PVertex; Virtual;
+  End;
+
+  TArrOrig=Class(TOriginal)
+    Limit: Word;
+
+    Constructor Create(aNo: LongInt; aLimit: Word);
+    Destructor Destroy; Override;
+  Protected
+    Function NewNode: PNode; Override;
+    Function LastPoint: PVertex; Override;
+  End;
+
+  TCopied=Class(TIndex)
+    Original: Word;
+    Group: Integer;
+    Geo: TGeo;
+    Revers: Integer;
+    Nodes: PNode;   {Не владеет им: ссылка на оригинальные спаны}
+
+    Constructor MakeFor(O: TOriginal);
+
+    Function Valid: Boolean;
+    Function Close: Boolean;
+    Function Reversed: Boolean;
+
+    Function Circuit: PNode;
+    Procedure Union(Var Rect: TRectan);
+    Function Area:Float;
+    Function Perimeter: Float;
+    Function Distance(Const Pt: TComplex): Float;
+
+    Function IsInside(Const Another: TCopied): Boolean;
+    Procedure MarkPos(Var Pos, Vec: TComplex);
+{$IfNdef Windows} Procedure Draw; {$EndIf}
+
+    Function Equidist(D: Float): PNode;
+
+    Procedure StoreData(Var S: TStream);
+    Procedure Store(Var S: TStream);
+  End;
+
+  TIncNode=Object(TNode)
+    vA, vB: TVertex;
+    Revers, Mirror: Boolean;
+
+    Procedure Init(Const aCopied: TCopied);
+    Function Advance: Boolean;
+  Private
+    Cir: TCopied;
+  End;
+
+  TPart=Class(TIndex)
+    Name: Array[1..8]Of Char; {Blank padded}
+    Circuits: TCollection;
+
+    Constructor Init(Var aName);
+    Destructor Done; Virtual;
+    Procedure Pack;
+
+    Function Border: PNode;
+    Function Area:Float;
+    Function Perimeter: Float;
+    Procedure MarkPos(Var Pos, Vec: TComplex);
+
+    Procedure MarkGroup;
+    Procedure Store(Var S: TStream);
+  End;
+
+  PDBS=^TDBS;
+  TDBS=Object
+    Originals,
+    Copies,
+    Parts: TCollection;
+
+    Procedure Init;
+    Procedure Done;
+
+    Procedure Load(Var S: TStream);
+    Function LoadRecord(Var S: TStream): Boolean;
+    Procedure EndLoad;
+    Procedure Renumerate;
+    Procedure Shift(Const By: TComplex);
+    Procedure Store(Var S: TStream);
+    Procedure EndStore(Var S: TStream);
+
+    Function AllCircuits: PNode;
+    Function AllParts: PNode;
+    Function MakeCircuit(Idx: Integer): PNode;
+    Function Area:Float;
+
+    Procedure ZamkOriginals;
+    Procedure GoodOriginals;
+    Procedure GoodCopies;
+    Procedure GoodParts;
+    Procedure AllGood;
+
+    Procedure GetRect(Var R: TRectan);
+
+    Procedure GetScale(Const Wind: TRect; AspectX, AspectY: Word);
+{$IfNDef Windows}
+    Procedure Draw;
+{$EndIf}
+    Function FindList(Var S: Float): TPart;
+  End;
+
+Implementation
+
+Type
+  TRecDBS=Object
+    RecLen: Word;
+    Mystery1: Word;
+    RecLen1: Word;
+    Mystery2: Word;
+    Kind: Word;
+    Zero: Word;
+    Info: Record End;
+
+    Procedure PreWrite;
+  End;
+
+  TRec1=Object(TRecDBS)          {Геометрия контура 1-исходного/2-копия}
+    Num:     Word; {Номер контура}
+    Zero1:   Word;
+    SubType: Word; {Подтип записи}
+    Zero2:   Word;
+    Text:    Word; {Признак наличия текста}
+    Zero3:   Word;
+    Auto:    Word; {Автопоследовательность}
+    Zero4:   Word;
+    Group:   Word; {Номер группы}
+    Zero5:   Word;
+    Orig:    Word; {Номер контура оригинальной кривой}
+    Zero6:   Word;
+    Revers:  SmallInt; {Признак реверсирования}
+    Zero7:   Word;
+
+    Geo: TGeo;
+
+    Data:    Record End;
+  End;
+
+  TRec8=Object(TRecDBS)          {Связка контуров в деталь}
+    N: Word;  {Ссылка к записи 26}
+    Zero1: Word;
+  End;
+
+  TRec26=Object(TRecDBS)         {Запись о детали}
+    N: Word;   {Ссылка к записи 8}
+    Zero1: Word;
+    ID: Array[1..8]Of Char;  {Идентификатор детали}
+
+    Procedure SwapName;
+  End;
+
+  TRec27=Object(TRecDBS)        {Площадь и периметр}
+    N: Word;   {Ссылка к записям 8 и 26}
+    Zero1: Word;
+
+    S, P: Single;
+  End;
+
+  TpRec1=Object
+    X, Y, Z: Single;
+
+    Procedure Assign(Const P: TComplex);
+    Procedure CopyTo(Var P: TComplex);
+  End;
+
+  TpRec8=Record
+    N: Word;    {Номер контура, входящего в деталь}
+    Zero: Word;
+  End;
+
+{TGeo}
+Procedure TGeo.Set1;
+Begin
+  FillChar(Self, SizeOf(Self), 0);
+  Cos1:=1; Sin2:=1;
+End;
+
+Procedure TGeo.OnTo(Var X: TComplex);
+{Образ точки при преобразовании}
+Begin
+  X.Assign(X.Re*Cos1 + X.Im*Cos2 + X0,
+           X.Re*Sin1 + X.Im*Sin2 + Y0)
+End;
+
+Procedure TGeo.GotFrom(Var X: TComplex);
+{Прообраз точки}
+Begin
+  Reversed.OnTo(X);
+End;
+
+Function TGeo.Reversed: TGeo;
+Var
+  V: TComplex;
+{Строит матрицу преобразования обратную заданной}
+Begin
+  V.Re:=Det;
+  Result.Cos1:=Sin2/V.Re;
+  Result.Cos2:=-Cos2/V.Re;
+  Result.Sin1:=-Sin1/V.Re;
+  Result.Sin2:=Cos1/V.Re;
+  Result.X0:=0; Result.Y0:=0;
+  V.Re:=-X0;  V.Im:=-Y0;
+  Result.OnTo(V);
+  Result.X0:=V.Re;  Result.Y0:=V.Im;
+End;
+
+Function TGeo.Det: Float;
+{Детерминант преобразования}
+Begin
+  Det:=Cos1*Sin2-Cos2*Sin1
+End;
+
+Procedure TGeo.Add(Const Disp: TComplex);
+Begin
+  X0:=X0+Disp.Re;
+  Y0:=Y0+Disp.Im;
+End;
+
+Function TGeo.Aspect: Float;  {-1<=Aspect<=1}
+{Условный коэффициент искажения:
+  Точный поворот (с растяжением) +1
+  Точная осевая симметрия (с растяжением) -1
+  Вырожденное преобразование 0
+}
+Begin
+  Aspect:=2*Det/(Sqr(Cos1)+Sqr(Cos2)+Sqr(Sin1)+Sqr(Sin2))
+End;
+
+{TOriginal}
+Destructor TOriginal.Destroy;
+Var
+  N, T: PNode;
+Begin
+  N:=Nodes;
+  While N<>Nil Do
+   Begin
+    T:=N;
+    N:=N^.B^.Dst;
+    If N=N Then N:=Nil;
+    T^.Free
+   End;
+  Inherited Done;
+End;
+
+Procedure TOriginal.AddPoint(Const A: TComplex);
+Var
+  P, Q: PNode;
+  VA: TVertex Absolute A;
+Begin
+  P:=NewNode;
+  P^.Flags:=0;
+  P^.A^.Dst:=P;
+  PComplex(P^.A)^:=A;
+  If Nodes=Nil Then
+   Begin
+    Nodes:=P;
+    P^.B:=P^.A;
+   End
+  Else
+   Begin
+    Q:=Nodes^.A^.Src;
+    P^.B:=Q^.B;
+    P^.A^.Src:=Q;
+    Q^.B:=P^.A;
+    Q^.Next:=P;
+   End;
+  P^.B^.Src:=P;
+End;
+
+Procedure TOriginal.SetK(aK: Float);
+Begin
+  With PNode(Nodes^.A^.Src)^ Do
+   Begin
+    Flags:=nfArc;
+    K:=aK;
+   End;
+End;
+
+Procedure TOriginal.BreakPoint(Const B: TComplex);
+Var
+  V: PVertex;
+Begin
+  If Nodes=Nil Then
+    Exit;
+  V:=LastPoint;
+  PComplex(V)^:=B;
+  PNode(Nodes^.A^.Src)^.B:=V;
+  V^.Src:=Nodes^.A^.Src;
+  V^.Dst:=Nil;
+  Nodes^.A^.Src:=Nil;
+End;
+
+Function TOriginal.NewNode: PNode;
+Var
+  P: PNode;
+Begin
+  New(P); New(P^.A);
+  NewNode:=P;
+End;
+
+Function TOriginal.LastPoint: PVertex;
+Begin
+  LastPoint:=New(PVertex);
+End;
+
+Function TOriginal.Valid: Boolean;
+Begin
+  Valid:=(Self<>Nil)And(Nodes<>Nil);
+End;
+
+Function TOriginal.Close: Boolean;
+Begin
+  Close:=Valid And(Nodes^.A^.Src<>Nil);
+End;
+
+{TArrOrig}
+Constructor TArrOrig.Create(aNo: LongInt; aLimit: Word);
+Begin
+  Inherited Init;
+  No:=aNo;
+  Limit:=aLimit;
+End;
+
+Destructor TArrOrig.Done;
+Begin
+  If Nodes<>Nil Then
+   Begin
+    FreeMem(Nodes^.A, (Limit+1)*SizeOf(TVertex));
+    FreeMem(Nodes, Limit*SizeOf(TNode));
+   End;
+End;
+
+Function TArrOrig.NewNode: PNode;
+Var
+  P, Q: PNode;
+Begin
+  If Nodes=Nil Then
+   Begin
+    GetMem(P, Limit*SizeOf(TNode));
+    GetMem(P^.A, (Limit+1)*SizeOf(TVertex));
+    NewNode:=P;
+   End
+  Else
+   Begin
+    P:=Nodes^.A^.Src;
+    PChar(Q):=PChar(P)+SizeOf(TNode);
+    PChar(Q^.A):=PChar(P^.A)+SizeOf(TVertex);
+    NewNode:=Q;
+   End;
+End;
+
+Function TArrOrig.LastPoint: PVertex;
+Begin
+  LastPoint:=Pointer(PChar(PNode(Nodes^.A^.Src)^.A)+SizeOf(TVertex))
+End;
+
+{TCopied}
+Constructor TCopied.MakeFor(O: POriginal);
+Begin
+  Inherited Init;
+  Index:=O^.Index;
+  Original:=Index;
+  Nodes:=O^.Nodes;
+  Geo.Set1;
+End;
+
+Function TCopied.Valid: Boolean;
+Begin
+  Valid:=(@Self<>Nil)And(Nodes<>Nil)
+End;
+
+Function TCopied.Close: Boolean;
+Begin
+  Close:=Valid And(Nodes^.A^.Src<>Nil)
+End;
+
+Function TCopied.Reversed: Boolean;
+Begin
+  Case Revers Of
+    0,1: Reversed:=False;
+  Else
+    Reversed:=True
+  End{Case};
+End;
+
+Function TCopied.Circuit: PNode;
+{Создает контур, крпируя и сдвигая (как положено) свое содержимое}
+Var
+  P, PN: PNode;
+Begin
+  Circuit:=Nil;
+  If Not Valid Then
+    Exit;
+  P:=Nodes^.CopyCircuit;
+  PN:=P;
+  While PN<>Nil Do
+   Begin
+    Geo.OnTo(PN^.A^);
+    If PN^.B^.Dst=Nil Then
+      Geo.OnTo(PN^.B^);
+    PN:=PN^.Next;
+   End;
+  If Reversed Then
+   Begin
+    PN:=P;
+    While PN<>Nil Do
+     Begin
+      PN^.Revert;
+      PN:=PN^.Next;
+     End;
+   End;
+  If Geo.Det<0 Then
+   Begin
+    PN:=P;
+    While PN<>Nil Do
+     Begin
+      If PN^.Flags And nfArc<>0 Then
+        PN^.K:=-PN^.K;
+      PN:=PN^.Next;
+     End;
+   End;
+  Circuit:=P;
+End;
+
+Procedure TCopied.StoreData(Var S: TStream);
+Var
+  N: PNode;
+  Triple: TpRec1;
+Begin
+  N:=Nodes;
+  FillChar(Triple, SizeOf(Triple), 0);
+  While N<>Nil Do
+   Begin
+    Triple.Assign(N^.A^);
+    If N^.Flags And nfArc<>0 Then
+      Triple.Z:=-N^.K;
+    S.Write(Triple, SizeOf(Triple));
+    If N^.Next=Nil Then
+      Triple.Assign(N^.B^);
+    N:=N^.Next;
+   End;
+  S.Write(Triple, SizeOf(Triple));
+End;
+
+Procedure TCopied.Store(Var S: TStream);
+Var
+  D: TRec1;
+Begin
+  If Not Valid Then
+    Exit;
+  FillChar(D, SizeOf(D), 0);
+  D.RecLen:=(SizeOf(D)-4)Div 4;
+  D.Kind:=2;
+  If Nodes^.Flags And nfMark=0 Then
+   Begin
+    Inc(D.RecLen, (Nodes^.Count+1)*(SizeOf(TpRec1)Div 4));
+    D.Kind:=1;
+   End;
+  D.Num:=Index;
+  D.SubType:=1;
+  D.Orig:=Original;
+  D.Group:=Group;
+  D.Revers:=Revers;
+  D.Geo:=Geo;
+  D.PreWrite;
+  S.Write(D, SizeOf(D));
+  If D.Kind=1 Then
+    StoreData(S);
+  Nodes^.Flags:=Nodes^.Flags Or nfMark;
+End;
+
+Procedure TCopied.Union(Var Rect: TRectan);
+Var
+  N: PNode;
+  Node: TNode;
+  A, B: TVertex;
+Begin
+  N:=Nodes;
+  While N<>Nil Do
+   Begin
+    Node:=N^;
+    A:=Node.A^; B:=Node.B^;
+    Node.A:=@A; Node.B:=@B;
+    Geo.OnTo(A); Geo.OnTo(B);
+    Node.UniteTo(Rect);
+    N:=N^.Next;
+   End;
+End;
+
+Function TCopied.Perimeter:Float;
+Begin
+  Perimeter:=0;
+  If Not Valid Then
+    Exit;
+  Perimeter:=Nodes^.TotalP*Sqrt(Abs(Geo.Det));
+End;
+
+Function TCopied.Area:Float;
+Var
+  R: Float;
+Begin
+  Area:=0;
+  If Not Close Then
+    Exit;
+  R:=Nodes^.TotalS*Geo.Det;
+  If Reversed Then
+    R:=-R;
+  Area:=R
+End;
+
+Function TCopied.Distance(Const Pt: TComplex): Float;
+Var
+  X: TComplex;
+  N: PNode;
+  D, D1: Float;
+  First: Boolean;
+Begin
+  X:=Pt;
+  Geo.GotFrom(X);
+  First:=True;
+  N:=Nodes;
+  While N<>Nil Do
+   Begin
+    D1:=N^.Dist(X);
+    If First Or(D1<D) Then
+      D:=D1;
+    N:=N^.Next;
+    First:=False;
+   End;
+  Distance:=D*Sqrt(Abs(Geo.Det));
+End;
+
+Function TCopied.IsInside(Const Another: TCopied): Boolean;
+{Содержится ли первая точка контура в контуре Another}
+Var
+  X: TComplex;
+Begin
+  IsInside:=False;
+  If Not Valid Or Not Another.Close Then
+    Exit;
+  X:=Nodes^.A^;
+  Geo.OnTo(X);
+  Another.Geo.GotFrom(X);
+  If Another.Nodes^.Turns(X)<>0 Then
+    IsInside:=True;
+End;
+
+Procedure TCopied.MarkPos(Var Pos, Vec: TComplex);
+Var
+  N: TIncNode;
+Begin
+  N.Init(Self);
+  N.Advance;
+  N.GetPoint(0.5, Pos);
+  N.GetVector(0.5, Vec);
+  Vec.DivI;
+End;
+
+{$IfNDef Windows}
+Procedure TCopied.Draw;
+Var
+  N: TIncNode;
+Begin
+  N.Init(Self);
+  While N.Advance Do
+    DrawNode(@N);
+End;
+{$EndIf}
+
+Function TCopied.Equidist(D: Float): PNode;
+Var
+  Ctr: TComplex;
+  N, P: PNode;
+  Cnt: Word;
+Begin
+  Equidist:=Nil;
+  If Not Close Then
+    Exit;
+  Ctr:=cx_0; Cnt:=0;
+  N:=Circuit;
+  P:=N;
+  While P<>Nil Do
+   Begin
+    Ctr.Add(P^.A^);
+    P:=P^.Next;
+    Inc(Cnt);
+   End;
+  Ctr.Contract(Cnt);
+  P:=N;
+  While P<>Nil Do
+   Begin
+    P^.A^.Sub(Ctr);
+    P:=P^.Next;
+   End;
+  P:=N^.MakeRaw(D);
+  P^.AllXXX;
+  P:=P^.ReformAll;
+  P:=N^.NotNear(P, Abs(D)-0.0001);
+  N^.DisposeAll;
+  N:=P;
+  While N<>Nil Do
+   Begin
+    N^.A^.Add(Ctr);
+    N:=N^.Next;
+   End;
+  Equidist:=P
+End;
+
+{TIncNode}
+Procedure TIncNode.Init(Const aCopied: TCopied);
+Begin
+  Cir:=@aCopied;
+  Revers:=aCopied.Reversed;
+  Mirror:=aCopied.Geo.Det<0;
+  Next:=aCopied.Nodes;
+  If Next<>Nil Then
+    If Revers Then
+     Begin
+      vA:=Next^.A^;
+      aCopied.Geo.OnTo(vA)
+     End
+    Else
+     Begin
+      vB:=Next^.A^;
+      aCopied.Geo.OnTo(vB)
+     End;
+End;
+
+Function TIncNode.Advance: Boolean;
+Begin
+  Advance:=False;
+  If Next=Nil Then
+    Exit;
+  Advance:=True;
+  PNode(@Self)^:=Next^;
+  If(Mirror XOR Revers)And(Flags And nfArc<>0)Then
+    K:=-K;
+  If Revers Then
+   Begin
+    vB:=vA;  vA:=B^; Cir^.Geo.OnTo(vA);
+   End
+  Else
+   Begin
+    vA:=vB;  vB:=B^; Cir^.Geo.OnTo(vB);
+   End;
+  A:=@vA; B:=@vB;
+  vA.Src:=Nil; vA.Dst:=@Self;
+  vB.Src:=@Self; vB.Dst:=Nil;
+End;
+
+{TPart}
+Constructor TPart.Init(Var aName);
+Begin
+  Inherited Init;
+  Circuits.Init(2, 2);
+  Move(aName, Name, SizeOf(Name));
+End;
+
+Destructor TPart.Done;
+Begin
+  Circuits.Done;
+  Inherited Done;
+End;
+
+Procedure TPart.Pack;
+Var
+  i: Integer;
+Begin
+  For i:=Circuits.Count-1 DownTo 0 Do
+    If Circuits.At(i)=Nil Then
+      Circuits.AtDelete(i);
+End;
+
+Procedure TPart.Store(Var S: TStream);
+Var
+  R26: TRec26;
+  R8:  TRec8 Absolute R26;
+  R27: TRec27 Absolute R26;
+ Procedure W(P: PCopied); Far;
+ Begin
+   S.Write(P^.Index, 4);
+ End;
+Begin
+  FillChar(R26, SizeOf(R26), 0);
+  R26.RecLen:=(SizeOf(R26)-4)Div 4;
+  R26.Kind:=26;
+  R26.N:=Index;
+  Move(Name, R26.ID, SizeOf(R26.ID));
+  R26.SwapName;
+  R26.Prewrite;
+  S.Write(R26, SizeOf(R26));
+  R27.RecLen:=(SizeOf(R27)-4)Div 4;
+  R27.Kind:=27;
+  R27.S:=Area*1E-4;
+  R27.P:=Perimeter*1E-2;
+  R27.Prewrite;
+  S.Write(R27, SizeOf(R27));
+  R8.RecLen:=(SizeOf(R8)-4)Div 4+Circuits.Count;
+  R8.Kind:=8;
+  R8.Prewrite;
+  S.Write(R8, SizeOf(R8));
+  Circuits.ForEach(@W);
+End;
+
+Function TPart.Border: PNode;
+{Возвращает копию геометрии детали}
+Var
+  Res: PNode;
+ Procedure Add(C: PCopied); Far;
+ Begin
+   C^.Circuit^.InsertTo(Res);
+ End;
+Begin
+  Res:=Nil;
+  Circuits.ForEach(@Add);
+  Border:=Res
+End;
+
+Procedure TPart.MarkPos(Var Pos, Vec: TComplex);
+ Function Mark(PC: PCopied): Boolean; Far;
+ Begin
+   Mark:=False;
+   If Not PC^.Valid Then
+     Exit;
+   PC^.MarkPos(Pos, Vec);
+   Mark:=True
+ End;
+Begin
+  Circuits.FirstThat(@Mark);
+End;
+
+Function TPart.Perimeter:Float;
+Var
+  P: Float;
+ Procedure Sum(Var C: TCopied); Far;
+ Begin
+   P:=C.Perimeter+P
+ End;
+Begin
+  P:=0;
+  Circuits.ForEach(@Sum);
+  Perimeter:=P;
+End;
+
+Function TPart.Area:Float;
+Var
+  S: Float;
+ Procedure Sum(Var C: TCopied); Far;
+ Begin
+   If C.Close Then
+     S:=S+C.Area
+ End;
+Begin
+  S:=0;
+  Circuits.ForEach(@Sum);
+  Area:=S;
+End;
+
+Procedure TPart.MarkGroup;
+ Procedure N(Var C: TCopied); Far;
+ Begin
+   If Not C.Valid Then
+     Exit;
+   If C.Close And(C.Area>0)Then
+     C.Group:=-Index
+   Else
+     C.Group:=Index;
+ End;
+Begin
+  Circuits.ForEach(@N);
+End;
+
+(*************************************************
+Procedure TRecDBS.PreWrite;
+Begin
+  RecLen1:=RecLen;
+  Inc(DBS_Record_Number);
+  Mystery1:=DBS_Record_Number;
+End;
+**************************************************)
+Procedure TRecDBS.PreWrite;
+Var
+  R1: TRec1 Absolute Self;
+Begin
+  RecLen1:=RecLen;
+  Mystery1:=R1.Num;
+End;
+
+{TpRec1}
+Procedure TpRec1.Assign(Const P: TComplex);
+Begin
+  X:=P.Re; Y:=P.Im; Z:=0;
+End;
+
+Procedure TpRec1.CopyTo(Var P: TComplex);
+Begin
+  P.Re:=X; P.Im:=Y;
+End;
+
+{TRec26}
+Procedure TRec26.SwapName;
+Var
+  WW: Array[1..4]Of Record
+    A, B: Char;
+  End Absolute ID;
+  I: Word;
+  C: Char;
+Begin
+  For I:=Low(WW) To High(WW) Do
+   Begin
+    C:=WW[I].A;
+    WW[I].A:=WW[I].B;
+    WW[I].B:=C
+   End;
+  For I:=Low(ID) To High(ID) Do
+    Id[I]:=UpCase(Id[I]);
+End;
+
+{TDBS}
+Procedure TDBS.Init;
+Begin
+  Originals:=TCollection.Create(TOriginal);
+  Copies:=TCollection.Create(TCopied);
+  Parts:=TCollection.Create(TPart);
+End;
+
+Procedure TDBS.Done;
+Begin
+  Originals.Free;
+  Copies.Free;
+  Parts.Free;
+End;
+
+Procedure TDBS.EndStore(Var S: TStream);
+Const
+  EndL: LongInt=-1;
+Begin
+  S.WriteBuffer(EndL, SizeOf(EndL));
+End;
+
+Procedure TDBS.Store(Var S: TStream);
+ Procedure C(Var X: TCopied); Far;
+ Begin
+   X.Store(S);
+ End;
+ Procedure P(Var X: TPart); Far;
+ Begin
+   X.Store(S);
+ End;
+Begin
+  Copies.ForEach(@C);
+  Parts.ForEach(@P);
+End;
+
+Procedure TDBS.Load(Var S: TStream);
+Begin
+  While LoadRecord(S) Do;
+  EndLoad;
+  AllGood;   {Удалить плохие контура и детали}
+End;
+
+Function TDBS.LoadRecord(Var S: TStream): Boolean;
+Var
+  Hdr: TRec1;
+  Hdr8: TRec8 Absolute Hdr;
+  Hdr26: TRec26 Absolute Hdr;
+ Procedure Load1;
+ Var
+   I: Integer;
+   R1, R11: TpRec1;
+   C: TOriginal;
+   First: Boolean;
+   A: TComplex;
+ Begin
+   I:=(Hdr.RecLen*4-(SizeOf(Hdr)-8))Div SizeOf(R1)-1; {Кол-во спанов}
+   New(C, Init(Hdr.Orig, I));
+   C^.Index:=Hdr.Orig;
+   Originals.Insert(C);
+   If i<0 Then
+     Exit;
+   First:=True;
+   Repeat
+     S.Read(R1, SizeOf(R1));
+     If First Then R11:=R1;
+     First:=False;
+     R1.CopyTo(A);
+     If I=0 Then
+      Begin
+       If(R1.X<>R11.X)Or(R1.Y<>R11.Y)Then
+         C^.BreakPoint(A);
+       Break;
+      End;
+     C^.AddPoint(A);
+     If Abs(R1.Z)>1E-4 Then
+       C^.SetK(-R1.Z);
+     Dec(I);
+   Until False;
+ End;
+ Procedure Load2;
+ Var
+   C: TCopied;
+ Begin
+   S.Read(Hdr.Info, SizeOf(Hdr)-SizeOf(TRecDBS));
+   If Hdr.SubType<>1 Then
+    Begin
+     S.Seek(S.GetPos+Hdr.RecLen*4-(SizeOf(Hdr)-4));
+     Exit;
+    End;
+   C:=TCopied.Create;
+   C^.Index:=Hdr.Num;
+   C^.Original:=Hdr.Orig;
+   C^.Group:=Hdr.Group;
+   C^.Geo:=Hdr.Geo;
+   C^.Revers:=Hdr.Revers;
+   Copies.Insert(C);
+   If Hdr.Kind=1 Then
+     Load1;
+ End;
+ Procedure Load8;
+ Const
+   NoName: Array[1..8]Of Char='<NoName>';
+ Var
+   P: PPart;
+   I: Word;
+   R8: TpRec8;
+ Begin
+   S.Read(Hdr8.Info, SizeOf(Hdr8)-SizeOf(TRecDBS));
+   P:=PPart(Parts.ItemOf(Hdr26.N));
+   If P=Nil Then
+    Begin
+     New(P, Init(NoName));
+     P^.Index:=Hdr26.N;
+     Parts.Insert(P);
+    End;
+   For I:=(Hdr.RecLen*4-(SizeOf(Hdr8)-4))Div(SizeOf(R8)) DownTo 1 Do
+    Begin
+      S.Read(R8, SizeOf(R8));
+      P^.Circuits.Insert(Ptr(0, R8.N));
+    End;
+ End;
+ Procedure Load26;
+ Var
+   P: PPart;
+ Begin
+   S.Read(Hdr26.Info, SizeOf(Hdr26)-SizeOf(TRecDBS));
+   Hdr26.SwapName;
+   P:=PPart(Parts.ItemOf(Hdr26.N));
+   If P=Nil Then
+    Begin
+     New(P, Init(Hdr26.ID));
+     P^.Index:=Hdr26.N;
+     Parts.Insert(P);
+    End
+   Else
+     Move(Hdr26.ID, P^.Name, SizeOf(P^.Name));
+ End;
+Begin
+  S.Read(Hdr.RecLen, SizeOf(Hdr.RecLen));
+  LoadRecord:=False;
+  If Hdr.RecLen=$FFFF Then
+    Exit;
+  LoadRecord:=True;
+  S.Read(Hdr.Mystery1, SizeOf(TRecDBS)-SizeOf(Hdr.RecLen));
+  Case Hdr.Kind Of
+   1,2:Load2;
+   8:Load8;
+   26:Load26;
+  Else
+    S.Seek(S.GetPos+Hdr.RecLen*4-(SizeOf(TRecDBS)-4));
+  End{Case}
+End;
+
+Procedure TDbs.EndLoad;
+{Завершает загрузку путем
+  1) простановки полей Nodes во всех копированных контурах
+  2) замены номеров контуров на ссылки на контура в деталях}
+  Procedure Setup(Var C: TCopied); Far;
+  Var
+    PO: POriginal;
+  Begin
+    PO:=POriginal(Originals.ItemOf(C.Original));
+    If PO^.Valid Then
+      C.Nodes:=PO^.Nodes;
+  End;
+  Procedure Chg(Var P: TPart); Far;
+  Var
+    i: Integer;
+  Begin
+    For i:=P.Circuits.Count-1 DownTo 0 Do
+      P.Circuits.AtPut(i, Copies.ItemOf(LongInt(P.Circuits.At(i))));
+  End;
+Begin
+  Copies.ForEach(@Setup);
+  Parts.ForEach(@Chg);
+End;
+
+Procedure TDBS.Shift(Const By: TComplex);
+ Procedure Shft(Var C: TCopied); Far;
+ Begin
+   C.Geo.Add(By);
+ End;
+Begin
+  Copies.ForEach(@Shft);
+End;
+
+Procedure TDBS.Renumerate;
+Var
+  N: Integer;
+ Procedure RC(Var C: TCopied); Far;
+ Var
+   I: Integer;
+ Begin
+   Originals.Search(Pointer(C.Original), I);
+   C.Original:=I+1;
+   Inc(N);
+   C.Index:=N;
+ End;
+ Procedure RP(Var P: TPart); Far;
+ Begin
+   Inc(N);
+   P.Index:=N;
+ End;
+Begin
+  N:=0;
+  Copies.ForEach(@RC);
+  N:=0;
+  Parts.ForEach(@RP);
+End;
+
+Function TDBS.MakeCircuit(Idx: Integer): PNode;
+Begin
+  MakeCircuit:=PCopied(Copies.ItemOf(Idx))^.Circuit
+End;
+
+Function TDBS.AllCircuits: PNode;
+Var
+  Res: PNode;
+ Procedure Cop(Var C: TCopied); Far;
+ Begin
+   C.Circuit^.InsertTo(Res);
+ End;
+Begin
+  Res:=Nil;
+  Copies.ForEach(@Cop);
+  AllCircuits:=Res;
+End;
+
+Function TDBS.AllParts: PNode;
+Var
+  Res: PNode;
+ Procedure Prt(Var Part: TPart); Far;
+ Begin
+   Part.Border^.InsertTo(Res);
+ End;
+Begin
+  Res:=Nil;
+  Parts.ForEach(@Prt);
+  AllParts:=Res
+End;
+
+Function TDBS.Area:Float;
+Var
+  R: Float;
+ Procedure Add(Var C: TCopied); Far;
+ Begin
+   R:=C.Area+R;
+ End;
+Begin
+  R:=0;
+  Copies.ForEach(@Add);
+  Area:=R
+End;
+
+Procedure TDBS.GetRect(Var R: TRectan);
+ Procedure Cop(Var C: TCopied); Far;
+ Begin
+   C.Union(R);
+ End;
+Begin
+  R.MakeEmpty;
+  Copies.ForEach(@Cop);
+End;
+
+Procedure TDBS.ZamkOriginals;
+Var
+  I: Integer;
+  PO: POriginal;
+Begin
+  For I:=Originals.Count-1 DownTo 0 Do
+   Begin
+    PO:=Originals.At(I);
+    If Not PO^.Close Then
+     Begin
+      Dispose(PO, Done);
+      Originals.AtPut(I, Nil);
+     End;
+   End;
+  Originals.Pack;
+End;
+
+Procedure TDBS.GoodOriginals;
+ Function Check(PO: POriginal): Boolean; Far;
+ Begin
+   If Not PO^.Valid Then
+     Originals.Free(PO);
+   Check:=False;
+ End;
+Begin
+  Originals.LastThat(@Check);
+End;
+
+Procedure TDBS.GoodCopies;
+ Function Check(PC: PCopied): Boolean; Far;
+ Begin
+   If Not PC^.Valid Then
+     Copies.Free(PC);
+   Check:=False;
+ End;
+Begin
+  Copies.LastThat(@Check);
+End;
+
+Procedure TDBS.GoodParts;
+ Function Check(P: PPart): Boolean; Far;
+ Begin
+   P^.Pack;
+   If P^.Circuits.Count=0  Then
+     Parts.Free(P);
+   Check:=False;
+ End;
+Begin
+  Parts.LastThat(@Check);
+End;
+
+Procedure TDBS.AllGood;
+Begin
+  GoodOriginals;
+  GoodCopies;
+  GoodParts;
+End;
+
+Function TDBS.FindList(Var S: Float): PPart;
+Var
+  R: PPart;
+ Procedure Prt(Var Part: TPart); Far;
+ Var
+   SS: Float;
+ Begin
+   SS:=Part.Area;
+   If SS>S Then
+    Begin
+     S:=SS;
+     R:=@Part;
+    End;
+ End;
+Begin
+  S:=0;
+  R:=Nil;
+  Parts.ForEach(@Prt);
+  FindList:=R;
+End;
+
+End.

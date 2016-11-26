@@ -1,0 +1,265 @@
+Turbo Dump  Version 5.0.13.1 Copyright (c) 1988, 1997 Borland International
+                    Display of File SIRREG.OBJ
+
+000000 THEADR  sirreg.c
+00000D COMENT  Purge: Yes, List: No , Class: 232 (0E8h)
+    Source File 1:                       00/00/80  00:00:00 am
+000019 COMENT  Purge: Yes, List: Yes, Class: 0   (000h)
+    Translator: Turbo Assembler  Version 5.0
+00003C COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\imm.h  03/25/97  05:02:00 am
+000061 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\mcx.h  03/25/97  05:02:00 am
+000086 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winsvc.h  03/25/97  05:02:00 am
+0000AE COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winsvc.h  03/25/97  05:02:00 am
+0000D0 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\oleidl.h  03/25/97  05:02:00 am
+0000F8 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\oleidl.h  03/25/97  05:02:00 am
+00011A COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\oaidl.h  03/25/97  05:02:00 am
+00013B COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\oleauto.h  03/25/97  05:02:00 am
+00015E COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\cguid.h  03/25/97  05:02:00 am
+000185 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\cguid.h  03/25/97  05:02:00 am
+0001A6 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\objidl.h  03/25/97  05:02:00 am
+0001CE COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\objidl.h  03/25/97  05:02:00 am
+0001F0 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\unknwn.h  03/25/97  05:02:00 am
+000218 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\unknwn.h  03/25/97  05:02:00 am
+00023A COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\wtypes.h  03/25/97  05:02:00 am
+00025C COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\stdlib.h  03/25/97  05:02:00 am
+00027E COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpcnsip.h  03/25/97  05:02:00 am
+0002A7 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpcnsip.h  03/25/97  05:02:00 am
+0002CA COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpcndr.h  03/25/97  05:02:00 am
+0002F2 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpcndr.h  03/25/97  05:02:00 am
+000314 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\objbase.h  03/25/97  05:02:00 am
+000337 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\ole2.h  03/25/97  05:02:00 am
+00035D COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\ole2.h  03/25/97  05:02:00 am
+00037D COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\prsht.h  03/25/97  05:02:00 am
+00039E COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winspool.h  03/25/97  05:02:00 am
+0003C8 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winspool.h  03/25/97  05:02:00 am
+0003EC COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\commdlg.h  03/25/97  05:02:00 am
+000415 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\commdlg.h  03/25/97  05:02:00 am
+000438 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winsock.h  03/25/97  05:02:00 am
+00045B COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winperf.h  03/25/97  05:02:00 am
+000484 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winperf.h  03/25/97  05:02:00 am
+0004A7 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\shellapi.h  03/25/97  05:02:00 am
+0004D1 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\shellapi.h  03/25/97  05:02:00 am
+0004F5 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpcnterr.h  03/25/97  05:02:00 am
+00051F COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpcnterr.h  03/25/97  05:02:00 am
+000543 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpcnsi.h  03/25/97  05:02:00 am
+00056B COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpcnsi.h  03/25/97  05:02:00 am
+00058D COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpcdcep.h  03/25/97  05:02:00 am
+0005B6 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpcdcep.h  03/25/97  05:02:00 am
+0005D9 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpcdce.h  03/25/97  05:02:00 am
+000601 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpcdce.h  03/25/97  05:02:00 am
+000623 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\rpc.h  03/25/97  05:02:00 am
+000648 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\rpc.h  03/25/97  05:02:00 am
+000667 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\pshpack8.h  03/25/97  05:02:00 am
+00068B COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\nb30.h  03/25/97  05:02:00 am
+0006B1 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\nb30.h  03/25/97  05:02:00 am
+0006D1 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\mmsystem.h  03/25/97  05:02:00 am
+0006F5 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\lzexpand.h  03/25/97  05:02:00 am
+00071F COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\lzexpand.h  03/25/97  05:02:00 am
+000743 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\dlgs.h  03/25/97  05:02:00 am
+000769 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\dlgs.h  03/25/97  05:02:00 am
+000789 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\ddeml.h  03/25/97  05:02:00 am
+0007B0 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\ddeml.h  03/25/97  05:02:00 am
+0007D1 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\dde.h  03/25/97  05:02:00 am
+0007F6 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\dde.h  03/25/97  05:02:00 am
+000815 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\cderr.h  03/25/97  05:02:00 am
+00083C COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\cderr.h  03/25/97  05:02:00 am
+00085D COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winnetwk.h  03/25/97  05:02:00 am
+000887 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winnetwk.h  03/25/97  05:02:00 am
+0008AB COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winreg.h  03/25/97  05:02:00 am
+0008D3 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winreg.h  03/25/97  05:02:00 am
+0008F5 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winver.h  03/25/97  05:02:00 am
+00091D COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winver.h  03/25/97  05:02:00 am
+00093F COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\wincon.h  03/25/97  05:02:00 am
+000967 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\wincon.h  03/25/97  05:02:00 am
+000989 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winnls.h  03/25/97  05:02:00 am
+0009B1 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winnls.h  03/25/97  05:02:00 am
+0009D3 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winuser.h  03/25/97  05:02:00 am
+0009FC COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winuser.h  03/25/97  05:02:00 am
+000A1F COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\pshpack1.h  03/25/97  05:02:00 am
+000A43 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\wingdi.h  03/25/97  05:02:00 am
+000A6B COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\wingdi.h  03/25/97  05:02:00 am
+000A8D COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winerror.h  03/25/97  05:02:00 am
+000AB1 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winbase.h  03/25/97  05:02:00 am
+000ADA COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winbase.h  03/25/97  05:02:00 am
+000AFD COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\stddef.h  03/25/97  05:02:00 am
+000B1F COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\string.h  03/25/97  05:02:00 am
+000B41 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\pshpack2.h  03/25/97  05:02:00 am
+000B65 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\poppack.h  03/25/97  05:02:00 am
+000B88 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\pshpack4.h  03/25/97  05:02:00 am
+000BAC COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\ctype.h  03/25/97  05:02:00 am
+000BCD COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\winnt.h  03/25/97  05:02:00 am
+000BF4 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\winnt.h  03/25/97  05:02:00 am
+000C15 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\windef.h  03/25/97  05:02:00 am
+000C37 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\_defs.h  03/25/97  05:02:00 am
+000C58 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\stdarg.h  03/25/97  05:02:00 am
+000C7A COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\excpt.h  03/25/97  05:02:00 am
+000C9B COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\win32\windows.h  03/25/97  05:02:00 am
+000CC4 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: C:\BC5\INCLUDE\WINDOWS.H  03/25/97  05:02:00 am
+000CE7 COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    Dependency File: sirreg.c              08/16/100  07:15:07 pm
+000CFA COMENT  Purge: Yes, List: No , Class: 233 (0E9h)
+    End of Dependency List
+000D00 LNAMES
+    Name  1: ''
+000D05 COMENT  Purge: Yes, List: No , Class: 161 (0A1h)
+    Object Module Extensions Present.
+000D0B LNAMES
+    Name  2: '_TEXT'
+    Name  3: 'CODE'
+000D1A SEGDEF 1 : _TEXT           DWORD PUBLIC  USE32 Class 'CODE'	 Length: 0167
+000D24 LNAMES
+    Name  4: '_DATA'
+    Name  5: 'DATA'
+000D33 SEGDEF 2 : _DATA           DWORD PUBLIC  USE32 Class 'DATA'	 Length: 0014
+000D3D LNAMES
+    Name  6: '_BSS'
+    Name  7: 'BSS'
+000D4A SEGDEF 3 : _BSS            DWORD PUBLIC  USE32 Class 'BSS'	 Length: 0000
+000D54 LNAMES
+    Name  8: 'FLAT'
+000D5D GRPDEF Group: FLAT
+000D62 LNAMES
+    Name  9: 'DGROUP'
+000D6D GRPDEF Group: DGROUP
+    Segment: _BSS           
+    Segment: _DATA          
+000D76 EXTDEF 1 : 'GetModuleFileNameA'  Type: 0  
+        2 : 'FindFirstFileA'      Type: 0  
+        3 : 'FindNextFileA'       Type: 0  
+        4 : 'FileTimeToLocalFileTime'  Type: 0  
+        5 : 'FileTimeToDosDateTime'  Type: 0  
+        6 : 'FindClose'           Type: 0  
+        7 : 'RegOpenKeyA'         Type: 0  
+        8 : 'RegQueryValueExA'    Type: 0  
+        9 : 'RegCloseKey'         Type: 0  
+000E14 PUBDEF  'IsRegistered'          Segment: _TEXT:0000
+000E2A LEDATA  Segment: _TEXT          Offset: 0000  Length: 0167
+    0000: 53 56 57 81 C4 98 FD FF  FF 8D 74 24 20 8D BC 24   SVW.......t$ ..$
+    0010: 28 01 00 00 68 03 01 00  00 8D 44 24 28 50 6A 00   (...h.....D$(Pj.
+    0020: E8 00 00 00 00 8D 4C 24  24 8B C1 EB 08 80 FA 5C   ......L$$......\
+    0030: 75 02 8B C8 40 8A 10 84  D2 75 F2 41 C7 01 2A 2E   u...@....u.A..*.
+    0040: 2A 00 57 8D 44 24 28 50  E8 00 00 00 00 8B D8 EB   *.W.D$(P........
+    0050: 32 8B 47 2C 25 FF FF FF  00 3D 2E 2E 00 00 75 23   2.G,%....=....u#
+    0060: F6 07 10 74 1E 8D 54 24  04 52 8D 4F 04 51 E8 00   ...t..T$.R.O.Q..
+    0070: 00 00 00 54 8D 44 24 06  50 8D 54 24 0C 52 E8 00   ...T.D$.P.T$.R..
+    0080: 00 00 00 57 53 E8 00 00  00 00 85 C0 75 C3 53 E8   ...WS.......u.S.
+    0090: 00 00 00 00 8D 4C 24 0C  51 68 00 00 00 00 68 02   .....L$.Qh....h.
+    00A0: 00 00 80 E8 00 00 00 00  C7 44 24 10 03 01 00 00   .........D$.....
+    00B0: 8D 44 24 10 50 8D 54 24  28 52 8D 4C 24 1C 51 6A   .D$.P.T$(R.L$.Qj
+    00C0: 00 68 10 00 00 00 FF 74  24 20 E8 00 00 00 00 85   .h.....t$ ......
+    00D0: C0 75 07 83 7C 24 14 01  74 05 C6 44 24 24 00 FF   .u..|$..t..D$$..
+    00E0: 74 24 0C E8 00 00 00 00  33 C0 33 D2 89 44 24 18   t$......3.3..D$.
+    00F0: 89 54 24 1C 8D 4C 24 24  EB 43 90 90 90 83 3E 20   .T$..L$$.C....> 
+    0100: 74 3A 90 90 90 90 83 3E  08 74 31 90 90 90 90 83   t:.....>.t1.....
+    0110: 2E 41 83 3E 20 7C 03 83  2E 20 B8 1A 00 00 00 F7   .A.> |... ......
+    0120: 64 24 1C 89 44 24 1C B8  1A 00 00 00 F7 64 24 18   d$..D$.......d$.
+    0130: 03 44 24 20 89 44 24 18  11 54 24 1C 41 0F BE 01   .D$ .D$..T$.A...
+    0140: 89 06 85 C0 75 B7 8B 54  24 1C 33 54 24 18 81 C2   ....u..T$.3T$...
+    0150: 8F E6 F8 F7 3B 14 24 0F  94 C0 83 E0 01 81 C4 68   ....;.$........h
+    0160: 02 00 00 5F 5E 5B C3                               ..._^[.
+000F98 FIXU32
+    FixUp: 021  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[1]
+    FixUp: 049  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[2]
+    FixUp: 06f  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[4]
+    FixUp: 07f  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[5]
+    FixUp: 086  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[3]
+    FixUp: 090  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[6]
+    FixUp: 09a  Mode: Seg  Loc: Offset32    Frame: GI[1]   Target: SI[2]
+    FixUp: 0a4  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[7]
+    FixUp: 0c2  Mode: Seg  Loc: Offset32    Frame: GI[1]   Target: SI[2]
+    FixUp: 0cb  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[8]
+    FixUp: 0e4  Mode: Self Loc: Offset32    Frame: GI[1]   Target: EI[9]
+000FD3 LEDATA  Segment: _DATA          Offset: 0000  Length: 0014
+    0000: 53 6F 66 74 77 61 72 65  5C 53 69 72 69 75 73 00   Software\Sirius.
+    0010: 52 65 67 00                                        Reg.
+000FEE MODEND
+

@@ -1,0 +1,16 @@
+Format=Cross
+File=x.dbs
+W= 2230
+H= 1684
+UL.W= 0
+UL.R= 50
+UL.H= 0
+UR.W= -250
+UR.R= -250
+UR.H= 10
+LR.W= 790
+LR.R= 250
+LR.H= 1119
+LL.W= 790
+LL.R= 250
+LL.H= 1119
