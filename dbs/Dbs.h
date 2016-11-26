@@ -1,7 +1,7 @@
 #pragma once
 
-#include<ostream>
-#include<vector>
+#include <ostream>
+#include <vector>
 
 using namespace std;
 
@@ -10,7 +10,7 @@ namespace dbs
   class Error : public runtime_error
   {
   public:
-      Error(const string& message) : runtime_error(message) {}
+      Error(const string & message) : runtime_error(message) {}
   };
 
   struct P
@@ -23,7 +23,7 @@ namespace dbs
       float bulge;
 
       void json(ostream &, bool pretty = false);
-      void yaml(ostream & out);
+      void yaml(ostream & out) { json(out); }
   };
 
   struct O2
@@ -40,7 +40,7 @@ namespace dbs
       vector <Node> nodes;
 
       void json(ostream &, bool pretty = false);
-      void yaml(ostream&);
+      void yaml(ostream &);
   };
 
   struct Part

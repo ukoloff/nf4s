@@ -1,6 +1,9 @@
 #pragma once
 
 #include <map>
+#include <fstream>
+
+#include "Dbs.h"
 
 static_assert(2 == sizeof(short), "Invalid short int!");
 

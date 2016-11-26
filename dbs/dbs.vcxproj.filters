@@ -32,10 +32,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dbs.cpp">
+    <ClCompile Include="yaml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbsRead.cpp">
+    <ClCompile Include="json.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="o2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="read.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r26.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
