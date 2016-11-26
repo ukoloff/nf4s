@@ -4,7 +4,7 @@ void dbs::Node::dxf(ostream & out)
 {
     out << "  0\nVERTEX\n 10\n" << x << "\n 20\n" << y;
     if (bulge != 0)
-        out << "\n 42\n" << -bulge;
+        out << "\n 42\n" << bulge;
     out << "\n  8\n0\n";
 }
 

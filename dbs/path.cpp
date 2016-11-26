@@ -7,12 +7,12 @@ bool dbs::Path::closed() const
 
 void dbs::Path::reverse()
 {
-    if (nodes.size() < 3)
+    if (nodes.size() < 2)
         return;
+    for (int i = 0, j = nodes.size() - 1; i < j; i++, j--)
+        std::swap(nodes[i].to_p(), nodes[j].to_p());
     for (int i = 0, j = nodes.size() - 2; i < j; i++, j--)
-    {
-        std::swap(nodes[i], nodes[j]);
-        nodes[i].bulge = -nodes[i].bulge;
-        nodes[j].bulge = -nodes[j].bulge;
-    }
+        std::swap(nodes[i].bulge, nodes[j].bulge);
+    for (auto & node : nodes)
+        node.bulge = -node.bulge;
 }

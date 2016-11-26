@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     {
         dbs::File f;
         f.read(argv[1]);
-
+        /*
         dbs::Part p;
         p.name = "a\\b\"c";
         f.parts.push_back(p);
@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
         f.json(cout);
         cout << "\n";
         f.json(cout, true);
+        */
         f.dxf(cout);
         // throw dbs::Error("Oops");
     }
