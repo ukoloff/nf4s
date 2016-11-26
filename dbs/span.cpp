@@ -9,7 +9,7 @@ dbs::Span * dbs::iSpan::get()
 
 const float dbs::Span::radius() const
 {
-    return abs(to_c())*(1 + bulge*bulge) / 4 / bulge;
+    return abs(to_c())*(1 + bulge*bulge) / 4 / abs(bulge);
 }
 
 const complex<float> dbs::Span::operator[](float pos) const
