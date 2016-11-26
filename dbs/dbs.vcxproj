@@ -139,6 +139,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dxf.cpp" />
     <ClCompile Include="o2.cpp" />
     <ClCompile Include="path.cpp" />
     <ClCompile Include="r26.cpp" />

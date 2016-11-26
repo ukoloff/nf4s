@@ -27,8 +27,9 @@ namespace dbs
   {
       float bulge;
 
-      void json(ostream &, bool pretty = false);
+      void json(ostream &, bool = false);
       void yaml(ostream & out) { json(out); }
+      void dxf(ostream &);
 
       P & to_p() const { return *(P*)this; }
   };
@@ -48,6 +49,7 @@ namespace dbs
 
       void json(ostream &, bool pretty = false);
       void yaml(ostream &);
+      void dxf(ostream &);
 
       bool closed() const;
       void reverse();
@@ -59,7 +61,8 @@ namespace dbs
       vector <Path> paths;
 
       void json(ostream &, bool pretty = false);
-      void yaml(ostream&);
+      void yaml(ostream &);
+      void dxf(ostream &);
 
       static const string quote(const string&);
   };
@@ -72,5 +75,6 @@ namespace dbs
 
       void json(ostream &, bool pretty = false);
       void yaml(ostream&);
+      void dxf(ostream &);
   };
 }

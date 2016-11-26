@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
         f.json(cout);
         cout << "\n";
         f.json(cout, true);
+        f.dxf(cout);
         // throw dbs::Error("Oops");
     }
     catch(exception &e)
