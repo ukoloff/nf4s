@@ -1,6 +1,8 @@
 #include "Dbs.h"
 
-dbs::Span * dbs::iSpan::get()
+using namespace dbs;
+
+Span * dbs::iSpan::get()
 {
     if (next >= path.nodes.size())
         return 0;
@@ -12,7 +14,7 @@ const float dbs::Span::radius() const
     return abs(to_c())*(1 + bulge*bulge) / 4 / abs(bulge);
 }
 
-const complex<float> dbs::Span::operator[](float pos) const
+const Complex dbs::Span::operator[](float pos) const
 {
-    return to_c()*complex<float>(pos, bulge) / complex<float>(1, pos*bulge) / complex<float>(2) + a.to_c();
+    return to_c() * Complex(pos, bulge) / Complex(1, pos*bulge) / Complex(2) + a.to_c();
 }

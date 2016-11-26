@@ -15,12 +15,14 @@ namespace dbs
       Error(const string & message) : runtime_error(message) {}
   };
 
+  typedef complex<float> Complex;
+
   // 2D Point
   struct P
   {
       float x, y;
 
-      complex<float> & to_c() const { return *(complex<float>*)this; }
+      Complex & to_c() const { return *(Complex*)this; }
 
       const auto operator == (const P & p) const { return to_c() == p.to_c(); }
   };
@@ -47,7 +49,7 @@ namespace dbs
 
       const auto to_c() const { return b.to_c() - a.to_c(); }
       const float radius() const;
-      const complex<float> operator [](float) const;
+      const Complex operator [](float) const;
   };
 
   // Gemetry transformation (rotate + mirror + shift)
