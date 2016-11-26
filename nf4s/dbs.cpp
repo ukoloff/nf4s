@@ -27,7 +27,7 @@ dbs::Node dbs::O2::operator*(const dbs::Node& node) const
 
 void dbs::Path::yaml(ostream & out)
 {
-    out << "  -\n";
+    out << "  -\t\t# " << nodes.size() << " nodes\n";
     for(auto & n : nodes)
         out << "    - [" << n.x << ", " << n.y << ", " << n.bulge << "]\n";
 }
@@ -35,7 +35,7 @@ void dbs::Path::yaml(ostream & out)
 void dbs::Part::yaml(ostream & out)
 {
     out << "  partid: \"" << name.c_str() << "\"\n";
-    out << "  paths:\n";
+    out << "  paths:\t# " << paths.size() << "\n";
     for (auto & p : paths)
         p.yaml(out);
 }
