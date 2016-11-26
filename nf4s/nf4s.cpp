@@ -3,8 +3,7 @@
 
 #include <iostream>
 
-#include "stdafx.h"
-#include "Dbs.h"
+#include "../dbs/Dbs.h"
 
 int main(int argc, char *argv[])
 {
