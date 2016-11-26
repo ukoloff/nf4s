@@ -1,5 +1,6 @@
 #pragma once
 
+#include <complex>
 #include <ostream>
 #include <vector>
 
@@ -16,6 +17,10 @@ namespace dbs
   struct P
   {
       float x, y;
+
+      const complex<float> & to_c() const { return *(complex<float>*)this; }
+
+      const auto operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
   struct Node: P
@@ -24,6 +29,8 @@ namespace dbs
 
       void json(ostream &, bool pretty = false);
       void yaml(ostream & out) { json(out); }
+
+      const P & to_p() const { return *(P*)this; }
   };
 
   struct O2
@@ -41,6 +48,8 @@ namespace dbs
 
       void json(ostream &, bool pretty = false);
       void yaml(ostream &);
+
+      bool closed() const;
   };
 
   struct Part
