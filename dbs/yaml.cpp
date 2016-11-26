@@ -2,7 +2,7 @@
 
 void dbs::Path::yaml(ostream & out)
 {
-    out << "  -\t\t# " << nodes.size() << " nodes\n";
+    out << "  - # " << nodes.size() << " nodes\n";
     for (auto & n : nodes)
     {
         out << "    - ";
@@ -14,14 +14,16 @@ void dbs::Path::yaml(ostream & out)
 void dbs::Part::yaml(ostream & out)
 {
     out << "  partid: " << quote(name).c_str() << "\n";
-    out << "  paths:\t# " << paths.size() << "\n";
+    out << "  paths: # " << paths.size() << "\n";
     for (auto & p : paths)
         p.yaml(out);
 }
 
 void dbs::File::yaml(ostream & out)
 {
-    out << "-\n";
     for (auto & p : parts)
+    {
+        out << "-\n";
         p.yaml(out);
+    }
 }
