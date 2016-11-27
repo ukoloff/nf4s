@@ -32,6 +32,7 @@
 		<Unit filename="gtest11.h">
 			<Option compile="1" />
 		</Unit>
+		<Unit filename="json.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="point.cpp" />
 		<Unit filename="r26.cpp">
