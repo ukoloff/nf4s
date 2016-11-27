@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # Code Blocks
 .objs/
+doxygen/
