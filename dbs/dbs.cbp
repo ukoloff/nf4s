@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug Win32">
-				<Option output="dbs" prefix_auto="1" extension_auto="1" />
+				<Option output=".objs/dbs" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option type="2" />
 				<Option compiler="gcc" />
@@ -53,6 +53,12 @@
 				</Compiler>
 			</Target>
 		</Build>
+		<VirtualTargets>
+			<Add alias="Debug" targets="Debug Win32;Debug x64;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-std=c++11" />
+		</Compiler>
 		<Unit filename="Dbs.h" />
 		<Unit filename="dxf.cpp" />
 		<Unit filename="iDbs.h" />

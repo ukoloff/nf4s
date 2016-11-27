@@ -242,4 +242,4 @@ ModelManifest.xml
 .fake/
 
 # Code Blocks
-.obj/
+.objs/
