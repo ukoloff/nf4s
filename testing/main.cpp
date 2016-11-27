@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include "gtest11.h"
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

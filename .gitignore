@@ -249,3 +249,6 @@ doxygen/
 # Google C++ Testing Framework
 googletest/
 googlemock/
+
+# GCC Precompiled headers
+*.h.gch

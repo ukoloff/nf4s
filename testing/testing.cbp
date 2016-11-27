@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -20,15 +21,22 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
+			<Add option="-D_WIN32_WINNT=0x0500" />
 			<Add directory="../dbs" />
 			<Add directory="../googletest/include" />
-			<Add option="-D_WIN32_WINNT=0x0500" />
 		</Compiler>
 		<Linker>
 			<Add library="../dbs/.objs/libdbs.a" />
 			<Add library="../googletest/.objs/libgtestd.a" />
 		</Linker>
+		<Unit filename="gtest11.h">
+			<Option compile="1" />
+		</Unit>
 		<Unit filename="main.cpp" />
+		<Unit filename="point.cpp" />
+		<Unit filename="r26.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
