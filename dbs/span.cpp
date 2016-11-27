@@ -34,3 +34,14 @@ const Complex dbs::Span::linear(Complex pos) const
 {
   return (to_c() * pos + a.to_c() + b.to_c()) / (float)2;
 }
+
+const Complex dbs::Span::zenith() const
+{
+    return linear(Complex(0, -bulge));
+}
+
+const Complex dbs::Span::nadir() const
+{
+    return linear(Complex(0, 1 / bulge));
+}
+
