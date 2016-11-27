@@ -2,6 +2,13 @@
 
 using namespace dbs;
 
+/** \brief Get next point on the span
+ *
+ * \return Span*
+ *
+ * Call this method until NULL is returned.
+ *
+ */
 Span * dbs::iSpan::get()
 {
     if (next + 1 >= path.nodes.size())
@@ -9,16 +16,44 @@ Span * dbs::iSpan::get()
     return (dbs::Span*)&path.nodes[next++];
 }
 
+/** \brief Get arc's radius
+ *
+ * \return const float
+ *
+ * Returns the radius of the circle the arc belongs to.
+ *
+ */
 const float dbs::Span::radius() const
 {
     return abs(to_c()) * abs(1 / bulge + bulge) /4 ;
 }
 
+/** \brief Find point on arc
+ *
+ * \param pos float
+ * \return const Complex
+ *
+ * Maps -1 to begin of arc, 0 to middle of arc and +1 to its end.
+ *
+ * For big bulge values, resulting points will be distributed
+ * to the ends of arc.
+ *
+ * More uniform distribution is provided with ::at method.
+ *
+ */
 const Complex dbs::Span::operator[](float pos) const
 {
     return linear(Complex(pos, -bulge) / Complex(1, -pos*bulge));
 }
 
+/** \brief Return center of the arc
+ *
+ * \return const Complex
+ *
+ * Return center of the circle, the arc is part of.
+ *
+ * If span is linear (not arc) throws division by zero.
+ */
 const Complex dbs::Span::center() const
 {
     return linear(Complex(0, 1 / bulge - bulge));
@@ -78,4 +113,3 @@ const Complex dbs::Span::nadir() const
 {
     return linear(Complex(0, 1 / bulge));
 }
-
