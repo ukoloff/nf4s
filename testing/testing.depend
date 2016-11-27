@@ -1,6 +1,6 @@
 # depslib dependency file v1.0
-1480262562 source:c:\my\repo\nf4s\testing\main.cpp
-	"gtest/gtest.h"
+1480262954 source:c:\my\repo\nf4s\testing\main.cpp
+	"gtest11.h"
 
 1480255481 c:\my\repo\nf4s\googletest\include\gtest\gtest.h
 	<limits>
@@ -169,16 +169,22 @@
 	<vector>
 	<stdexcept>
 
-1480262520 source:c:\my\repo\nf4s\testing\point.cpp
-	"gtest/gtest.h"
+1480262947 source:c:\my\repo\nf4s\testing\point.cpp
+	"gtest11.h"
 	"Dbs.h"
 
-1480262681 source:c:\my\repo\nf4s\testing\r26.cpp
-	"gtest/gtest.h"
+1480262962 source:c:\my\repo\nf4s\testing\r26.cpp
+	"gtest11.h"
 	"iDbs.h"
 
 1480234707 c:\my\repo\nf4s\dbs\idbs.h
 	<map>
 	<fstream>
 	"Dbs.h"
+
+1480262823 source:c:\my\repo\nf4s\testing\gtest11.h
+	"gtest/gtest.h"
+
+1480262823 c:\my\repo\nf4s\testing\gtest11.h
+	"gtest/gtest.h"
 
