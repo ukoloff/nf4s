@@ -2,7 +2,7 @@
 
 using namespace dbs;
 
-/** \brief Get next point on the span
+/** \brief Get next span from Path
  *
  * \return Span*
  *
@@ -38,7 +38,7 @@ const float dbs::Span::radius() const
  * For big bulge values, resulting points will be distributed
  * to the ends of arc.
  *
- * More uniform distribution is provided with ::at method.
+ * More uniform distribution is provided with dbs::Span::at method.
  *
  */
 const Complex dbs::Span::operator[](float pos) const
