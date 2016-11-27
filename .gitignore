@@ -244,3 +244,8 @@ ModelManifest.xml
 # Code Blocks
 .objs/
 doxygen/
+*/*.layout
+
+# Google C++ Testing Framework
+googletest/
+googlemock/
