@@ -1,17 +1,18 @@
 # depslib dependency file v1.0
-1480333154 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\json.cpp
+1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\json.cpp
 	"stdafx.h"
 	"Dbs.h"
 
-1480334602 d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\stdafx.h
+1480334952 d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\stdafx.h
 	"targetver.h"
 	<stdio.h>
 	<tchar.h>
 	"catch.hpp"
 
-1480334534 d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\targetver.h
+1480334952 d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\targetver.h
+	<SDKDDKVer.h>
 
-1480332015 d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\catch.hpp
+1480334952 d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\catch.hpp
 	<sstream>
 	<stdexcept>
 	<algorithm>
@@ -125,17 +126,17 @@
 	<iomanip>
 	<assert.h>
 
-1480331696 d:\users\stas\documents\visual studio 2015\projects\nf4s\dbs\dbs.h
+1480338179 d:\users\stas\documents\visual studio 2015\projects\nf4s\dbs\dbs.h
 	<complex>
 	<ostream>
 	<vector>
 	<stdexcept>
 
-1480333259 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\point.cpp
+1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\point.cpp
 	"stdafx.h"
 	"Dbs.h"
 
-1480333303 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\r26.cpp
+1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\r26.cpp
 	"stdafx.h"
 	"iDbs.h"
 
@@ -144,6 +145,12 @@
 	<fstream>
 	"Dbs.h"
 
-1480332960 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\testing.cpp
+1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\testing.cpp
+	"catch.hpp"
+
+1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\stdafx.h
+	"targetver.h"
+	<stdio.h>
+	<tchar.h>
 	"catch.hpp"
 
