@@ -3,7 +3,6 @@
 
 /** \brief Calculates determinant of transform
  *
- * \param void
  * \return double
  *
  */

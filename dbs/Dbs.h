@@ -9,7 +9,7 @@ using namespace std;
 
 namespace dbs
 {
-  // Our errors
+  /// \brief Our errors
   class Error : public runtime_error
   {
   public:
@@ -18,7 +18,7 @@ namespace dbs
 
   typedef complex<float> Complex;
 
-  // 2D Point
+  /// \brief 2D Point
   struct P
   {
       float x, y;
@@ -28,10 +28,10 @@ namespace dbs
       const bool operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
-  // Point inside DBS file
+  /// \brief Point inside DBS file
   struct Node: P
   {
-      float bulge;
+      float bulge; ///< Measure of curvature, tan of 1/4 of arc angle; positive for CCW arcs
 
       void json(ostream &, bool = false);
       void yaml(ostream & out) { json(out, true); }
@@ -41,7 +41,7 @@ namespace dbs
       Complex & to_c() const { return to_p().to_c(); }
   };
 
-  // Point-to-Point (line or arc)
+  /// \brief Point-to-Point (line or arc)
   struct Span
   {
       P a;
@@ -62,17 +62,17 @@ namespace dbs
       const Complex linear(Complex) const;     // Trsnsform to local coordinates
   };
 
-  // Gemetry transformation (rotate + mirror + shift)
+  /// \brief Gemetry transformation (rotate + mirror + shift)
   struct O2
   {
       P x, y, delta;
 
       double det() const;
-      P operator * (const P& p) const;
-      Node operator * (const Node& n) const;
+      P operator * (const P&) const;
+      Node operator * (const Node&) const;
   };
 
-  // Polyline
+  /// \brief Polyline
   struct Path
   {
       vector <Node> nodes;
@@ -85,7 +85,7 @@ namespace dbs
       void reverse();
   };
 
-  // Iterator over Spans
+  /// \brief Iterator over Spans
   struct iSpan
   {
       const Path & path;
@@ -97,7 +97,7 @@ namespace dbs
   };
 
 
-  // Part
+  /// \brief Part
   struct Part
   {
       string name;
@@ -110,7 +110,7 @@ namespace dbs
       static const string quote(const string&);
   };
 
-  // DBS file itself
+  /// \brief DBS file itself
   struct File
   {
       vector <Part> parts;
