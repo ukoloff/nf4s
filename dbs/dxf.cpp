@@ -18,7 +18,7 @@ void dbs::Path::dxf(ostream & out)
         out << " 70\n1\n";
         last--;
     }
-    for (int i = 0; i < last; i++)
+    for (size_t i = 0; i < last; i++)
         nodes[i].dxf(out);
     out << "  0\nSEQEND\n";
 }
