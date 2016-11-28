@@ -7,7 +7,7 @@
  * \return double
  *
  */
-double dbs::O2::det(void) const
+double dbs::O2::det() const
 {
     return x.x * y.y - x.y * y.x;
 }
