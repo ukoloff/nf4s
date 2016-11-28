@@ -49,8 +49,17 @@ namespace dbs
       P b;
 
       const Complex to_c() const { return b.to_c() - a.to_c(); }
+
       const float radius() const;
-      const Complex operator [](float) const;
+      const Complex center() const;
+      const Complex zenith() const;
+      const Complex nadir() const;
+
+      const Complex operator [](float) const;  // Get point on the arc
+      const Complex at(float) const;           // Like [] but more uniform
+      const Complex linear(float f) const      // Point on line
+        { return linear(Complex(f)); }
+      const Complex linear(Complex) const;     // Trsnsform to local coordinates
   };
 
   // Gemetry transformation (rotate + mirror + shift)
