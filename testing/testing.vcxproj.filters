@@ -35,9 +35,6 @@
     <ClCompile Include="testing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="simple.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="json.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
