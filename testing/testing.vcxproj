@@ -154,6 +154,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="json.cpp" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="r26.cpp" />
     <ClCompile Include="simple.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
