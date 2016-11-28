@@ -17,5 +17,5 @@ TEST_CASE("Load DBS")
     Z.read("../testing/geodet/ring.dbs");
     ostringstream j;
     Z.json(j);
-    REQUIRE(j.str() == R"([{"partid":"RING","paths":[[[0,2,-1],[0,-2,-1],[0,2,0]],[[0,1,1],[0,-1,1],[0,1,-0]]]}])");
+    REQUIRE(j.str() == R"=([{"partid":"RING","paths":[[[0,2,-1],[0,-2,-1],[0,2,0]],[[0,1,1],[0,-1,1],[0,1,-0]]]}])=");
 }
