@@ -30,7 +30,12 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add directory="../dbs" />
 		</Compiler>
+		<Linker>
+			<Add library="../dbs/.objs/libdbs.a" />
+		</Linker>
 		<Unit filename="json.cpp" />
 		<Unit filename="point.cpp" />
 		<Unit filename="r26.cpp" />

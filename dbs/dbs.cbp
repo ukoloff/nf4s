@@ -11,6 +11,8 @@
 				<Option working_dir="" />
 				<Option type="2" />
 				<Option compiler="gcc" />
+				<Option host_application="../testing/bin/Debug/testing.exe" />
+				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-DWIN32" />
