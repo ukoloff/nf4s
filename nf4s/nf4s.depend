@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1480234707 source:c:\my\repo\nf4s\nf4s\nf4s.cpp
+	<iostream>
+	"../dbs/Dbs.h"
+
+1480237256 c:\my\repo\nf4s\dbs\dbs.h
+	<complex>
+	<ostream>
+	<vector>
+	<stdexcept>
+
+1480165331 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\nf4s\nf4s.cpp
+	<iostream>
+	"../dbs/Dbs.h"
+
+1480331696 d:\users\stas\documents\visual studio 2015\projects\nf4s\dbs\dbs.h
+	<complex>
+	<ostream>
+	<vector>
+	<stdexcept>
+

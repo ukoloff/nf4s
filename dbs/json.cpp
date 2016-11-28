@@ -1,5 +1,4 @@
-#include <sstream>
-
+#include "stdafx.h"
 #include "iDbs.h"
 
 void dbs::Node::json(ostream & out, bool pretty)
