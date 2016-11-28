@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1480340501 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\json.cpp
+1480341311 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\json.cpp
 	"stdafx.h"
 	"Dbs.h"
 
@@ -156,9 +156,17 @@
 1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\testing.cpp
 	"catch.hpp"
 
-1480334952 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\stdafx.h
+1480340542 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\testing\stdafx.h
 	"targetver.h"
 	<stdio.h>
 	<tchar.h>
 	"catch.hpp"
+	<complex>
+	<cstring>
+	<fstream>
+	<ostream>
+	<map>
+	<sstream>
+	<stdexcept>
+	<vector>
 
