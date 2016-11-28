@@ -3,61 +3,42 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="nf4s" />
-		<Option pch_mode="2" />
-		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug Win32">
-				<Option output=".objs/nf4s" prefix_auto="1" extension_auto="1" />
+			<Target title="Debug">
+				<Option output="bin/${TARGET_NAME}/nf4s" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/${TARGET_NAME}/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
 				<Option parameters="C:\My\tmp\Sirius\rounded3x4.DBS" />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add option="-DWIN32" />
-					<Add option="-D_DEBUG" />
-					<Add option="-D_CONSOLE" />
 				</Compiler>
 				<Linker>
-					<Add library="../dbs/.objs/libdbs.a" />
+					<Add library="../dbs/bin/${TARGET_NAME}/libdbs.a" />
 				</Linker>
 			</Target>
-			<Target title="Debug x64">
-				<Option output="nf4s" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
+			<Target title="Release">
+				<Option output="bin/${TARGET_NAME}/nf4s" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/${TARGET_NAME}/" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="C:\My\tmp\Sirius\rounded3x4.DBS" />
 				<Compiler>
-					<Add option="-D_DEBUG" />
-					<Add option="-D_CONSOLE" />
+					<Add option="-O2" />
 				</Compiler>
-			</Target>
-			<Target title="Release x64">
-				<Option output="nf4s" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-DNDEBUG" />
-					<Add option="-D_CONSOLE" />
-				</Compiler>
-			</Target>
-			<Target title="Release Win32">
-				<Option output="nf4s" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-DWIN32" />
-					<Add option="-DNDEBUG" />
-					<Add option="-D_CONSOLE" />
-				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="../dbs/bin/${TARGET_NAME}/libdbs.a" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add directory="../dbs" />
 		</Compiler>
 		<Unit filename="nf4s.cpp" />
 		<Unit filename="stdafx.h" />
-		<Unit filename="targetver.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
