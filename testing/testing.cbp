@@ -3,7 +3,6 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="testing" />
-		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
@@ -34,7 +33,7 @@
 			<Add directory="../dbs" />
 		</Compiler>
 		<Linker>
-			<Add library="../dbs/.objs/libdbs.a" />
+			<Add library="../dbs/bin/Debug/libdbs.a" />
 		</Linker>
 		<Unit filename="json.cpp" />
 		<Unit filename="point.cpp" />
