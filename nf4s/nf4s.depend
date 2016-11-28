@@ -9,3 +9,13 @@
 	<vector>
 	<stdexcept>
 
+1480165331 source:d:\users\stas\documents\visual studio 2015\projects\nf4s\nf4s\nf4s.cpp
+	<iostream>
+	"../dbs/Dbs.h"
+
+1480331696 d:\users\stas\documents\visual studio 2015\projects\nf4s\dbs\dbs.h
+	<complex>
+	<ostream>
+	<vector>
+	<stdexcept>
+
