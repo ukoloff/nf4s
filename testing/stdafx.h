@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <tchar.h>
 
-
 #include "catch.hpp"
 
 //== Project's

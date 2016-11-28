@@ -1,9 +1,5 @@
-// nf4s.cpp : Defines the entry point for the console application.
-//
-
-#include <iostream>
-
-#include "../dbs/Dbs.h"
+#include "stdafx.h"
+#include "Dbs.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +8,7 @@ int main(int argc, char *argv[])
         cerr << "Usage: " << argv[0] << " filename.dbs\n";
         return 1;
     }
-    try 
+    try
     {
         dbs::File f;
         f.read(argv[1]);
@@ -33,7 +29,7 @@ int main(int argc, char *argv[])
     {
         cerr << "Exception: " << e.what() << endl;
     }
-    catch(...) 
+    catch(...)
     {
         cerr << "Unknown exception!" << endl;
     }
