@@ -1,11 +1,23 @@
 #include "stdafx.h"
 #include "Dbs.h"
 
+/** \brief Calculates determinant of transform
+ *
+ * \param void
+ * \return double
+ *
+ */
 double dbs::O2::det(void) const
 {
     return x.x * y.y - x.y * y.x;
 }
 
+/** \brief Find new position of point after applying transform
+ *
+ * \param p const dbs::P&
+ * \return dbs::P
+ *
+ */
 dbs::P dbs::O2::operator*(const dbs::P& p) const
 {
     dbs::P z;
@@ -14,6 +26,12 @@ dbs::P dbs::O2::operator*(const dbs::P& p) const
     return z;
 }
 
+/** \brief Apply transform to Node
+ *
+ * \param node const dbs::Node&
+ * \return dbs::Node
+ *
+ */
 dbs::Node dbs::O2::operator*(const dbs::Node & node) const
 {
     dbs::Node z;
