@@ -3,13 +3,21 @@
 // are changed infrequently
 //
 
-#pragma once
+//#pragma once
 
 #include "targetver.h"
 
 #include <stdio.h>
 #include <tchar.h>
 
+//== Project's
 
-
-// TODO: reference additional headers your program requires here
+#include <complex>
+#include <cstring>
+#include <iostream>
+#include <fstream>
+#include <ostream>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
