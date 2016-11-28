@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Dbs.h"
 
 bool dbs::Path::closed() const

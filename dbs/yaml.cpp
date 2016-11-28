@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "iDbs.h"
 
 void dbs::Path::yaml(ostream & out)
