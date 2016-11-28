@@ -34,7 +34,7 @@ namespace dbs
       float bulge;
 
       void json(ostream &, bool = false);
-      void yaml(ostream & out) { json(out); }
+      void yaml(ostream & out) { json(out, true); }
       void dxf(ostream &);
 
       P & to_p() const { return *(P*)this; }
