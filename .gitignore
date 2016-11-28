@@ -244,5 +244,6 @@ ModelManifest.xml
 # Code Blocks
 .objs/
 doxygen/
+*/*.depend
 */*.layout
 *.h.gch
