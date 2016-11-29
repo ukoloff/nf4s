@@ -23,7 +23,7 @@ namespace dbs
   {
       float x, y;
 
-      Complex & to_c() const { return *(Complex*)this; }
+      Complex & to_c() const { return *(Complex*)this; } ///< Cast to complex number
 
       const bool operator == (const P & p) const { return to_c() == p.to_c(); }
   };
@@ -37,29 +37,29 @@ namespace dbs
       void yaml(ostream & out) { json(out, true); }
       void dxf(ostream &);
 
-      P & to_p() const { return *(P*)this; }
-      Complex & to_c() const { return to_p().to_c(); }
+      P & to_p() const { return *(P*)this; }    ///< Cast to point
+      Complex & to_c() const { return to_p().to_c(); }  ///< Cast to complex number
   };
 
   /// Point-to-Point (line or arc)
   struct Span
   {
-      P a;
-      float bulge;
-      P b;
+      P a;          ///< Start of arc/line
+      float bulge;  ///< the same as Node::bulge
+      P b;          ///< End of arc/line
 
-      const Complex to_c() const { return b.to_c() - a.to_c(); }
+      const Complex to_c() const { return b.to_c() - a.to_c(); }    ///< Vector from start to end
 
       const float radius() const;
       const Complex center() const;
       const Complex zenith() const;
       const Complex nadir() const;
 
-      const Complex operator [](float) const;  // Get point on the arc
-      const Complex at(float) const;           // Like [] but more uniform
-      const Complex linear(float f) const      // Point on line
+      const Complex operator [](float) const;
+      const Complex at(float) const;
+      const Complex linear(float f) const
         { return linear(Complex(f)); }
-      const Complex linear(Complex) const;     // Trsnsform to local coordinates
+      const Complex linear(Complex) const;
   };
 
   /// Gemetry transformation (rotate + mirror + shift)
@@ -77,7 +77,7 @@ namespace dbs
   {
       vector <Node> nodes;
 
-      void json(ostream &, bool pretty = false);
+      void json(ostream &, bool pretty = false);    ///< See File::json
       void yaml(ostream &);
       void dxf(ostream &);
 
@@ -96,14 +96,13 @@ namespace dbs
       Span * get();
   };
 
-
-  /// Part
+  /// Part (collection of paths)
   struct Part
   {
       string name;
       vector <Path> paths;
 
-      void json(ostream &, bool pretty = false);
+      void json(ostream &, bool pretty = false);    ///< See File::json
       void yaml(ostream &);
       void dxf(ostream &);
 
