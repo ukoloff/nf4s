@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="dbs/dbs.cbp" />
+		<Project filename="nf4s/nf4s.cbp">
+			<Depends filename="dbs/dbs.cbp" />
+		</Project>
+		<Project filename="testing/testing.cbp">
+			<Depends filename="dbs/dbs.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>
