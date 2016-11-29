@@ -29,6 +29,12 @@ void dbs::Part::dxf(ostream & out)
         path.dxf(out);
 }
 
+/** \brief Outputs geometry in AutoCAD's DXF format
+ *
+ * \param out ostream&
+ * \return void
+ *
+ */
 void dbs::File::dxf(ostream & out)
 {
     out << "  0\nSECTION\n  2\nENTITIES\n";

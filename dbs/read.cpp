@@ -1,6 +1,16 @@
 #include "stdafx.h"
 #include "iDbs.h"
 
+/** \mainpage DBS Library
+<a href="https://github.com/ukoloff/nf4s" target="_blank">Source repo</a>.
+ */
+
+/** \brief Read DBS file
+ *
+ * \param name string
+ * \return void
+ *
+ */
 void dbs::File::read(string name)
 {
     ifstream src;
@@ -10,6 +20,12 @@ void dbs::File::read(string name)
     z.load(src);
 }
 
+/** \brief Read stream up to specified position
+ *
+ * \param sz size_t
+ * \return void
+ *
+ */
 void dbs::i::Loader::read2(size_t sz)
 {
     size_t prev = buffer.size();
@@ -20,17 +36,29 @@ void dbs::i::Loader::read2(size_t sz)
     src->read(raw + prev, sz - prev);
 }
 
+/** \brief Seek stream to specified position
+ *
+ * \param sz size_t
+ * \return void
+ *
+ */
 void dbs::i::Loader::skip2(size_t sz)
 {
     src->ignore(sz - buffer.size());
 }
 
+/** \brief Load DBS file from stream
+ *
+ * \param source ifstream&
+ * \return void
+ *
+ */
 void dbs::i::Loader::load(ifstream& source)
 {
     src = &source;
     while(true)
     {
-        read2(sizeof(dbs::i::Base));
+        read2(sizeof(rec->length));
         if (rec->eof())
             break;
         size_t sz = rec->size();
@@ -71,6 +99,11 @@ void dbs::i::Loader::load(ifstream& source)
     }
 }
 
+/** \brief Find record parser for record type
+ *
+ * \return void
+ *
+ */
 void dbs::i::Loader::dispatch()
 {
     switch (rec->kind)
@@ -89,6 +122,11 @@ void dbs::i::Loader::dispatch()
     }
 }
 
+/** \brief Parse record 1 (geometry)
+ *
+ * \return void
+ *
+ */
 void dbs::i::Loader::parse1()
 {
     Path path;
@@ -101,6 +139,11 @@ void dbs::i::Loader::parse1()
     paths.push_back(path);
 }
 
+/** \brief Parse record 8 (list of paths)
+ *
+ * \return void
+ *
+ */
 void dbs::i::Loader::parse8()
 {
     vector<short> ref;
@@ -111,6 +154,11 @@ void dbs::i::Loader::parse8()
     refs.push_back(ref);
 }
 
+/** \brief Parse record 26 (part name)
+ *
+ * \return void
+ *
+ */
 void dbs::i::Loader::parse26()
 {
     Part part;

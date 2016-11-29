@@ -23,6 +23,12 @@ void dbs::Path::json(ostream & out, bool pretty)
     out << ']';
 }
 
+/** \brief Quote string according to JSON rules
+ *
+ * \param src const string&
+ * \return const string
+ *
+ */
 const string dbs::Part::quote(const string & src)
 {
     ostringstream dst;
@@ -66,6 +72,16 @@ void dbs::Part::json(ostream & out, bool pretty)
     out << "]}";
 }
 
+/** \brief Outputs geometry as JSON
+ *
+ * \param out ostream&
+ * \param pretty bool
+ * \return void
+ *
+ * When pretty = false outputs compact (one line) JSON.
+ *
+ * Otherwise - multiline (formatted) JSON.
+ */
 void dbs::File::json(ostream & out, bool pretty)
 {
     bool first = true;
