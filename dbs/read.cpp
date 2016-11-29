@@ -1,6 +1,16 @@
 #include "stdafx.h"
 #include "iDbs.h"
 
+/** \mainpage DBS Library
+<a href="https://github.com/ukoloff/nf4s" target="_blank">Source repo</a>.
+ */
+
+/** \brief Read DBS file
+ *
+ * \param name string
+ * \return void
+ *
+ */
 void dbs::File::read(string name)
 {
     ifstream src;
