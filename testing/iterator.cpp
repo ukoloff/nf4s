@@ -27,6 +27,7 @@ TEST_CASE("Click iterator")
       {
           REQUIRE(span->a == Z.parts[0].paths[0].nodes[n].to_p());
           REQUIRE(span->b == Z.parts[0].paths[0].nodes[++n].to_p());
+          REQUIRE(span->bulge == Approx(n & 1 ? 0 : 1 - sqrt(2)));
       }
     }
 }
