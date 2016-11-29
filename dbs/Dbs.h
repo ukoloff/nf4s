@@ -9,7 +9,7 @@ using namespace std;
 
 namespace dbs
 {
-  /// \brief Our errors
+  /// Our errors
   class Error : public runtime_error
   {
   public:
@@ -18,7 +18,7 @@ namespace dbs
 
   typedef complex<float> Complex;
 
-  /// \brief 2D Point
+  /// 2D Point
   struct P
   {
       float x, y;
@@ -28,7 +28,7 @@ namespace dbs
       const bool operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
-  /// \brief Point inside DBS file
+  /// Point inside DBS file
   struct Node: P
   {
       float bulge; ///< Measure of curvature, tan of 1/4 of arc angle; positive for CCW arcs
@@ -41,7 +41,7 @@ namespace dbs
       Complex & to_c() const { return to_p().to_c(); }
   };
 
-  /// \brief Point-to-Point (line or arc)
+  /// Point-to-Point (line or arc)
   struct Span
   {
       P a;
@@ -62,7 +62,7 @@ namespace dbs
       const Complex linear(Complex) const;     // Trsnsform to local coordinates
   };
 
-  /// \brief Gemetry transformation (rotate + mirror + shift)
+  /// Gemetry transformation (rotate + mirror + shift)
   struct O2
   {
       P x, y, delta;
@@ -72,7 +72,7 @@ namespace dbs
       Node operator * (const Node&) const;
   };
 
-  /// \brief Polyline
+  /// Polyline
   struct Path
   {
       vector <Node> nodes;
@@ -85,7 +85,7 @@ namespace dbs
       void reverse();
   };
 
-  /// \brief Iterator over Spans
+  /// Iterator over Spans
   struct iSpan
   {
       const Path & path;
@@ -97,7 +97,7 @@ namespace dbs
   };
 
 
-  /// \brief Part
+  /// Part
   struct Part
   {
       string name;
@@ -110,7 +110,7 @@ namespace dbs
       static const string quote(const string&);
   };
 
-  /// \brief DBS file itself
+  /// DBS file itself
   struct File
   {
       vector <Part> parts;
