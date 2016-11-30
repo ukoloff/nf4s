@@ -91,7 +91,7 @@ WARN_IF_UNDOCUMENTED   = NO
 WARN_IF_DOC_ERROR      = YES
 WARN_NO_PARAMDOC       = YES
 WARN_FORMAT            = "$file:$line: $text"
-WARN_LOGFILE            = "d:\Users\stas\Documents\Visual Studio 2015\Projects\nf4s\dbs\doxygen\doxygen.log"
+WARN_LOGFILE            = "doxygen.log"
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------

@@ -13,7 +13,7 @@ namespace dbs {
         /// Minimal DBS record
         struct Rec
         {
-            short length, _01, length2, _02, kind, _03;
+            short length, _01, length2, _02, kind, _03, id, _04;
 
             size_t size() const
             {
@@ -24,16 +24,12 @@ namespace dbs {
             {
                 return length < 0;
             }
-        };
 
-        /// DBS record with ID (in fact, any record)
-        struct Rid : Rec
-        {
-            short id, _04;
+            void on_write();
         };
 
         /// Record 2: geometry clone
-        struct R2 : Rid
+        struct R2 : Rec
         {
             short subType, _05, isText, _06, isAuto, _07, group, _08, orig, _09, rev, _0A;
             dbs::O2 o2;
@@ -46,7 +42,7 @@ namespace dbs {
         };
 
         /// Record 8: details' contours
-        struct R8 : Rid
+        struct R8 : Rec
         {
             struct{
                 short id, _;
@@ -54,7 +50,7 @@ namespace dbs {
         };
 
         /// Record 26: detail name
-        struct R26 : Rid
+        struct R26 : Rec
         {
             char partid[8];
 
@@ -66,7 +62,7 @@ namespace dbs {
         };
 
         /// Record 27: detail area & perimeter (ignored on read)
-        struct R27 : Rid
+        struct R27 : Rec
         {
             float S, P;
         };

@@ -8,7 +8,13 @@ using namespace dbs;
  * \return Span*
  *
  * Call this method until NULL is returned.
- *
+\code
+iSpan z(myPath);
+
+while(auto span = z.get())
+
+   process(span);
+\endcode
  */
 Span * dbs::iSpan::get()
 {
