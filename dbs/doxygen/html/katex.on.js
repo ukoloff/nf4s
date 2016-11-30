@@ -1,21 +1,18 @@
 $(function(){
 
-$('img.formulaInl').each(function(){
-  embed(this, false);
-})
+$('img.formulaInl').each(embed);
 
-$('img.formulaDsp').each(function(){
-  embed(this, true);
-})
+$('img.formulaDsp').each(embed);
 
-function embed(el, standalone)
+function embed()
 {
+  var formula = this.alt;
+  var standalone = !/\$/.test(formula);
   var skip = standalone ? 2 : 1;
-  var formula = el.alt.substring(skip);
+  formula = formula.substring(skip);
   formula = formula.substring(0, formula.length - skip);
   formula = katex.renderToString(formula, {displayMode: standalone});
-  console.log(standalone, formula);
-  $(el).wrap('<span>').parent().html(formula);
+  $(this).wrap('<span>').parent().html(formula);
 }
 
 });
