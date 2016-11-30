@@ -29,6 +29,7 @@ Span * dbs::iSpan::get()
  *
  * Returns the radius of the circle the arc belongs to.
  *
+ * If span is linear (not arc) returns infinity.
  */
 const float dbs::Span::radius() const
 {
@@ -59,7 +60,7 @@ const Complex dbs::Span::operator[](float pos) const
  *
  * Return center of the circle, the arc is part of.
  *
- * If span is linear (not arc) throws division by zero.
+ * If span is linear (not arc) returns infinity.
  */
 const Complex dbs::Span::center() const
 {
