@@ -120,3 +120,20 @@ const Complex dbs::Span::nadir() const
 {
     return linear(Complex(0, 1 / bulge));
 }
+
+double dbs::Span::perimeter() const
+{
+  double res = abs(to_c());
+  if(ark())
+    res *= (atan(bulge) / bulge) * (1 + square(bulge));
+  return res;
+}
+
+double dbs::Span::area() const
+{
+  double res = (b.x * a.y - b.y * a.x) / 2;
+  if(ark())
+    res -= (atan(bulge) * square(1 + square(bulge)) - (1 - square(bulge)) * bulge) / square(bulge) / 8 *
+      square(abs(to_c()));
+  return res;
+}

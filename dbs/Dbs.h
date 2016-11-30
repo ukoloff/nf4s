@@ -60,6 +60,12 @@ namespace dbs
       const Complex linear(float f) const
         { return linear(Complex(f)); }
       const Complex linear(Complex) const;
+
+      bool ark() const { return bulge != 0; }  ///< Check whether span is ark (not a line)
+      double perimeter() const;
+      double area() const;
+
+      static double square(double x) { return x * x; }
   };
 
   /// Gemetry transformation (rotate + mirror + shift)
@@ -72,6 +78,8 @@ namespace dbs
       Node operator * (const Node&) const;
   };
 
+  struct iSpan;
+
   /// Polyline
   struct Path
   {
@@ -81,8 +89,13 @@ namespace dbs
       void yaml(ostream &);
       void dxf(ostream &);
 
+      iSpan spans() const;
+
       bool closed() const;
       void reverse();
+
+      double perimeter() const;
+      double area() const;
   };
 
   /// Iterator over Spans
@@ -107,6 +120,9 @@ namespace dbs
       void dxf(ostream &);
 
       static const string quote(const string&);
+
+      double perimeter() const;
+      double area() const;
   };
 
   /// DBS file itself
