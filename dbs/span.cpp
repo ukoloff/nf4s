@@ -81,8 +81,8 @@ const Complex dbs::Span::center() const
  */
 const Complex dbs::Span::at(float pos) const
 {
-    auto q = sqrt(1 + bulge * bulge);
-    return (*this)[pos / (q - (q-1) * abs(bulge))];
+    auto q = (sqrt(9 + 8 * bulge * bulge) + 1) / 4;
+    return (*this)[pos / (q - (q-1) * pos * pos)];
 }
 
 /** \brief Get real coordinates of point around arc
