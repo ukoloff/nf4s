@@ -94,6 +94,12 @@ const Complex dbs::Span::at(float pos) const
  *
  * Maps -1 to Arc's begin, +1 to Arc's end,
  * otherwise perform linear transformation.
+ \f[
+ z = \frac{a + b}{2} + \frac{b - a}{2} pos
+ \f]
+
+NB: Arc angle \f$ \phi = \tan(4 * bulge) \f$.
+
  */
 const Complex dbs::Span::linear(Complex pos) const
 {
