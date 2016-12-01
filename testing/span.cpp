@@ -19,7 +19,9 @@ TEST_CASE("Check uniformity")
             if(1 == j || min > d) min = d;
             if(1 == j || max < d) max = d;
         }
-        cout << span.bulge << ": " << ((max / min) - 1) * 100 << "%\t";
+        max = ((max / min) - 1) * 100;
+        cout << span.bulge << ": " << max << "%\t";
+        REQUIRE(max < 25);
     }
     cout << '\n';
 }
