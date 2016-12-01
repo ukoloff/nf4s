@@ -242,7 +242,7 @@ ModelManifest.xml
 .fake/
 
 # Code Blocks
-.objs/
+*.h.gch
 doxygen/
 */*.depend
 */*.layout
