@@ -6,7 +6,7 @@ using namespace dbs;
 TEST_CASE("Click iterator")
 {
     File Z;
-    Z.read("../testing/geodet/rounded3x4.dbs");
+    Z.read(geodet() + "rounded3x4.dbs");
 
     SECTION("Check counts")
     {

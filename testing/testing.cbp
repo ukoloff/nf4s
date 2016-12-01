@@ -37,6 +37,7 @@
 			<Add option="-std=c++11" />
 			<Add directory="../dbs" />
 		</Compiler>
+		<Unit filename="geodet.cpp" />
 		<Unit filename="iterator.cpp" />
 		<Unit filename="json.cpp" />
 		<Unit filename="point.cpp" />

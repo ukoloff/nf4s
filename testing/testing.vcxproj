@@ -156,6 +156,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="geodet.cpp" />
     <ClCompile Include="iterator.cpp" />
     <ClCompile Include="json.cpp" />
     <ClCompile Include="point.cpp" />
