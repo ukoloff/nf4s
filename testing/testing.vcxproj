@@ -160,6 +160,7 @@
     <ClCompile Include="json.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="r26.cpp" />
+    <ClCompile Include="span.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
