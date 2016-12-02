@@ -1,6 +1,18 @@
 #include "stdafx.h"
 #include "Dbs.h"
 
+/** \brief
+ *
+ * \return dbs::iSpan
+ *
+ * Initialize and return span iterator
+ */
+dbs::iSpan dbs::Path::spans() const
+{
+    dbs::iSpan res(*this);
+    return res;
+}
+
 /** \brief Is Path closed?
  *
  * \return bool
@@ -29,3 +41,38 @@ void dbs::Path::reverse()
     for (auto & node : nodes)
         node.bulge = -node.bulge;
 }
+
+double dbs::Path::perimeter() const
+{
+  double res = 0;
+  for(auto i = spans(); auto span = i.get(); )
+    res += span->perimeter();
+  return res;
+}
+
+double dbs::Path::area() const
+{
+  if(!closed())
+    return 0;
+  double res = 0;
+  for(auto i = spans(); auto span = i.get(); )
+    res += span->area();
+  return res;
+}
+
+double dbs::Part::perimeter() const
+{
+  double res = 0;
+  for(auto & path : paths)
+    res += path.perimeter();
+  return res;
+}
+
+double dbs::Part::area() const
+{
+  double res = 0;
+  for(auto & path : paths)
+    res += path.area();
+  return res;
+}
+

@@ -14,7 +14,7 @@ TEST_CASE("JSON string encode")
 TEST_CASE("Load DBS")
 {
     File Z;
-    Z.read("../testing/geodet/ring.dbs");
+    Z.read(geodet() + "ring.dbs");
     ostringstream j;
     Z.json(j);
     REQUIRE(j.str() == R"=([{"partid":"RING","paths":[[[0,2,-1],[0,-2,-1],[0,2,0]],[[0,1,1],[0,-1,1],[0,1,-0]]]}])=");

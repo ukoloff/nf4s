@@ -29,6 +29,7 @@ Span * dbs::iSpan::get()
  *
  * Returns the radius of the circle the arc belongs to.
  *
+ * If span is linear (not arc) returns infinity.
  */
 const float dbs::Span::radius() const
 {
@@ -59,7 +60,7 @@ const Complex dbs::Span::operator[](float pos) const
  *
  * Return center of the circle, the arc is part of.
  *
- * If span is linear (not arc) throws division by zero.
+ * If span is linear (not arc) returns infinity.
  */
 const Complex dbs::Span::center() const
 {
@@ -81,8 +82,8 @@ const Complex dbs::Span::center() const
  */
 const Complex dbs::Span::at(float pos) const
 {
-    auto q = sqrt(1 + bulge * bulge);
-    return (*this)[pos / (q - (q-1) * abs(bulge))];
+    auto q = (sqrt(9 + 8 * bulge * bulge) + 1) / 4;
+    return (*this)[pos / (q - (q-1) * pos * pos)];
 }
 
 /** \brief Get real coordinates of point around arc
@@ -119,4 +120,21 @@ const Complex dbs::Span::zenith() const
 const Complex dbs::Span::nadir() const
 {
     return linear(Complex(0, 1 / bulge));
+}
+
+double dbs::Span::perimeter() const
+{
+  double res = abs(to_c());
+  if(ark())
+    res *= (atan(bulge) / bulge) * (1 + square(bulge));
+  return res;
+}
+
+double dbs::Span::area() const
+{
+  double res = (b.x * a.y - b.y * a.x) / 2;
+  if(ark())
+    res -= (atan(bulge) * square(1 + square(bulge)) - (1 - square(bulge)) * bulge) / square(bulge) / 8 *
+      square(abs(to_c()));
+  return res;
 }
