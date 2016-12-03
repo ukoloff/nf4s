@@ -1,0 +1,12 @@
+#SHEET INFO, 2 fields:
+#[task index, int] [sheet path (may be empty), string]
+0   2.item
+#ITEMS INFO LIST, 6 fields:
+#[task index, int] [item path, string] [reflection around 0Y axis, bool] 
+#[ccw rotation angle (degrees), double] [pole x shift, double] [pole y shift, double]
+1  1    0  90  20.7719  65
+1  1    0  101.25  23.4244  29.5964
+1  1    0  90  57.3158  65
+1  1    0  101.25  50.4437  7.26413
+1  1    0  90  72.6516  32.8798
+1  1    0  101.25  95.8785  62.5363
