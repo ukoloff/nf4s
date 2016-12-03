@@ -38,6 +38,9 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 		</Compiler>
+		<Unit filename="!stdafx.h">
+			<Option compile="1" />
+		</Unit>
 		<Unit filename="dxf.cpp" />
 		<Unit filename="json.cpp" />
 		<Unit filename="o2.cpp" />
@@ -45,9 +48,6 @@
 		<Unit filename="r26.cpp" />
 		<Unit filename="read.cpp" />
 		<Unit filename="span.cpp" />
-		<Unit filename="stdafx.h">
-			<Option compile="1" />
-		</Unit>
 		<Unit filename="write.cpp" />
 		<Unit filename="yaml.cpp" />
 		<Extensions>

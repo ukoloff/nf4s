@@ -39,10 +39,10 @@
 			<Add option="-std=c++11" />
 			<Add directory="../dbs" />
 		</Compiler>
-		<Unit filename="nf4s.cpp" />
-		<Unit filename="stdafx.h">
+		<Unit filename="!stdafx.h">
 			<Option compile="1" />
 		</Unit>
+		<Unit filename="nf4s.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

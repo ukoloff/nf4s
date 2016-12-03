@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "!stdafx.h"
 #include "iDbs.h"
 
 /** \brief Trim whitespaces from the end of string

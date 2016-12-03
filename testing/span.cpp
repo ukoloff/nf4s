@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "!stdafx.h"
 #include "Dbs.h"
 
 TEST_CASE("Check uniformity")

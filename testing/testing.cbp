@@ -37,15 +37,15 @@
 			<Add option="-std=c++11" />
 			<Add directory="../dbs" />
 		</Compiler>
+		<Unit filename="!stdafx.h">
+			<Option compile="1" />
+		</Unit>
 		<Unit filename="geodet.cpp" />
 		<Unit filename="iterator.cpp" />
 		<Unit filename="json.cpp" />
 		<Unit filename="point.cpp" />
 		<Unit filename="r26.cpp" />
 		<Unit filename="span.cpp" />
-		<Unit filename="stdafx.h">
-			<Option compile="1" />
-		</Unit>
 		<Unit filename="testing.cpp" />
 		<Extensions>
 			<code_completion />

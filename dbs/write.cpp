@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "!stdafx.h"
 #include "iDbs.h"
 
 /** \brief Get ready for writing to disk

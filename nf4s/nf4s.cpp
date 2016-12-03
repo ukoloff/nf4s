@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "!stdafx.h"
 #include "Dbs.h"
 
 int main(int argc, char *argv[])
