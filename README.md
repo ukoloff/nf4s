@@ -6,6 +6,8 @@ Can be compiled using both [Visual Studio][] and [Code Blocks][]/[MinGW][].
 
 Tested using [Catch].
 
+Some notes are in [documentation folder](doc).
+
 [Visual Studio]: https://www.visualstudio.com/
 [Code Blocks]: http://www.codeblocks.org/
 [MinGW]: http://www.mingw.org/
