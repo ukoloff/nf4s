@@ -15,6 +15,8 @@ void dbs::Path::yaml(ostream & out)
 void dbs::Part::yaml(ostream & out)
 {
     out << "  partid: " << quote(name).c_str() << "\n";
+    out << "  area: " << area() << "\n";
+    out << "  perimeter: " << perimeter() << "\n";
     out << "  paths: # " << paths.size() << "\n";
     for (auto & p : paths)
         p.yaml(out);

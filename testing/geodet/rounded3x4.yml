@@ -1,5 +1,7 @@
 -
   partid: "ROUNDED3"
+  area: 11.1416
+  perimeter: 12.2832
   paths: # 1
   - # 9 nodes
     - [0, 1, 0]
