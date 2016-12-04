@@ -19,7 +19,7 @@ TEST_CASE("Click iterator")
     SECTION("Get size")
     {
       size_t n = 0;
-      for(auto i = path.spans(); auto span = i.get(); n++);
+      for(auto i = path.spans(); i.get(); n++);
       REQUIRE(n == 8);
       REQUIRE(n + 1 == Z.parts[0].paths[0].nodes.size());
     }
