@@ -36,6 +36,7 @@ namespace dbs
       void json(ostream &, bool = false);
       void yaml(ostream & out) { json(out, true); }
       void dxf(ostream &);
+      void algomate(ostream &);
 
       P & to_p() const { return *(P*)this; }    ///< Cast to point
       Complex & to_c() const { return to_p().to_c(); }  ///< Cast to complex number
@@ -88,6 +89,7 @@ namespace dbs
       void json(ostream &, bool pretty = false);    ///< See File::json
       void yaml(ostream &);
       void dxf(ostream &);
+      void algomate(ostream &);
 
       iSpan spans() const;
 
@@ -118,6 +120,7 @@ namespace dbs
       void json(ostream &, bool pretty = false);    ///< See File::json
       void yaml(ostream &);
       void dxf(ostream &);
+      void algomate(ostream &);
 
       static const string quote(const string&);
 
@@ -135,5 +138,6 @@ namespace dbs
       void json(ostream &, bool pretty = false);
       void yaml(ostream&);
       void dxf(ostream &);
+      void algomate(ostream &);
   };
 }

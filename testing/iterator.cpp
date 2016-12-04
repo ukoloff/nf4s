@@ -34,4 +34,24 @@ TEST_CASE("Click iterator")
           REQUIRE(span->bulge == Approx(n & 1 ? 0 : 1 - sqrt(2)));
       }
     }
+
+    SECTION("Check perimeter")
+    {
+        CHECK(Z.parts[0].paths[0].perimeter() == Approx(6 + 2 * M_PI));
+        CHECK(Z.parts[0].perimeter() == Approx(6 + 2 * M_PI));
+    }
+
+    SECTION("Check area")
+    {
+        CHECK(Z.parts[0].paths[0].area() == Approx(8 + M_PI));
+        CHECK(Z.parts[0].area() == Approx(8 + M_PI));
+    }
+
+    SECTION("Check non-closed area")
+    {
+        dbs::Part & p = Z.parts[0];
+        p.paths[0].nodes[0].x = 1.5;
+        CHECK(p.paths[0].area() == 0);
+        CHECK(p.area() == 0);
+    }
 }

@@ -20,8 +20,41 @@ TEST_CASE("Check uniformity")
             if(1 == j || max < d) max = d;
         }
         max = ((max / min) - 1) * 100;
-        cout << span.bulge << ": " << max << "%\t";
+        printf("%.1f: %.2f%%\t", span.bulge, max);
         REQUIRE(max < 25);
     }
-    cout << '\n';
+    printf("\n");
+}
+
+TEST_CASE("Calc perimeters")
+{
+    dbs::Span A = {{0, 0}, 0, {0, 1}};
+    CHECK(A.perimeter() == 1);
+    A.a.y = 2;
+    CHECK(A.perimeter() == 1);
+    A.a.x = 1;
+    CHECK(A.perimeter() == Approx(sqrt(2)));
+    A.bulge = sqrt(2) - 1;
+    CHECK(A.perimeter() == Approx(M_PI / 2));
+    A.bulge = -A.bulge;
+    CHECK(A.perimeter() == Approx(M_PI / 2));
+    A.bulge = 1;
+    CHECK(A.perimeter() == Approx(M_PI / sqrt(2)));
+    A.bulge = -1;
+    CHECK(A.perimeter() == Approx(M_PI / sqrt(2)));
+}
+
+TEST_CASE("Calc areas")
+{
+    dbs::Span A = {{0, 0}, 0, {0, 1}};
+    CHECK(A.area() == 0);
+    A.b.x = 1;
+    CHECK(A.area() == 0);
+    A.a.y = 1;
+    CHECK(A.area() == 1. / 2);
+
+    dbs::Span B = {{10, 0}, 1, {11, 0}};
+    CHECK(B.area() == Approx(-M_PI / 8));
+    B.bulge = 1 - sqrt(2);
+    CHECK(B.area() == Approx(M_PI / 8 - 1. / 4));
 }

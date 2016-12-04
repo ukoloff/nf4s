@@ -10,9 +10,11 @@
 #include <stdio.h>
 #include <tchar.h>
 
-#include "catch.hpp"
-
 //== Project's
+
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
 
 #include <complex>
 #include <cstring>
@@ -23,5 +25,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+
+#include "catch.hpp"
 
 #include "geodet.h"
