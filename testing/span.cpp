@@ -20,10 +20,10 @@ TEST_CASE("Check uniformity")
             if(1 == j || max < d) max = d;
         }
         max = ((max / min) - 1) * 100;
-        cout << span.bulge << ": " << max << "%\t";
+        printf("%.1f: %.2f%%\t", span.bulge, max);
         REQUIRE(max < 25);
     }
-    cout << '\n';
+    printf("\n");
 }
 
 TEST_CASE("Calc perimeters")
