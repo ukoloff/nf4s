@@ -43,3 +43,18 @@ TEST_CASE("Calc perimeters")
     A.bulge = -1;
     CHECK(A.perimeter() == Approx(M_PI / sqrt(2)));
 }
+
+TEST_CASE("Calc areas")
+{
+    dbs::Span A = {{0, 0}, 0, {0, 1}};
+    CHECK(A.area() == 0);
+    A.b.x = 1;
+    CHECK(A.area() == 0);
+    A.a.y = 1;
+    CHECK(A.area() == 1. / 2);
+
+    dbs::Span B = {{10, 0}, 1, {11, 0}};
+    CHECK(B.area() == Approx(-M_PI / 8));
+    B.bulge = 1 - sqrt(2);
+    CHECK(B.area() == Approx(M_PI / 8 - 1. / 4));
+}
