@@ -25,3 +25,21 @@ TEST_CASE("Check uniformity")
     }
     cout << '\n';
 }
+
+TEST_CASE("Calc perimeters")
+{
+    dbs::Span A = {{0, 0}, 0, {0, 1}};
+    CHECK(A.perimeter() == 1);
+    A.a.y = 2;
+    CHECK(A.perimeter() == 1);
+    A.a.x = 1;
+    CHECK(A.perimeter() == Approx(sqrt(2)));
+    A.bulge = sqrt(2) - 1;
+    CHECK(A.perimeter() == Approx(M_PI / 2));
+    A.bulge = -A.bulge;
+    CHECK(A.perimeter() == Approx(M_PI / 2));
+    A.bulge = 1;
+    CHECK(A.perimeter() == Approx(M_PI / sqrt(2)));
+    A.bulge = -1;
+    CHECK(A.perimeter() == Approx(M_PI / sqrt(2)));
+}
