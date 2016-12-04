@@ -2,7 +2,8 @@
 #include "iDbs.h"
 
 /** \mainpage DBS Library
-<a href="https://github.com/ukoloff/nf4s" target="_blank">Source repo</a>.
+- <a href="https://github.com/ukoloff/nf4s" target="_blank">Source repo</a>.
+- <a href="http://algomate.com/" target="_blank">Algomate</a>.
  */
 
 /** \brief Read DBS file

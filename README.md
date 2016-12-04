@@ -1,6 +1,6 @@
 # nf4s
 
-Integrating Nesting Factory into Sirius CAD/CAM.
+Integrating [Nesting Factory][Algomate] into Sirius CAD/CAM.
 
 Can be compiled using both [Visual Studio][] and [Code Blocks][]/[MinGW][].
 
@@ -12,3 +12,4 @@ Some notes are in [documentation folder](doc).
 [Code Blocks]: http://www.codeblocks.org/
 [MinGW]: http://www.mingw.org/
 [Catch]: https://github.com/philsquared/Catch
+[Algomate]: http://algomate.com/
