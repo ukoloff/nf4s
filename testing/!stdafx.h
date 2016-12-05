@@ -26,6 +26,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "yaml-cpp/yaml.h"
+
 #include "catch.hpp"
 
 #include "geodet.h"
