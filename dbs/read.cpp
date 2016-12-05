@@ -67,14 +67,14 @@ void dbs::i::Loader::load(ifstream& source)
         read2(sizeof(*rec));
         if(rec->length2 != rec->length)
             throw dbs::Error("Record length mismatch!");
-        dispatch();
-        if(!dispatcher)
+        auto dispatch = dispatcher();
+        if(!dispatch)
         {
             skip2(sz);
             continue;
         }
         read2(sz);
-        (this->*dispatcher)();
+        (this->*dispatch)();
     }
     // combine dst.parts from paths + refs
     for(auto const& z: iRefs)
@@ -99,26 +99,19 @@ void dbs::i::Loader::load(ifstream& source)
     }
 }
 
-/** \brief Find record parser for record type
- *
- * \return void
+/** \fn Dispatcher * dbs::i::Loader::dispatcher() const
+ * \brief Find record parser for record type
+ * \return void dbs::i::Loader::* (void)
  *
  */
-void dbs::i::Loader::dispatch()
+void (dbs::i::Loader::*dbs::i::Loader::dispatcher()const)()
 {
     switch (rec->kind)
     {
-    case 1:
-        dispatcher = &Loader::parse1;
-        break;
-    case 8:
-        dispatcher = &Loader::parse8;
-        break;
-    case 26:
-        dispatcher = &Loader::parse26;
-        break;
-    default:
-        dispatcher = 0;
+    case 1: return &Loader::parse1;
+    case 8: return &Loader::parse8;
+    case 26: return &Loader::parse26;
+    default: return 0;
     }
 }
 

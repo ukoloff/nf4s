@@ -128,7 +128,7 @@ namespace dbs {
                 R26* r26;
                 R28* r28;
             };
-            void (Loader::*dispatcher)();
+            void (Loader::*dispatcher()const)();
 
             vector <Path> paths;
             vector <vector<short>> refs;
@@ -139,8 +139,6 @@ namespace dbs {
 
             void read2(size_t);
             void skip2(size_t);
-
-            void dispatch();
 
             void parse1();
             void parse8();
