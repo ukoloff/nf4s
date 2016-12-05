@@ -38,15 +38,43 @@ namespace dbs {
         /// Record 1: path geometry
         struct R1 : R2
         {
-            dbs::Node nodes[];
+            /** \brief Number of Nodes in path
+             *
+             * \return const size_t
+             *
+             */
+            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*nodes()); }
+
+            /** \brief Pointer to first Node
+             *
+             * \return dbs::Node *
+             *
+             */
+            dbs::Node * nodes() const { return (dbs::Node*)(this + 1); };
+        };
+
+        /// Path ID inside R8
+        struct R8id
+        {
+            short id, _;
         };
 
         /// Record 8: details' contours
         struct R8 : Rec
         {
-            struct{
-                short id, _;
-            } ids[];
+            /** \brief Number of path ids in record
+             *
+             * \return const size_t
+             *
+             */
+            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*ids()); }
+
+            /** \brief Pointer to first path id
+             *
+             * \return R8id *
+             *
+             */
+            R8id *ids() const { return (R8id*)(this + 1); };
         };
 
         /// Record 26: detail name
@@ -61,12 +89,31 @@ namespace dbs {
             static void rtrim(string&);
         };
 
-        /// Record 27: detail area & perimeter (ignored on read)
+        /// Record 27: detail area & perimeter (ignored on read), measured in decimeters (!)
         struct R27 : Rec
         {
             float S, P;
         };
 
+        /// Record 27: part's notes (i`gnored on read so far)
+        struct R28 : Rec
+        {
+            /** \brief Number of characters in note text
+             *
+             * \return const size_t
+             *
+             */
+            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*notes()); }
+
+            /** \brief Link to notes text
+             *
+             * \return char *
+             *
+             * - Seems to be \\0 - padded
+             * - Encoding: Windows-1251 (ANSI)
+             */
+            char *notes() const { return (char*)(this + 1); };
+        };
         /// Read DBS file
         struct Loader {
             ifstream* src;
@@ -79,8 +126,9 @@ namespace dbs {
                 R1* r1;
                 R8* r8;
                 R26* r26;
+                R28* r28;
             };
-            void (Loader::*dispatcher)();
+            void (Loader::*dispatcher()const)();
 
             vector <Path> paths;
             vector <vector<short>> refs;
@@ -91,8 +139,6 @@ namespace dbs {
 
             void read2(size_t);
             void skip2(size_t);
-
-            void dispatch();
 
             void parse1();
             void parse8();

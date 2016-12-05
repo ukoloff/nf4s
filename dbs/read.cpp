@@ -68,14 +68,14 @@ void dbs::i::Loader::load(ifstream& source)
         read2(sizeof(*rec));
         if(rec->length2 != rec->length)
             throw dbs::Error("Record length mismatch!");
-        dispatch();
-        if(!dispatcher)
+        auto dispatch = dispatcher();
+        if(!dispatch)
         {
             skip2(sz);
             continue;
         }
         read2(sz);
-        (this->*dispatcher)();
+        (this->*dispatch)();
     }
     // combine dst.parts from paths + refs
     for(auto const& z: iRefs)
@@ -100,26 +100,19 @@ void dbs::i::Loader::load(ifstream& source)
     }
 }
 
-/** \brief Find record parser for record type
- *
- * \return void
+/** \fn Dispatcher * dbs::i::Loader::dispatcher() const
+ * \brief Find record parser for record type
+ * \return void dbs::i::Loader::* (void)
  *
  */
-void dbs::i::Loader::dispatch()
+void (dbs::i::Loader::*dbs::i::Loader::dispatcher()const)()
 {
     switch (rec->kind)
     {
-    case 1:
-        dispatcher = &Loader::parse1;
-        break;
-    case 8:
-        dispatcher = &Loader::parse8;
-        break;
-    case 26:
-        dispatcher = &Loader::parse26;
-        break;
-    default:
-        dispatcher = 0;
+    case 1: return &Loader::parse1;
+    case 8: return &Loader::parse8;
+    case 26: return &Loader::parse26;
+    default: return 0;
     }
 }
 
@@ -131,9 +124,9 @@ void dbs::i::Loader::dispatch()
 void dbs::i::Loader::parse1()
 {
     Path path;
-    size_t count = (r1->size() - sizeof(*r1)) / sizeof(r1->nodes[0]);
-    for (size_t i = 0; i < count; i++)
-        path.nodes.push_back(r1->o2 * r1->nodes[i]);
+    auto node = r1->nodes();
+    for (size_t i = 0; i < r1->count(); i++, node++)
+        path.nodes.push_back(r1->o2 * *node);
     if (r1->rev)
         path.reverse();
     iPaths[r1->id] = paths.size();
@@ -148,9 +141,9 @@ void dbs::i::Loader::parse1()
 void dbs::i::Loader::parse8()
 {
     vector<short> ref;
-    size_t count = (r8->size() - sizeof(*r8)) / sizeof(r8->ids[0]);
-    for (size_t i = 0; i < count; i++)
-        ref.push_back(r8->ids[i].id);
+    auto ids = r8->ids();
+    for (size_t i = 0; i < r8->count(); i++, ids++)
+        ref.push_back(ids->id);
     iRefs[r8->id] = refs.size();
     refs.push_back(ref);
 }
