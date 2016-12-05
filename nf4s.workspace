@@ -2,6 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="dbs/dbs.cbp" />
+		<Project filename="yaml/yaml.cbp" />
 		<Project filename="nf4s/nf4s.cbp">
 			<Depends filename="dbs/dbs.cbp" />
 		</Project>
@@ -9,6 +10,5 @@
 			<Depends filename="dbs/dbs.cbp" />
 			<Depends filename="yaml/yaml.cbp" />
 		</Project>
-		<Project filename="yaml/yaml.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
