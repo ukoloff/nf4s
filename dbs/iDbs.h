@@ -95,6 +95,25 @@ namespace dbs {
             float S, P;
         };
 
+        /// Record 27: part's notes (i`gnored on read so far)
+        struct R28 : Rec
+        {
+            /** \brief Number of characters in note text
+             *
+             * \return const size_t
+             *
+             */
+            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*notes()); }
+
+            /** \brief Link to notes text
+             *
+             * \return char *
+             *
+             * - Seems to be \\0 - padded
+             * - Encoding: Windows-1251 (ANSI)
+             */
+            char *notes() const { return (char*)(this + 1); };
+        };
         /// Read DBS file
         struct Loader {
             ifstream* src;
@@ -107,6 +126,7 @@ namespace dbs {
                 R1* r1;
                 R8* r8;
                 R26* r26;
+                R28* r28;
             };
             void (Loader::*dispatcher)();
 
