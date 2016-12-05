@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/yaml" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/${TARGET_NAME}/yaml" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj/${TARGET_NAME}/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -18,9 +18,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/yaml" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/${TARGET_NAME}/yaml" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj/${TARGET_NAME}/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -34,8 +34,38 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
+			<Add directory="../yaml-cpp/include" />
 		</Compiler>
+		<Unit filename="../yaml-cpp/src/binary.cpp" />
+		<Unit filename="../yaml-cpp/src/convert.cpp" />
+		<Unit filename="../yaml-cpp/src/directives.cpp" />
+		<Unit filename="../yaml-cpp/src/emit.cpp" />
+		<Unit filename="../yaml-cpp/src/emitfromevents.cpp" />
+		<Unit filename="../yaml-cpp/src/emitter.cpp" />
+		<Unit filename="../yaml-cpp/src/emitterstate.cpp" />
+		<Unit filename="../yaml-cpp/src/emitterutils.cpp" />
+		<Unit filename="../yaml-cpp/src/exceptions.cpp" />
+		<Unit filename="../yaml-cpp/src/exp.cpp" />
+		<Unit filename="../yaml-cpp/src/memory.cpp" />
+		<Unit filename="../yaml-cpp/src/node.cpp" />
+		<Unit filename="../yaml-cpp/src/node_data.cpp" />
+		<Unit filename="../yaml-cpp/src/nodebuilder.cpp" />
+		<Unit filename="../yaml-cpp/src/nodeevents.cpp" />
+		<Unit filename="../yaml-cpp/src/null.cpp" />
+		<Unit filename="../yaml-cpp/src/ostream_wrapper.cpp" />
+		<Unit filename="../yaml-cpp/src/parse.cpp" />
+		<Unit filename="../yaml-cpp/src/parser.cpp" />
+		<Unit filename="../yaml-cpp/src/regex_yaml.cpp" />
+		<Unit filename="../yaml-cpp/src/scanner.cpp" />
+		<Unit filename="../yaml-cpp/src/scanscalar.cpp" />
+		<Unit filename="../yaml-cpp/src/scantag.cpp" />
+		<Unit filename="../yaml-cpp/src/scantoken.cpp" />
+		<Unit filename="../yaml-cpp/src/simplekey.cpp" />
+		<Unit filename="../yaml-cpp/src/singledocparser.cpp" />
+		<Unit filename="../yaml-cpp/src/stream.cpp" />
+		<Unit filename="../yaml-cpp/src/tag.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
