@@ -38,15 +38,43 @@ namespace dbs {
         /// Record 1: path geometry
         struct R1 : R2
         {
-            dbs::Node nodes[];
+            /** \brief Number of Nodes in path
+             *
+             * \return const size_t
+             *
+             */
+            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*nodes()); }
+
+            /** \brief Pointer to first Node
+             *
+             * \return dbs::Node *
+             *
+             */
+            dbs::Node * nodes() const { return (dbs::Node*)(this + 1); };
+        };
+
+        /// Path ID inside R8
+        struct R8id
+        {
+            short id, _;
         };
 
         /// Record 8: details' contours
         struct R8 : Rec
         {
-            struct{
-                short id, _;
-            } ids[];
+            /** \brief Number of path ids in record
+             *
+             * \return const size_t
+             *
+             */
+            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*ids()); }
+
+            /** \brief Pointer to first path id
+             *
+             * \return R8id *
+             *
+             */
+            R8id *ids() const { return (R8id*)(this + 1); };
         };
 
         /// Record 26: detail name
@@ -61,7 +89,7 @@ namespace dbs {
             static void rtrim(string&);
         };
 
-        /// Record 27: detail area & perimeter (ignored on read)
+        /// Record 27: detail area & perimeter (ignored on read), measured in decimeters (!)
         struct R27 : Rec
         {
             float S, P;
