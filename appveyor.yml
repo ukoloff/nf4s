@@ -12,6 +12,7 @@ install:
 - git submodule update --init --recursive
 
 build:
+  project: nf4s
   parallel: true
   verbosity: minimal
 
