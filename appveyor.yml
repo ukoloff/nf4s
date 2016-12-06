@@ -17,7 +17,7 @@ build:
   verbosity: minimal
 
 test_script:
-- echo .\%Platform:x86=%\%Configuration%\testing.exe
-- cmd /c .\%Platform:x86=%\%Configuration%\testing.exe
+- echo @.\%Platform:x86=%\%Configuration%\testing.exe > test.bat
+- test.bat
 
 deploy: off
