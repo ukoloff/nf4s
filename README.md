@@ -4,9 +4,7 @@ Integrating Nesting Factory into Sirius CAD/CAM.
 
 Can be compiled using both [Visual Studio][] and [Code Blocks][]/[MinGW][].
 
-Tested using [Catch].
-
-YAML support with [yaml-cpp][].
+Tested using [Catch] - locally and @[AppVeyor][].
 
 Some notes are in [documentation folder](doc).
 
@@ -14,4 +12,4 @@ Some notes are in [documentation folder](doc).
 [Code Blocks]: http://www.codeblocks.org/
 [MinGW]: http://www.mingw.org/
 [Catch]: https://github.com/philsquared/Catch
-[yaml-cpp]: https://github.com/jbeder/yaml-cpp/
+[AppVeyor]: https://www.appveyor.com/
