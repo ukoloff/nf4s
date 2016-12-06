@@ -17,6 +17,6 @@ build:
   verbosity: minimal
 
 test_script:
-- .\%Platform:x86=%\%Configuration%\testing.exe
+- ./%Platform:x86=%/%Configuration%/testing.exe
 
 deploy: off
