@@ -18,6 +18,6 @@ build:
 
 test_script:
 - echo .\%Platform:x86=%\%Configuration%\testing.exe
-- .\%Platform:x86=%\%Configuration%\testing.exe
+- cmd /c .\%Platform:x86=%\%Configuration%\testing.exe
 
 deploy: off
