@@ -1,5 +1,18 @@
 version: 1.0.{build}-{branch}
+
+configuration:
+- Debug
+- Release
+
+platform:
+- x86
+- x64
+
+install:
+- git submodule update --init --recursive
+
 build:
   parallel: true
   verbosity: minimal
+
 deploy: off
