@@ -53,5 +53,8 @@
     <ClCompile Include="geodet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="yaml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
