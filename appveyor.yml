@@ -8,8 +8,9 @@ platform:
 - x86
 - x64
 
-install:
+install
 - git submodule update --init --recursive
+- set
 
 build:
   project: nf4s
