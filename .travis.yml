@@ -1,0 +1,16 @@
+sudo: false
+
+language: cpp
+
+install:
+- git submodule update --init --recursive
+- wget https://github.com/ukoloff/nf4s/wiki/tools/cbp2make86
+- wget https://github.com/ukoloff/nf4s/wiki/tools/cbp2make64
+- chmod +x cbp2make*
+
+script:
+- cbp2make64 -in nf4s.workspace -ot Makefile
+- make
+
+test:
+- true
