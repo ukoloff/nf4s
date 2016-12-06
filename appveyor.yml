@@ -10,11 +10,13 @@ platform:
 
 install:
 - git submodule update --init --recursive
-- set
 
 build:
   project: nf4s
   parallel: true
   verbosity: minimal
+
+test_script:
+- .\%Platform:x86=%\%Configuration\testing.exe
 
 deploy: off
