@@ -9,7 +9,7 @@ install:
 - chmod +x cbp2make*
 
 script:
-- ./cbp2make64 -in nf4s.workspace -ot Makefile
+- ./cbp2make64 -in nf4s.workspace -out Makefile
 - make
 
 test:
