@@ -2,6 +2,9 @@ sudo: false
 
 language: cpp
 
+compiler:
+  - clang
+
 install:
 - git submodule update --init --recursive
 - wget https://github.com/ukoloff/nf4s/wiki/tools/cbp2make86
