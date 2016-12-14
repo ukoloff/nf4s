@@ -3,6 +3,7 @@
 #include "targetver.h"
 
 #include <stdio.h>
+#include <sys/stat.h>
 #include <tchar.h>
 
 //== Project's

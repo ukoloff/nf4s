@@ -10,6 +10,8 @@ static_assert(2 == sizeof(short), "Invalid short int!");
 namespace dbs {
     namespace i
     {
+        bool is_folder(const std::string&);
+
         /// Minimal DBS record
         struct Rec
         {
