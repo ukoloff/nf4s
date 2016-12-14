@@ -151,12 +151,12 @@ namespace dbs {
         /// Reader for .KOL job-files
         struct Kol
         {
-            ifstream& src;
+            istream& src;
             std::string dbs;    //< Path to DBS-file
             size_t  count;      //< Number of copies
             bool    list;       //< Is a list?
 
-            Kol(ifstream& source) : src(source) {}
+            Kol(istream& source) : src(source) {}
 
             bool next();
         };
