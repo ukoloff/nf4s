@@ -15,9 +15,28 @@ void dbs::File::read(string name)
 {
     ifstream src;
     src.exceptions(ifstream::failbit | ifstream::eofbit | ifstream::badbit);
-    src.open(name, src.binary);
-    dbs::i::Loader z(*this);
-    z.load(src);
+    try
+    {
+        try
+        {
+            src.open(name, src.binary);
+        }
+        catch (...)
+        {
+            throw dbs::Error("File open error!");
+        }
+        dbs::i::Loader z(*this);
+        z.load(src);
+    }
+    catch (const std::exception& e)
+    {
+        throw dbs::Error(e.what() + string("\nFile: ") + name);
+    }
+    catch (...)
+    {
+        throw dbs::Error("Unknown error readind file: " + name);
+    }
+
 }
 
 /** \brief Read stream up to specified position
