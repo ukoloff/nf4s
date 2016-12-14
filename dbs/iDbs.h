@@ -116,6 +116,7 @@ namespace dbs {
              */
             char *notes() const { return (char*)(this + 1); };
         };
+
         /// Read DBS file
         struct Loader {
             ifstream* src;
@@ -145,6 +146,19 @@ namespace dbs {
             void parse1();
             void parse8();
             void parse26();
+        };
+
+        /// Reader for .KOL job-files
+        struct Kol
+        {
+            ifstream& src;
+            std::string dbs;    //< Path to DBS-file
+            size_t  count;      //< Number of copies
+            bool    list;       //< Is a list?
+
+            Kol(ifstream& source) : src(source) {}
+
+            bool next();
         };
     }
 }
