@@ -157,14 +157,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="!stdafx.h" />
     <ClInclude Include="catch.hpp" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="geodet.cpp" />
     <ClCompile Include="iterator.cpp" />
     <ClCompile Include="json.cpp" />
+    <ClCompile Include="kol.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="r26.cpp" />
     <ClCompile Include="span.cpp" />

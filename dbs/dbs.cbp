@@ -44,6 +44,7 @@
 		<Unit filename="algomate.cpp" />
 		<Unit filename="dxf.cpp" />
 		<Unit filename="json.cpp" />
+		<Unit filename="kol.cpp" />
 		<Unit filename="o2.cpp" />
 		<Unit filename="path.cpp" />
 		<Unit filename="r26.cpp" />

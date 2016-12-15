@@ -10,6 +10,8 @@ static_assert(2 == sizeof(short), "Invalid short int!");
 namespace dbs {
     namespace i
     {
+        bool is_folder(const std::string&);
+
         /// Minimal DBS record
         struct Rec
         {
@@ -114,6 +116,7 @@ namespace dbs {
              */
             char *notes() const { return (char*)(this + 1); };
         };
+
         /// Read DBS file
         struct Loader {
             ifstream* src;
@@ -143,6 +146,19 @@ namespace dbs {
             void parse1();
             void parse8();
             void parse26();
+        };
+
+        /// Reader for .KOL job-files
+        struct Kol
+        {
+            istream& src;
+            std::string dbs;    //< Path to DBS-file
+            size_t  count;      //< Number of copies
+            bool    list;       //< Is a list?
+
+            Kol(istream& source) : src(source) {}
+
+            bool next();
         };
     }
 }
