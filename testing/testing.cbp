@@ -43,6 +43,7 @@
 		<Unit filename="geodet.cpp" />
 		<Unit filename="iterator.cpp" />
 		<Unit filename="json.cpp" />
+		<Unit filename="kol.cpp" />
 		<Unit filename="point.cpp" />
 		<Unit filename="r26.cpp" />
 		<Unit filename="span.cpp" />
