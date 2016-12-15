@@ -71,7 +71,7 @@ TEST_CASE("Test radius")
         for(auto spans = path.spans(); auto span = spans.get(); )
         {
             CHECK(abs(span->center()) == Approx(0));
-            CHECK(span->radius() == Approx(n));
+            CHECK(span->radius() == Approx((double)n));
         }
         n--;
     }
