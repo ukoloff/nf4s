@@ -3,39 +3,20 @@
 
 bool dbs::i::Kol::next()
 {
-    const char * ws = " \t\r\n";
     std::string line;
+    std::regex ws("\\s*");
+    std::regex kol("\\s*(.*\\S)\\s+(\\d+)\\s+([01])\\s*");
     while(std::getline(src, line))
     {
-        auto i = line.find_last_not_of(ws);
-        if (string::npos == i)
+        if (std::regex_match(line, ws))
             continue;
-        line.resize(i + 1);
-        i = line.find_last_of(ws);
-        if (string::npos == i)
-            continue;
-        list = "0" == line.substr(i + 1);
-        line.resize(i);
-        i = line.find_last_not_of(ws);
-        if (string::npos == i)
-            continue;
-        line.resize(i + 1);
-        i = line.find_last_of(ws);
-        if (string::npos == i)
-            continue;
-        try{
-            count = std::stoi(line.substr(i));
-        }
-        catch(...)
-        {
-            continue;
-        }
-        line.resize(i);
-        i = line.find_last_not_of(ws);
-        if (string::npos == i)
-            continue;
-        line.resize(i + 1);
-        dbs = line;
+        std::smatch match;
+        if (!std::regex_match(line, match, kol))
+            throw dbs::Error("Invalid KOL file!");
+        list = "0" == match[3];
+        std::string cnt = match[2];
+        count = std::atoi(cnt.c_str());
+        dbs = match[1];
         return true;
     }
     return false;

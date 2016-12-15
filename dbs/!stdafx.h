@@ -11,6 +11,7 @@
 #include <complex>
 #include <cstring>
 #include <fstream>
+#include <regex>
 #include <ostream>
 #include <map>
 #include <sstream>
