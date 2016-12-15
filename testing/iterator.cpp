@@ -55,3 +55,24 @@ TEST_CASE("Click iterator")
         CHECK(p.area() == 0);
     }
 }
+
+TEST_CASE("Test radius")
+{
+    File Z;
+    Z.read(geodet() + "ring.dbs");
+
+    REQUIRE(Z.parts.size() == 1);
+    auto part = Z.parts[0];
+    REQUIRE(part.paths.size() == 2);
+
+    size_t n = 2;
+    for(auto & path: part.paths)
+    {
+        for(auto spans = path.spans(); auto span = spans.get(); )
+        {
+            CHECK(abs(span->center()) == Approx(0));
+            CHECK(span->radius() == Approx(n));
+        }
+        n--;
+    }
+}
