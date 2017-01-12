@@ -76,3 +76,64 @@ double dbs::Part::area() const
   return res;
 }
 
+/** \brief Detect whether path is rectangle
+ *
+ * \return int 0 for not rectangle, +1/-1 for yes (cw/ccw)
+ *
+ */
+int dbs::Path::isRect() const
+{
+    if(5 != nodes.size() || !closed())
+        return 0;
+    int n = 0, prev, delta = 0;
+    for(auto i = spans(); auto span = i.get(); )
+    {
+        int dir;
+        if(span->a.x == span->b.x)
+            dir = span->a.y > span->b.y ? 1 : 3;
+        else if(span->a.y == span->b.y)
+            dir = span->a.x > span->b.x ? 2 : 0;
+        else
+            return 0;
+        if(!n++)
+        {
+            prev = dir;
+            continue;
+        }
+        auto d = (prev - dir) & 3;
+        prev = dir;
+        if(!(d & 1))
+            return 0;
+        if(2==n)
+            delta = d;
+        else if (delta != d)
+            return 0;
+    }
+    return delta - 2;
+}
+
+/** \brief Detect whether part is rectangle
+ *
+ * \return int
+ *
+ * See dbs::Path::isRect
+ */
+int dbs::Part::isRect() const
+{
+    if(1 != paths.size())
+        return 0;
+    return paths[0].isRect();
+}
+
+/** \brief Detect whether (single) part is rectangle
+ *
+ * \return int
+ *
+ * See dbs::Path::isRect
+ */
+int dbs::File::isRect() const
+{
+    if(1 != parts.size())
+        return 0;
+    return parts[0].isRect();
+}

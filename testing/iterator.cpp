@@ -76,3 +76,18 @@ TEST_CASE("Test radius")
         n--;
     }
 }
+
+TEST_CASE("Test isRect()")
+{
+    File A;
+    A.read(geodet() + "ring.dbs");
+    CHECK(0 == A.isRect());
+
+    File B;
+    B.read(geodet() + "rounded3x4.dbs");
+    CHECK(0 == B.isRect());
+
+    File R;
+    R.read(geodet() + "rectangle.dbs");
+    CHECK(1 == R.isRect());
+}

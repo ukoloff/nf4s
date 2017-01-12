@@ -96,6 +96,7 @@ namespace dbs
       bool closed() const;
       void reverse();
 
+      int isRect() const;
       double perimeter() const;
       double area() const;
   };
@@ -124,6 +125,7 @@ namespace dbs
 
       static const string quote(const string&);
 
+      int isRect() const;
       double perimeter() const;
       double area() const;
   };
@@ -139,5 +141,7 @@ namespace dbs
       void yaml(ostream&);
       void dxf(ostream &);
       void algomate(ostream &);
+
+      int isRect() const;
   };
 }
