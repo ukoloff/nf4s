@@ -88,6 +88,8 @@ int dbs::Path::isRect() const
     int n = 0, prev, delta = 0;
     for(auto i = spans(); auto span = i.get(); )
     {
+        if(0 != span->bulge)
+            return 0;
         int dir;
         if(span->a.x == span->b.x)
             dir = span->a.y > span->b.y ? 1 : 3;
