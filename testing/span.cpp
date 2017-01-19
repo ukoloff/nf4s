@@ -20,8 +20,9 @@ TEST_CASE("Check uniformity")
             if(1 == j || max < d) max = d;
         }
         max = ((max / min) - 1) * 100;
-        printf("%.1f: %.2f%%\t", span.bulge, max);
-        REQUIRE(max < 25);
+        // printf("%.1f: %.2f%%\t", span.bulge, max);
+        CHECK(max >=  0);
+        CHECK(max < 25);
     }
     printf("\n");
 }
