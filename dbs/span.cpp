@@ -138,3 +138,15 @@ double dbs::Span::area() const
       square(abs(to_c()));
   return res;
 }
+
+/** \brief Find bulge for ark passing thru point
+ *
+ * \param pt const dbs::Complex&
+ * \return double
+ *
+ */
+double dbs::Span::bulgeOf(const dbs::Complex& pt) const
+{
+    auto angle = sqrt((a.to_c() - pt) * conj(b.to_c() - pt));
+    return angle.real() / angle.imag();
+}

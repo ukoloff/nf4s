@@ -66,6 +66,9 @@ namespace dbs
       double perimeter() const;
       double area() const;
 
+      double bulgeOf(const Complex&) const;
+      double bulgeOf(const P& p) const { return bulgeOf(p.to_c()); }
+
       static double square(double x) { return x * x; }
   };
 
