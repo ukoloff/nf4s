@@ -100,6 +100,8 @@ namespace dbs
       void reverse();
 
       int isRect() const;
+      int isCircle() const;
+
       double perimeter() const;
       double area() const;
   };
@@ -129,6 +131,8 @@ namespace dbs
       static const string quote(const string&);
 
       int isRect() const;
+      int isCircle() const;
+
       double perimeter() const;
       double area() const;
   };
@@ -146,5 +150,6 @@ namespace dbs
       void algomate(ostream &);
 
       int isRect() const;
+      int isCircle() const;
   };
 }

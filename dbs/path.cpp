@@ -139,3 +139,44 @@ int dbs::File::isRect() const
         return 0;
     return parts[0].isRect();
 }
+
+/** \brief Detect whether path is a circle
+ *
+ * \return bool
+ *
+ */
+int dbs::Path::isCircle() const
+{
+    if(nodes.size() != 3 || !closed())
+        return 0;
+    auto bulge = nodes[0].bulge;
+    if(abs(bulge) != 1.0 || bulge != nodes[1].bulge)
+        return 0;
+    return bulge > 0 ? -1 : +1;
+}
+
+/** \brief Detect whether part is a circle
+ *
+ * \return int
+ *
+ * See dbs::Path::isCircle
+ */
+int dbs::Part::isCircle() const
+{
+    if(1 != paths.size())
+        return 0;
+    return paths[0].isCircle();
+}
+
+/** \brief Detect whether (single) part is a circle
+ *
+ * \return int
+ *
+ * See dbs::Path::isCircle
+ */
+int dbs::File::isCircle() const
+{
+    if(1 != parts.size())
+        return 0;
+    return parts[0].isCircle();
+}

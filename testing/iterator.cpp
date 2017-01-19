@@ -91,3 +91,24 @@ TEST_CASE("Test isRect()")
     R.read(geodet() + "rectangle.dbs");
     CHECK(1 == R.isRect());
 }
+
+TEST_CASE("Test isCircle()")
+{
+    File A;
+    A.read(geodet() + "rounded3x4.dbs");
+    CHECK(0 == A.isCircle());
+
+    File B;
+    B.read(geodet() + "rectangle.dbs");
+    CHECK(0 == B.isCircle());
+
+    File C;
+    C.read(geodet() + "ring.dbs");
+    CHECK(0 == C.isCircle());
+    CHECK(1 == C.parts.size());
+    auto part = C.parts[0];
+    CHECK(2 == part.paths.size());
+    int i = 0;
+    for(auto& path : part.paths)
+        CHECK((i++ ? -1 : +1) == path.isCircle());
+}
