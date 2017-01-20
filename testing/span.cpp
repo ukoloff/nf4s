@@ -60,11 +60,14 @@ TEST_CASE("Calc areas")
     CHECK(B.area() == Approx(M_PI / 8 - 1. / 4));
 }
 
-TEST_CASE("Find matching bulge")
+TEST_CASE("Find matching bulge & position")
 {
     dbs::Span Z = {{0, 1}, 0, {2, 0}};
 
     for(Z.bulge = -2.0; Z.bulge <= 2.0; Z.bulge += (float)0.1)
         for(auto pos = -0.9; pos < 0.95; pos += 0.1)
+        {
             CHECK(Approx(Z.bulge) == Z.bulgeOf(Z.at((float)pos)));
+            CHECK(Approx(pos) ==  Z.indexOf(Z[(float)pos]));
+        }
 }

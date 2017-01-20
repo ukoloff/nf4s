@@ -68,6 +68,8 @@ namespace dbs
 
       double bulgeOf(const Complex&) const;
       double bulgeOf(const P& p) const { return bulgeOf(p.to_c()); }
+      double indexOf(const Complex&) const;
+      double indexOf(const P& p) const { return indexOf(p.to_c()); }
 
       static double square(double x) { return x * x; }
   };
