@@ -22,7 +22,7 @@ test_script:
 deploy: off
 
 after_test:
-  - 7z a -r nf4s.zip *.exe geodet
+  - 7z a -r nf4s-%Platform%-%Configuration%.zip *.exe geodet
 
 artifacts:
   - path: "*.zip"
