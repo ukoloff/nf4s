@@ -18,9 +18,7 @@ build:
 
 test_script:
 - .\%Platform:x86=%\%Configuration%\testing.exe
-- For %%P in (x86 x64) Do (Call :s1 %%P)
-- :s1
-- Echo 1=%1
+- call z.bat
 
 deploy: off
 
