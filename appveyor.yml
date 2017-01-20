@@ -18,14 +18,9 @@ build:
 
 test_script:
 - .\%Platform:x86=%\%Configuration%\testing.exe
-- For %%P in (x86 x64) Do (
-- For %%C in (Debug Release) Do (
-- Set Platform=%%P
-- Set Configuration= %%C
-- Echo %%C:%%P
-- Set pl
-- Set conf
-- ))
+- For %%P in (x86 x64) Do (Call :s1 %%P)
+- :s1
+- Echo 1=%1
 
 deploy: off
 
