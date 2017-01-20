@@ -147,6 +147,9 @@ double dbs::Span::area() const
  */
 double dbs::Span::bulgeOf(const dbs::Complex& pt) const
 {
-    auto angle = sqrt((a.to_c() - pt) * conj(b.to_c() - pt));
-    return angle.real() / angle.imag();
+    auto angle = (a.to_c() - pt) * conj(b.to_c() - pt);
+    return angle.real() > 0 ?
+        (abs(angle) + angle.real()) / angle.imag()
+        :
+        angle.imag() / (abs(angle) - angle.real());
 }
