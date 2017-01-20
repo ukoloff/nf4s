@@ -5,6 +5,7 @@
 		<Project filename="nf4s/nf4s.cbp">
 			<Depends filename="dbs/dbs.cbp" />
 		</Project>
+		<Project filename="dbs2json/dbs2json.cbp" />
 		<Project filename="testing/testing.cbp">
 			<Depends filename="dbs/dbs.cbp" />
 		</Project>
