@@ -42,6 +42,7 @@
 			<Option compile="1" />
 		</Unit>
 		<Unit filename="algomate.cpp" />
+		<Unit filename="bulge.cpp" />
 		<Unit filename="dxf.cpp" />
 		<Unit filename="json.cpp" />
 		<Unit filename="kol.cpp" />
