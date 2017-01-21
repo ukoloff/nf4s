@@ -49,5 +49,5 @@ double dbs::Span::indexOf(const dbs::Complex& pt) const
  */
 double dbs::Span::bulgeLeft(float pos) const
 {
-  return -tanHalf(Complex(1, bulge) * Complex(1, bulge * pos));
+  return tanHalf(Complex(-1, bulge) * Complex(1, bulge * pos));
 }

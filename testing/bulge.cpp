@@ -13,5 +13,7 @@ TEST_CASE("Find matching bulge & position")
       auto a = Z.bulgeLeft(pos);
       auto b = Z.bulgeRight(pos);
       CHECK(Approx(Z.bulge) == (a + b)/(1 - a * b));
+      CHECK(abs(Z.bulge) >= abs(a));
+      CHECK(abs(Z.bulge) >= abs(b));
     }
 }
