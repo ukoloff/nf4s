@@ -37,17 +37,17 @@ double dbs::Span::indexOf(const dbs::Complex& pt) const
     return (da - db) / (da + db);
 }
 
-/** \brief Find bulge for left sub-ark
+/** \brief Find bulge for right sub-ark
  *
  * \param pos float
  * \return double
  *
  * Break ark at that position (as in [])
- * and find bulge for left sub-ark
+ * and find bulge for right sub-ark
  *
  * bulgeRight(pos) = bulgeLeft(-pos)
  */
-double dbs::Span::bulgeLeft(float pos) const
+double dbs::Span::bulgeRight(float pos) const
 {
   return tanHalf(Complex(-1, bulge) * Complex(1, bulge * pos));
 }

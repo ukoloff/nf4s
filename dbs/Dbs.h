@@ -70,8 +70,8 @@ namespace dbs
       double bulgeOf(const P& p) const { return bulgeOf(p.to_c()); }
       double indexOf(const Complex&) const;
       double indexOf(const P& p) const { return indexOf(p.to_c()); }
-      double bulgeLeft(float pos) const;
-      double bulgeRight(float pos) const { return bulgeLeft(-pos); }
+      double bulgeLeft(float pos) const { return bulgeRight(-pos); }
+      double bulgeRight(float pos) const;
 
       static double square(double x) { return x * x; }
   };
