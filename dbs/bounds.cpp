@@ -105,13 +105,13 @@ const Rect Path::bounds() const
 const Rect Part::bounds() const
 {
     Rect r;
-    for(auto path: paths) r+= path.bounds();
+    for(auto & path: paths) r+= path.bounds();
     return r;
 }
 
 const Rect File::bounds() const
 {
     Rect r;
-    for(auto part: parts) r+= part.bounds();
+    for(auto & part: parts) r+= part.bounds();
     return r;
 }
