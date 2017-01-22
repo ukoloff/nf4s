@@ -36,12 +36,17 @@ namespace dbs
       Rect() { min.x = NAN; }
       Rect(const P & p) : min(p), max(p) {}
 
+      Rect& operator += (float);
+      Rect& operator -= (float f) { return *this += -f; }
       Rect& operator += (const P &);
       Rect& operator += (const Rect &);
+      Rect operator + (float) const;
+      Rect operator - (float f) const { return *this + -f; }
       Rect operator + (const P &) const;
       Rect operator + (const Rect &) const;
 
       explicit operator bool() const { return !isnan(min.x); }
+      const bool operator == (const Rect &) const;
   };
 
   /// Point inside DBS file

@@ -166,6 +166,7 @@
     <ClCompile Include="yaml.cpp" />
     <ClCompile Include="algomate.cpp" />
     <ClCompile Include="bulge.cpp" />
+    <ClCompile Include="bounds.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
