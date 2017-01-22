@@ -28,6 +28,22 @@ namespace dbs
       const bool operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
+  /// Rectangle: 2 points or empty
+  struct Rect
+  {
+      P min, max;
+
+      Rect() { min.x = NAN; }
+      Rect(const P & p) : min(p), max(p) {}
+
+      Rect& operator += (const P &);
+      Rect& operator += (const Rect &);
+      Rect operator + (const P &) const;
+      Rect operator + (const Rect &) const;
+
+      explicit operator bool() const { return !isnan(min.x); }
+  };
+
   /// Point inside DBS file
   struct Node: P
   {
@@ -65,6 +81,7 @@ namespace dbs
       bool ark() const { return bulge != 0; }  ///< Check whether span is ark (not a line)
       double perimeter() const;
       double area() const;
+      const Rect bounds() const;
 
       double bulgeOf(const Complex&) const;
       double bulgeOf(const P& p) const { return bulgeOf(p.to_c()); }
@@ -108,6 +125,7 @@ namespace dbs
 
       double perimeter() const;
       double area() const;
+      const Rect bounds() const;
   };
 
   /// Iterator over Spans
@@ -139,6 +157,7 @@ namespace dbs
 
       double perimeter() const;
       double area() const;
+      const Rect bounds() const;
   };
 
   /// DBS file itself
@@ -153,6 +172,7 @@ namespace dbs
       void dxf(ostream &);
       void algomate(ostream &);
 
+      const Rect bounds() const;
       int isRect() const;
       int isCircle() const;
   };
