@@ -35,3 +35,33 @@ TEST_CASE("Test Rect operations")
     CHECK(z.min.y == sum.min.y);
     CHECK(sum.max == sum.max);
 }
+
+TEST_CASE("Test Span::bounds()")
+{
+    dbs::Span z = {{0, 1}, 0, {1, 0}};
+    auto b = z.bounds();
+    CHECK(b.min.to_c() == dbs::Complex(0, 0));
+    CHECK(b.max.to_c() == dbs::Complex(1, 1));
+    z.bulge = 0.1F;
+    CHECK(z.bounds() == b);
+    z.bulge = 0.42F;
+    auto b2 = z.bounds();
+    CHECK(b2.max == b.max);
+    CHECK(b2.min.x == b2.min.y);
+    CHECK(b2.min.x < 0);
+    z.bulge = -0.42F;
+    b2 = z.bounds();
+    CHECK(b2.min == b.min);
+    CHECK(b2.max.x == b2.max.y);
+    CHECK(b2.max.x > 1);
+    z.bulge = 1;
+    b2 = z.bounds();
+    CHECK(b2.max == b.max);
+    CHECK(b2.min.x == b2.min.y);
+    CHECK(b2.min.x == Approx((1 - sqrt(2))/2));
+    z.bulge = -1;
+    b2 = z.bounds();
+    CHECK(b2.min == b.min);
+    CHECK(b2.max.x == b2.max.y);
+    CHECK(b2.max.x == Approx((1 + sqrt(2))/2));
+}

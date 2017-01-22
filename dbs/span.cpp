@@ -64,7 +64,7 @@ const Complex dbs::Span::operator[](float pos) const
  */
 const Complex dbs::Span::center() const
 {
-    return linear(Complex(0, 1 / bulge - bulge));
+    return linear(Complex(0, (1 / bulge - bulge) / 2));
 }
 
 /** \brief Find point on the arc with more uniform distribution (compared to [])
