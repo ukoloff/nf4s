@@ -20,3 +20,10 @@ test_script:
 - .\%Platform:x86=%\%Configuration%\testing.exe
 
 deploy: off
+
+after_test:
+  - 7z a -r nf4s-%Platform%-%Configuration%.zip *.exe geodet
+
+artifacts:
+  - path: "*.zip"
+    name: Built applications

@@ -66,6 +66,13 @@ namespace dbs
       double perimeter() const;
       double area() const;
 
+      double bulgeOf(const Complex&) const;
+      double bulgeOf(const P& p) const { return bulgeOf(p.to_c()); }
+      double indexOf(const Complex&) const;
+      double indexOf(const P& p) const { return indexOf(p.to_c()); }
+      double bulgeLeft(float pos) const { return bulgeRight(-pos); }
+      double bulgeRight(float pos) const;
+
       static double square(double x) { return x * x; }
   };
 
@@ -96,6 +103,9 @@ namespace dbs
       bool closed() const;
       void reverse();
 
+      int isRect() const;
+      int isCircle() const;
+
       double perimeter() const;
       double area() const;
   };
@@ -124,6 +134,9 @@ namespace dbs
 
       static const string quote(const string&);
 
+      int isRect() const;
+      int isCircle() const;
+
       double perimeter() const;
       double area() const;
   };
@@ -139,5 +152,8 @@ namespace dbs
       void yaml(ostream&);
       void dxf(ostream &);
       void algomate(ostream &);
+
+      int isRect() const;
+      int isCircle() const;
   };
 }
