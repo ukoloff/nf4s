@@ -4,12 +4,12 @@
 using namespace dbs;
 
 // Calculate tan(arg(sqrt(pt)))
-static double tanHalf(const Complex& pt)
+static double tgq(const Complex& pt)
 {
-  return pt.real() > 0 ?
-    (abs(pt) + pt.real()) / pt.imag()
+  return pt.real() < 0 ?
+    (abs(pt) - pt.real()) / pt.imag()
     :
-    pt.imag() / (abs(pt) - pt.real());
+    pt.imag() / (abs(pt) + pt.real());
 }
 
 /** \brief Find bulge for ark passing thru point
@@ -20,7 +20,7 @@ static double tanHalf(const Complex& pt)
  */
 double dbs::Span::bulgeOf(const dbs::Complex& pt) const
 {
-  return tanHalf((a.to_c() - pt) * conj(b.to_c() - pt));
+  return tgq(conj(pt - a.to_c()) * (b.to_c() - pt));
 }
 
 /** \brief Find position on the arc for the point
@@ -49,5 +49,5 @@ double dbs::Span::indexOf(const dbs::Complex& pt) const
  */
 double dbs::Span::bulgeRight(float pos) const
 {
-  return tanHalf(Complex(-1, bulge) * Complex(1, bulge * pos));
+  return tgq(Complex(1, bulge) * Complex(1, -bulge * pos));
 }

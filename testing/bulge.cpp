@@ -15,5 +15,6 @@ TEST_CASE("Find matching bulge & position")
       CHECK(Approx(Z.bulge) == (a + b)/(1 - a * b));
       CHECK(abs(Z.bulge) >= abs(a));
       CHECK(abs(Z.bulge) >= abs(b));
+      CHECK(abs(pos > 0 ? b : a) < 1);
     }
 }
