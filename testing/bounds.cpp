@@ -65,3 +65,26 @@ TEST_CASE("Test Span::bounds()")
     CHECK(b2.max.x == b2.max.y);
     CHECK(b2.max.x == Approx((1 + sqrt(2))/2));
 }
+
+TEST_CASE("Test bounds()")
+{
+    dbs::File Z;
+    Z.read(geodet() + "ring.dbs");
+    auto b = Z.bounds();
+    CHECK(b.min.x == b.min.y);
+    CHECK(b.max.x == b.max.y);
+    CHECK(b.min.x == -b.max.x);
+    CHECK(b.max.x == 2);
+
+    CHECK(Z.parts.size() == 1);
+    auto p = Z.parts[0];
+    CHECK(p.paths.size() == 2);
+    CHECK(p.paths[0].bounds() == b);
+    CHECK(p.paths[1].bounds() == b - 1);
+
+    dbs::File R;
+    R.read(geodet() + "rounded3x4.dbs");
+    b = R.bounds();
+    CHECK(b.min.to_c() == dbs::Complex(0));
+    CHECK(b.max.to_c() == dbs::Complex(3, 4));
+}

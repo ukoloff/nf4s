@@ -78,9 +78,9 @@ const Rect Span::bounds() const
     int out = 0;
     for(size_t i = 0; i < 2; i++)
         for(int j = 1; j <= 2; j <<= 1, ps++, pc++)
-            if(*pc >= 0 && *ps < 0)
+            if(*pc > 0 && *ps <= 0)
               out |= j << 2;    // Adjust .max
-            else if(*pc <= 0 && *ps > 0)
+            else if(*pc < 0 && *ps >= 0)
               out |= j;         // Adjust .min
     if(!out) return bounds;
     float r = radius();
@@ -93,4 +93,25 @@ const Rect Span::bounds() const
         if(out & 1) *ps = *pc - r;
     }
     return bounds;
+}
+
+const Rect Path::bounds() const
+{
+    Rect r;
+    for(auto all = spans(); auto span = all.get(); r += span->bounds());
+    return r;
+}
+
+const Rect Part::bounds() const
+{
+    Rect r;
+    for(auto path: paths) r+= path.bounds();
+    return r;
+}
+
+const Rect File::bounds() const
+{
+    Rect r;
+    for(auto part: parts) r+= part.bounds();
+    return r;
 }
