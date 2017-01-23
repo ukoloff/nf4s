@@ -57,9 +57,19 @@ svg {
 path {
   fill: lime;
   stroke: red;
-  stroke-width: 1;
+  stroke-width: 0.3%;
   fill-rule: nonzero;
   stroke-linejoin: round;
+}
+path:hover {
+  fill: yellow;
+  stroke-dasharray: 1%;
+  animation: dash 1s linear infinite;
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -2%;
+  }
 }
 </style>
 </head>
