@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-static const std::string Preamble = R"HTML(
+static const std::string Preamble = R"HTML(<!DOCTYPE>
 <html>
 <head>
 <style>
@@ -67,6 +67,9 @@ path:hover {
   animation: dash 1s linear infinite;
 }
 @keyframes dash {
+  from {
+    stroke-dashoffset: 0%;
+  }
   to {
     stroke-dashoffset: -2%;
   }
