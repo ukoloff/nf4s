@@ -66,7 +66,7 @@ path {
 <body>
 <svg height="100%" width="100%" viewBox=")HTML";
 
-static const std::string Middle = R"HTML("><g transform = "scale(1, 1)">
+static const std::string Middle = R"HTML("><g transform = "scale(1, -1)">
 )HTML";
 
 static const std::string Postamble = R"HTML(
@@ -81,7 +81,7 @@ static void SVG(const dbs::File & dbs)
     cout << Preamble;
     auto b = dbs.bounds();
     auto sz = b.max.to_c() - b.min.to_c();
-    cout << b.min.x << " " << b.min.y << " " << sz.real() << " " << sz.imag();
+    cout << b.min.x << " " << -b.max.y << " " << sz.real() << " " << sz.imag();
     cout << Middle;
     dbs.svg(cout);
     cout << Postamble;
