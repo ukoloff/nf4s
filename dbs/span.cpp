@@ -3,26 +3,6 @@
 
 using namespace dbs;
 
-/** \brief Get next span from Path
- *
- * \return Span*
- *
- * Call this method until NULL is returned.
-\code
-iSpan z(myPath);
-
-while(auto span = z.get())
-
-   process(span);
-\endcode
- */
-Span * dbs::iSpan::get()
-{
-    if (next + 1 >= path.nodes.size())
-        return 0;
-    return (dbs::Span*)&path.nodes[next++];
-}
-
 /** \brief Get arc's radius
  *
  * \return const float
@@ -125,7 +105,7 @@ const Complex dbs::Span::nadir() const
 double dbs::Span::perimeter() const
 {
   double res = abs(to_c());
-  if(ark())
+  if(isArc())
     res *= (atan(bulge) / bulge) * (1 + square(bulge));
   return res;
 }
@@ -133,8 +113,38 @@ double dbs::Span::perimeter() const
 double dbs::Span::area() const
 {
   double res = (b.x * a.y - b.y * a.x) / 2;
-  if(ark())
+  if(isArc())
     res -= (atan(bulge) * square(1 + square(bulge)) - (1 - square(bulge)) * bulge) / square(bulge) / 8 *
       square(abs(to_c()));
   return res;
+}
+
+void dbs::Span::svg(ostream & out, bool first) const
+{
+    if(first)
+        out << "M " << a.x << " " << a.y << "\n";
+    if(!isArc())
+    {
+        if (a.x == b.x)
+            out << "V " << b.y;
+        else if (a.y == b.y)
+            out << "H " << b.x;
+        else
+            out << "L " << b.x << " " << b.y;
+        return;
+    }
+    size_t n = abs(bulge) >= 1;
+    dbs::P ends[2];
+    ends[0] = b;
+    if (n)
+        ends[1].to_c() = zenith();
+    int nn = 0;
+    auto r = radius();
+    do 
+        out << (nn++ ? " " : "") << "A "
+        << r << " " << r        // rx ry
+        << " 0 0 "              // x-axis-rotation large-arc-flag
+        << (bulge > 0) << " "   // sweep-flag
+        << ends[n].x << " " << ends[n].y;
+    while (n--);
 }

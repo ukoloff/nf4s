@@ -1,15 +1,15 @@
 #include "!stdafx.h"
 #include "Dbs.h"
 
-void dbs::Node::algomate(ostream & out)
+void dbs::Node::algomate(ostream & out) const
 {
     out << "VERTEX:\t" << x << "\t" << y << "\t" << bulge << "\n";
 }
 
-void dbs::Path::algomate(ostream & out)
+void dbs::Path::algomate(ostream & out) const
 {
     size_t n = nodes.size();
-    if(closed()) n--;
+    if(isClosed()) n--;
     out << "VERTQUANT:\t" << n << "\n";
     for(size_t i = 0; i < n; i++)
         nodes[i].algomate(out);
@@ -22,7 +22,7 @@ void dbs::Path::algomate(ostream & out)
  *
  * Text of source file for nesting
  */
-void dbs::Part::algomate(ostream & out)
+void dbs::Part::algomate(ostream & out) const
 {
     out << "ITEMNAME:\t" << name.c_str() << "\n";
     for(auto & path: paths)
@@ -38,7 +38,7 @@ void dbs::Part::algomate(ostream & out)
  *
  * This methods should be used only if parts.size()==1
  */
-void dbs::File::algomate(ostream & out)
+void dbs::File::algomate(ostream & out) const
 {
     for(auto & part: parts)
         part.algomate(out);

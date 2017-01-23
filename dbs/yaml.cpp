@@ -1,7 +1,7 @@
 #include "!stdafx.h"
 #include "iDbs.h"
 
-void dbs::Path::yaml(ostream & out)
+void dbs::Path::yaml(ostream & out) const
 {
     out << "  - # " << nodes.size() << " nodes\n";
     for (auto & n : nodes)
@@ -12,7 +12,7 @@ void dbs::Path::yaml(ostream & out)
     }
 }
 
-void dbs::Part::yaml(ostream & out)
+void dbs::Part::yaml(ostream & out) const
 {
     out << "  partid: " << quote(name).c_str() << "\n";
     out << "  area: " << area() << "\n";
@@ -22,7 +22,7 @@ void dbs::Part::yaml(ostream & out)
         p.yaml(out);
 }
 
-void dbs::File::yaml(ostream & out)
+void dbs::File::yaml(ostream & out) const
 {
     for (auto & p : parts)
     {

@@ -1,13 +1,13 @@
 #include "!stdafx.h"
 #include "iDbs.h"
 
-void dbs::Node::json(ostream & out, bool pretty)
+void dbs::Node::json(ostream & out, bool pretty) const
 {
     auto space = pretty ? " " : "";
     out << '[' << x << ',' << space << y << ',' << space << bulge << ']';
 }
 
-void dbs::Path::json(ostream & out, bool pretty)
+void dbs::Path::json(ostream & out, bool pretty) const
 {
     bool first = true;
     out << '[';
@@ -53,7 +53,7 @@ const string dbs::Part::quote(const string & src)
     return dst.str();
 }
 
-void dbs::Part::json(ostream & out, bool pretty)
+void dbs::Part::json(ostream & out, bool pretty) const
 {
     bool first = true;
     auto eol = pretty ? "\n  " : "";
@@ -82,7 +82,7 @@ void dbs::Part::json(ostream & out, bool pretty)
  *
  * Otherwise - multiline (formatted) JSON.
  */
-void dbs::File::json(ostream & out, bool pretty)
+void dbs::File::json(ostream & out, bool pretty) const
 {
     bool first = true;
     out << '[';

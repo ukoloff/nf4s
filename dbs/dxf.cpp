@@ -1,7 +1,7 @@
 #include "!stdafx.h"
 #include "iDbs.h"
 
-void dbs::Node::dxf(ostream & out)
+void dbs::Node::dxf(ostream & out) const
 {
     out << "  0\nVERTEX\n 10\n" << x << "\n 20\n" << y;
     if (bulge != 0)
@@ -9,11 +9,11 @@ void dbs::Node::dxf(ostream & out)
     out << "\n  8\n0\n";
 }
 
-void dbs::Path::dxf(ostream & out)
+void dbs::Path::dxf(ostream & out) const
 {
     out << "  0\nPOLYLINE\n 10\n0.0\n 20\n0.0\n 30\n0.0\n  8\n0\n 66\n1\n";
     size_t last = nodes.size();
-    if (closed())
+    if (isClosed())
     {
         out << " 70\n1\n";
         last--;
@@ -23,7 +23,7 @@ void dbs::Path::dxf(ostream & out)
     out << "  0\nSEQEND\n";
 }
 
-void dbs::Part::dxf(ostream & out)
+void dbs::Part::dxf(ostream & out) const
 {
     for (auto & path : paths)
         path.dxf(out);
@@ -35,7 +35,7 @@ void dbs::Part::dxf(ostream & out)
  * \return void
  *
  */
-void dbs::File::dxf(ostream & out)
+void dbs::File::dxf(ostream & out) const
 {
     out << "  0\nSECTION\n  2\nENTITIES\n";
     for (auto & part : parts)

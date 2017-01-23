@@ -54,10 +54,10 @@ namespace dbs
   {
       float bulge; ///< Measure of curvature, tan of 1/4 of arc angle; positive for CCW arcs
 
-      void json(ostream &, bool = false);
-      void yaml(ostream & out) { json(out, true); }
-      void dxf(ostream &);
-      void algomate(ostream &);
+      void json(ostream &, bool = false) const;
+      void yaml(ostream & out) const { json(out, true); }
+      void dxf(ostream &) const;
+      void algomate(ostream &) const;
 
       P & to_p() const { return *(P*)this; }    ///< Cast to point
       Complex & to_c() const { return to_p().to_c(); }  ///< Cast to complex number
@@ -83,7 +83,7 @@ namespace dbs
         { return linear(Complex(f)); }
       const Complex linear(Complex) const;
 
-      bool ark() const { return bulge != 0; }  ///< Check whether span is ark (not a line)
+      bool isArc() const { return bulge != 0; }  ///< Check whether span is arc (not a line)
       double perimeter() const;
       double area() const;
       const Rect bounds() const;
@@ -94,6 +94,8 @@ namespace dbs
       double indexOf(const P& p) const { return indexOf(p.to_c()); }
       double bulgeLeft(float pos) const { return bulgeRight(-pos); }
       double bulgeRight(float pos) const;
+
+      void svg(ostream &, bool first = false) const;
 
       static double square(double x) { return x * x; }
   };
@@ -115,14 +117,15 @@ namespace dbs
   {
       vector <Node> nodes;
 
-      void json(ostream &, bool pretty = false);    ///< See File::json
-      void yaml(ostream &);
-      void dxf(ostream &);
-      void algomate(ostream &);
+      void json(ostream &, bool pretty = false) const;    ///< See File::json
+      void yaml(ostream &) const;
+      void dxf(ostream &) const;
+      void svg(ostream &) const;
+      void algomate(ostream &) const;
 
       iSpan spans() const;
 
-      bool closed() const;
+      bool isClosed() const;
       void reverse();
 
       int isRect() const;
@@ -150,10 +153,11 @@ namespace dbs
       string name;
       vector <Path> paths;
 
-      void json(ostream &, bool pretty = false);    ///< See File::json
-      void yaml(ostream &);
-      void dxf(ostream &);
-      void algomate(ostream &);
+      void json(ostream &, bool pretty = false) const;    ///< See File::json
+      void yaml(ostream &) const;
+      void dxf(ostream &)const ;
+      void svg(ostream &) const;
+      void algomate(ostream &) const;
 
       static const string quote(const string&);
 
@@ -172,10 +176,11 @@ namespace dbs
 
       void read(std::string name);
 
-      void json(ostream &, bool pretty = false);
-      void yaml(ostream&);
-      void dxf(ostream &);
-      void algomate(ostream &);
+      void json(ostream &, bool pretty = false) const;
+      void yaml(ostream&) const;
+      void dxf(ostream &) const;
+      void svg(ostream &) const;
+      void algomate(ostream &) const;
 
       const Rect bounds() const;
       int isRect() const;

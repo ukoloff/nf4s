@@ -1,6 +1,26 @@
 #include "!stdafx.h"
 #include "Dbs.h"
 
+/** \brief Get next span from Path
+*
+* \return Span*
+*
+* Call this method until NULL is returned.
+\code
+iSpan z(myPath);
+
+while(auto span = z.get())
+
+process(span);
+\endcode
+*/
+dbs::Span * dbs::iSpan::get()
+{
+    if (next + 1 >= path.nodes.size())
+        return 0;
+    return (dbs::Span*)&path.nodes[next++];
+}
+
 /** \brief
  *
  * \return dbs::iSpan
@@ -19,7 +39,7 @@ dbs::iSpan dbs::Path::spans() const
  *
  * Returns true if last point of Path is exactly equal to the first one.
  */
-bool dbs::Path::closed() const
+bool dbs::Path::isClosed() const
 {
     return nodes.size() > 1 && nodes[0].to_p() == nodes[nodes.size() - 1].to_p();
 }
@@ -52,7 +72,7 @@ double dbs::Path::perimeter() const
 
 double dbs::Path::area() const
 {
-  if(!closed())
+  if(!isClosed())
     return 0;
   double res = 0;
   for(auto i = spans(); auto span = i.get(); )
@@ -83,7 +103,7 @@ double dbs::Part::area() const
  */
 int dbs::Path::isRect() const
 {
-    if(5 != nodes.size() || !closed())
+    if(5 != nodes.size() || !isClosed())
         return 0;
     int n = 0, prev, delta = 0;
     for(auto i = spans(); auto span = i.get(); )
@@ -147,7 +167,7 @@ int dbs::File::isRect() const
  */
 int dbs::Path::isCircle() const
 {
-    if(nodes.size() != 3 || !closed())
+    if(nodes.size() != 3 || !isClosed())
         return 0;
     auto bulge = nodes[0].bulge;
     if(abs(bulge) != 1.0 || bulge != nodes[1].bulge)
@@ -179,4 +199,36 @@ int dbs::File::isCircle() const
     if(1 != parts.size())
         return 0;
     return parts[0].isCircle();
+}
+
+void dbs::Path::svg(ostream & out) const
+{
+    int n = 0;
+    for (auto i = spans(); auto span = i.get(); n++)
+    {
+        if (n) out << "\n";
+        span->svg(out, !n);
+    }
+    if (isClosed())
+        out << " Z";    // For information purposes only
+}
+
+void dbs::Part::svg(ostream & out) const
+{
+    int n = 0;
+    for(auto & path : paths)
+    {
+        if (n++) out << "\n";
+        path.svg(out);
+    }
+}
+
+void dbs::File::svg(ostream & out) const
+{
+    for (auto & part : parts)
+    {
+        out << "<path name=\"" << part.name << "\" d=\"";
+        part.svg(out);
+        out << "\"/>\n";
+    }
 }
