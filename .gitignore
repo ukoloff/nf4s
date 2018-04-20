@@ -247,3 +247,5 @@ doxygen/
 */*.depend
 */*.layout
 /*.workspace.layout
+
+/.*
