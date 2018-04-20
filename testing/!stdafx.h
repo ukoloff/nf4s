@@ -8,8 +8,9 @@
 #include "targetver.h"
 
 #include <stdio.h>
+#ifdef MSVC
 #include <tchar.h>
-
+#endif
 //== Project's
 
 #ifndef M_PI
@@ -20,8 +21,8 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
-#include <ostream>
 #include <map>
+#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <vector>

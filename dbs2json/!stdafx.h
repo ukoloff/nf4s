@@ -8,16 +8,18 @@
 #include "targetver.h"
 
 #include <stdio.h>
+#ifdef MSVC
 #include <tchar.h>
+#endif
 
 //== Project's
 
 #include <complex>
 #include <cstring>
-#include <iostream>
 #include <fstream>
-#include <ostream>
+#include <iostream>
 #include <map>
+#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <vector>

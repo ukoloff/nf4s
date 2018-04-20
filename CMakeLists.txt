@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 if(MSVC)
     add_compile_options(/W4 /WX)
 else()
-    add_compile_options(-Wall -Wextra -Werror --pedantic)
+    add_compile_options(-Wall -Wextra -Wno-ignored-qualifiers -Werror --pedantic)
 endif()
 
 add_subdirectory(dbs)
