@@ -45,7 +45,7 @@ namespace dbs {
              * \return const size_t
              *
              */
-            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*nodes()); }
+            size_t count() const { return (size() - sizeof(*this)) / sizeof(*nodes()); }
 
             /** \brief Pointer to first Node
              *
@@ -69,7 +69,7 @@ namespace dbs {
              * \return const size_t
              *
              */
-            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*ids()); }
+            size_t count() const { return (size() - sizeof(*this)) / sizeof(*ids()); }
 
             /** \brief Pointer to first path id
              *
@@ -105,7 +105,7 @@ namespace dbs {
              * \return const size_t
              *
              */
-            const size_t count() const { return (size() - sizeof(*this)) / sizeof(*notes()); }
+            size_t count() const { return (size() - sizeof(*this)) / sizeof(*notes()); }
 
             /** \brief Link to notes text
              *

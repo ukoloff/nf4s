@@ -31,7 +31,7 @@ Span * dbs::iSpan::get()
  *
  * If span is linear (not arc) returns infinity.
  */
-const float dbs::Span::radius() const
+float dbs::Span::radius() const
 {
     return abs(to_c()) * abs(1 / bulge + bulge) /4 ;
 }
@@ -49,7 +49,7 @@ const float dbs::Span::radius() const
  * More uniform distribution is provided with dbs::Span::at method.
  *
  */
-const Complex dbs::Span::operator[](float pos) const
+Complex dbs::Span::operator[](float pos) const
 {
     return linear(Complex(pos, -bulge) / Complex(1, -pos*bulge));
 }
@@ -62,7 +62,7 @@ const Complex dbs::Span::operator[](float pos) const
  *
  * If span is linear (not arc) returns infinity.
  */
-const Complex dbs::Span::center() const
+Complex dbs::Span::center() const
 {
     return linear(Complex(0, 1 / bulge - bulge));
 }
@@ -80,7 +80,7 @@ const Complex dbs::Span::center() const
  * whereas []'s points tend to concentrate near arc's ends
  * (for big bulge values).
  */
-const Complex dbs::Span::at(float pos) const
+Complex dbs::Span::at(float pos) const
 {
     auto q = (sqrt(9 + 8 * bulge * bulge) + 1) / 4;
     return (*this)[pos / (q - (q-1) * pos * pos)];
@@ -96,7 +96,7 @@ const Complex dbs::Span::at(float pos) const
  * Maps -1 to Arc's begin, +1 to Arc's end,
  * otherwise perform linear transformation.
  */
-const Complex dbs::Span::linear(Complex pos) const
+Complex dbs::Span::linear(Complex pos) const
 {
   return (to_c() * pos + a.to_c() + b.to_c()) / (float)2;
 }
@@ -106,7 +106,7 @@ const Complex dbs::Span::linear(Complex pos) const
  * \return const Complex
  *
  */
-const Complex dbs::Span::zenith() const
+Complex dbs::Span::zenith() const
 {
     return linear(Complex(0, -bulge));
 }
@@ -117,7 +117,7 @@ const Complex dbs::Span::zenith() const
  *
  * This points is not on the arc, it is far in space on another side...
  */
-const Complex dbs::Span::nadir() const
+Complex dbs::Span::nadir() const
 {
     return linear(Complex(0, 1 / bulge));
 }

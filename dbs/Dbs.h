@@ -25,7 +25,7 @@ namespace dbs
 
       Complex & to_c() const { return *(Complex*)this; } ///< Cast to complex number
 
-      const bool operator == (const P & p) const { return to_c() == p.to_c(); }
+      bool operator == (const P & p) const { return to_c() == p.to_c(); }
   };
 
   /// Point inside DBS file
@@ -51,16 +51,16 @@ namespace dbs
 
       const Complex to_c() const { return b.to_c() - a.to_c(); }    ///< Vector from start to end
 
-      const float radius() const;
-      const Complex center() const;
-      const Complex zenith() const;
-      const Complex nadir() const;
+      float radius() const;
+      Complex center() const;
+      Complex zenith() const;
+      Complex nadir() const;
 
-      const Complex operator [](float) const;
-      const Complex at(float) const;
-      const Complex linear(float f) const
+      Complex operator [](float) const;
+      Complex at(float) const;
+      Complex linear(float f) const
         { return linear(Complex(f)); }
-      const Complex linear(Complex) const;
+      Complex linear(Complex) const;
 
       bool ark() const { return bulge != 0; }  ///< Check whether span is ark (not a line)
       double perimeter() const;

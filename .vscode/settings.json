@@ -1,3 +1,6 @@
 {
-  "cmake.buildDirectory": "${workspaceRoot}/.build"
+  "cmake.buildDirectory": "${workspaceRoot}/.build",
+  "files.associations": {
+    "bitset": "cpp"
+  }
 }
