@@ -69,7 +69,7 @@ double dbs::Part::area() const {
  */
 int dbs::Path::isRect() const {
   if (5 != nodes.size() || !closed()) return 0;
-  int n = 0, prev, delta = 0;
+  int n = 0, prev = 0, delta = 0;
   for (auto i = spans(); auto span = i.get();) {
     if (0 != span->bulge) return 0;
     int dir;

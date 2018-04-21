@@ -7,7 +7,7 @@ TEST_CASE("Check uniformity") {
   dbs::Span span = {{0, 0}, 1, {0, 1}};
   for (int i = 0; i <= B; i++) {
     span.bulge = (float)i;
-    float min, max;
+    float min = 0, max = 0;
     dbs::Complex p, prev;
     for (int j = 0; j <= N; j++, prev = p) {
       p = span.at(j / (float)N);
