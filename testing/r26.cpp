@@ -3,9 +3,8 @@
 
 using namespace dbs::i;
 
-TEST_CASE("Reverting PARTID")
-{
-    string s = "1234";
-    R26::swap(s);
-    REQUIRE(s == "2143");
+TEST_CASE("Reverting PARTID") {
+  string s = "1234";
+  R26::swap(s);
+  REQUIRE(s == "2143");
 }

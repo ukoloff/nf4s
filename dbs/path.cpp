@@ -7,10 +7,9 @@
  *
  * Initialize and return span iterator
  */
-dbs::iSpan dbs::Path::spans() const
-{
-    dbs::iSpan res(*this);
-    return res;
+dbs::iSpan dbs::Path::spans() const {
+  dbs::iSpan res(*this);
+  return res;
 }
 
 /** \brief Is Path closed?
@@ -19,9 +18,8 @@ dbs::iSpan dbs::Path::spans() const
  *
  * Returns true if last point of Path is exactly equal to the first one.
  */
-bool dbs::Path::closed() const
-{
-    return nodes.size() > 1 && nodes[0].to_p() == nodes[nodes.size() - 1].to_p();
+bool dbs::Path::closed() const {
+  return nodes.size() > 1 && nodes[0].to_p() == nodes[nodes.size() - 1].to_p();
 }
 
 /** \brief Reverts the Path
@@ -30,49 +28,37 @@ bool dbs::Path::closed() const
  *
  * Reorders Nodes in Path (in place) so it goes in opposite direction.
  */
-void dbs::Path::reverse()
-{
-    if (nodes.size() < 2)
-        return;
-    for (size_t i = 0, j = nodes.size() - 1; i < j; i++, j--)
-        std::swap(nodes[i].to_p(), nodes[j].to_p());
-    for (size_t i = 0, j = nodes.size() - 2; i < j; i++, j--)
-        std::swap(nodes[i].bulge, nodes[j].bulge);
-    for (auto & node : nodes)
-        node.bulge = -node.bulge;
+void dbs::Path::reverse() {
+  if (nodes.size() < 2) return;
+  for (size_t i = 0, j = nodes.size() - 1; i < j; i++, j--)
+    std::swap(nodes[i].to_p(), nodes[j].to_p());
+  for (size_t i = 0, j = nodes.size() - 2; i < j; i++, j--)
+    std::swap(nodes[i].bulge, nodes[j].bulge);
+  for (auto& node : nodes) node.bulge = -node.bulge;
 }
 
-double dbs::Path::perimeter() const
-{
+double dbs::Path::perimeter() const {
   double res = 0;
-  for(auto i = spans(); auto span = i.get(); )
-    res += span->perimeter();
+  for (auto i = spans(); auto span = i.get();) res += span->perimeter();
   return res;
 }
 
-double dbs::Path::area() const
-{
-  if(!closed())
-    return 0;
+double dbs::Path::area() const {
+  if (!closed()) return 0;
   double res = 0;
-  for(auto i = spans(); auto span = i.get(); )
-    res += span->area();
+  for (auto i = spans(); auto span = i.get();) res += span->area();
   return res;
 }
 
-double dbs::Part::perimeter() const
-{
+double dbs::Part::perimeter() const {
   double res = 0;
-  for(auto & path : paths)
-    res += path.perimeter();
+  for (auto& path : paths) res += path.perimeter();
   return res;
 }
 
-double dbs::Part::area() const
-{
+double dbs::Part::area() const {
   double res = 0;
-  for(auto & path : paths)
-    res += path.area();
+  for (auto& path : paths) res += path.area();
   return res;
 }
 
@@ -81,37 +67,31 @@ double dbs::Part::area() const
  * \return int 0 for not rectangle, +1/-1 for yes (cw/ccw)
  *
  */
-int dbs::Path::isRect() const
-{
-    if(5 != nodes.size() || !closed())
-        return 0;
-    int n = 0, prev, delta = 0;
-    for(auto i = spans(); auto span = i.get(); )
-    {
-        if(0 != span->bulge)
-            return 0;
-        int dir;
-        if(span->a.x == span->b.x)
-            dir = span->a.y > span->b.y ? 1 : 3;
-        else if(span->a.y == span->b.y)
-            dir = span->a.x > span->b.x ? 2 : 0;
-        else
-            return 0;
-        if(!n++)
-        {
-            prev = dir;
-            continue;
-        }
-        auto d = (prev - dir) & 3;
-        prev = dir;
-        if(!(d & 1))
-            return 0;
-        if(2==n)
-            delta = d;
-        else if (delta != d)
-            return 0;
+int dbs::Path::isRect() const {
+  if (5 != nodes.size() || !closed()) return 0;
+  int n = 0, prev, delta = 0;
+  for (auto i = spans(); auto span = i.get();) {
+    if (0 != span->bulge) return 0;
+    int dir;
+    if (span->a.x == span->b.x)
+      dir = span->a.y > span->b.y ? 1 : 3;
+    else if (span->a.y == span->b.y)
+      dir = span->a.x > span->b.x ? 2 : 0;
+    else
+      return 0;
+    if (!n++) {
+      prev = dir;
+      continue;
     }
-    return delta - 2;
+    auto d = (prev - dir) & 3;
+    prev = dir;
+    if (!(d & 1)) return 0;
+    if (2 == n)
+      delta = d;
+    else if (delta != d)
+      return 0;
+  }
+  return delta - 2;
 }
 
 /** \brief Detect whether part is rectangle
@@ -120,11 +100,9 @@ int dbs::Path::isRect() const
  *
  * See dbs::Path::isRect
  */
-int dbs::Part::isRect() const
-{
-    if(1 != paths.size())
-        return 0;
-    return paths[0].isRect();
+int dbs::Part::isRect() const {
+  if (1 != paths.size()) return 0;
+  return paths[0].isRect();
 }
 
 /** \brief Detect whether (single) part is rectangle
@@ -133,11 +111,9 @@ int dbs::Part::isRect() const
  *
  * See dbs::Path::isRect
  */
-int dbs::File::isRect() const
-{
-    if(1 != parts.size())
-        return 0;
-    return parts[0].isRect();
+int dbs::File::isRect() const {
+  if (1 != parts.size()) return 0;
+  return parts[0].isRect();
 }
 
 /** \brief Detect whether path is a circle
@@ -145,14 +121,11 @@ int dbs::File::isRect() const
  * \return bool
  *
  */
-int dbs::Path::isCircle() const
-{
-    if(nodes.size() != 3 || !closed())
-        return 0;
-    auto bulge = nodes[0].bulge;
-    if(abs(bulge) != 1.0 || bulge != nodes[1].bulge)
-        return 0;
-    return bulge > 0 ? -1 : +1;
+int dbs::Path::isCircle() const {
+  if (nodes.size() != 3 || !closed()) return 0;
+  auto bulge = nodes[0].bulge;
+  if (abs(bulge) != 1.0 || bulge != nodes[1].bulge) return 0;
+  return bulge > 0 ? -1 : +1;
 }
 
 /** \brief Detect whether part is a circle
@@ -161,11 +134,9 @@ int dbs::Path::isCircle() const
  *
  * See dbs::Path::isCircle
  */
-int dbs::Part::isCircle() const
-{
-    if(1 != paths.size())
-        return 0;
-    return paths[0].isCircle();
+int dbs::Part::isCircle() const {
+  if (1 != paths.size()) return 0;
+  return paths[0].isCircle();
 }
 
 /** \brief Detect whether (single) part is a circle
@@ -174,9 +145,7 @@ int dbs::Part::isCircle() const
  *
  * See dbs::Path::isCircle
  */
-int dbs::File::isCircle() const
-{
-    if(1 != parts.size())
-        return 0;
-    return parts[0].isCircle();
+int dbs::File::isCircle() const {
+  if (1 != parts.size()) return 0;
+  return parts[0].isCircle();
 }

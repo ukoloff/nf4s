@@ -16,11 +16,9 @@ while(auto span = z.get())
    process(span);
 \endcode
  */
-Span * dbs::iSpan::get()
-{
-    if (next + 1 >= path.nodes.size())
-        return 0;
-    return (dbs::Span*)&path.nodes[next++];
+Span* dbs::iSpan::get() {
+  if (next + 1 >= path.nodes.size()) return 0;
+  return (dbs::Span*)&path.nodes[next++];
 }
 
 /** \brief Get arc's radius
@@ -31,9 +29,8 @@ Span * dbs::iSpan::get()
  *
  * If span is linear (not arc) returns infinity.
  */
-float dbs::Span::radius() const
-{
-    return abs(to_c()) * abs(1 / bulge + bulge) /4 ;
+float dbs::Span::radius() const {
+  return abs(to_c()) * abs(1 / bulge + bulge) / 4;
 }
 
 /** \brief Find point on arc
@@ -49,9 +46,8 @@ float dbs::Span::radius() const
  * More uniform distribution is provided with dbs::Span::at method.
  *
  */
-Complex dbs::Span::operator[](float pos) const
-{
-    return linear(Complex(pos, -bulge) / Complex(1, -pos*bulge));
+Complex dbs::Span::operator[](float pos) const {
+  return linear(Complex(pos, -bulge) / Complex(1, -pos * bulge));
 }
 
 /** \brief Return center of the arc
@@ -62,9 +58,8 @@ Complex dbs::Span::operator[](float pos) const
  *
  * If span is linear (not arc) returns infinity.
  */
-Complex dbs::Span::center() const
-{
-    return linear(Complex(0, 1 / bulge - bulge));
+Complex dbs::Span::center() const {
+  return linear(Complex(0, 1 / bulge - bulge));
 }
 
 /** \brief Find point on the arc with more uniform distribution (compared to [])
@@ -80,10 +75,9 @@ Complex dbs::Span::center() const
  * whereas []'s points tend to concentrate near arc's ends
  * (for big bulge values).
  */
-Complex dbs::Span::at(float pos) const
-{
-    auto q = (sqrt(9 + 8 * bulge * bulge) + 1) / 4;
-    return (*this)[pos / (q - (q-1) * pos * pos)];
+Complex dbs::Span::at(float pos) const {
+  auto q = (sqrt(9 + 8 * bulge * bulge) + 1) / 4;
+  return (*this)[pos / (q - (q - 1) * pos * pos)];
 }
 
 /** \brief Get real coordinates of point around arc
@@ -96,8 +90,7 @@ Complex dbs::Span::at(float pos) const
  * Maps -1 to Arc's begin, +1 to Arc's end,
  * otherwise perform linear transformation.
  */
-Complex dbs::Span::linear(Complex pos) const
-{
+Complex dbs::Span::linear(Complex pos) const {
   return (to_c() * pos + a.to_c() + b.to_c()) / (float)2;
 }
 
@@ -106,10 +99,7 @@ Complex dbs::Span::linear(Complex pos) const
  * \return const Complex
  *
  */
-Complex dbs::Span::zenith() const
-{
-    return linear(Complex(0, -bulge));
-}
+Complex dbs::Span::zenith() const { return linear(Complex(0, -bulge)); }
 
 /** \brief Return the middle of alternative arc
  *
@@ -117,24 +107,19 @@ Complex dbs::Span::zenith() const
  *
  * This points is not on the arc, it is far in space on another side...
  */
-Complex dbs::Span::nadir() const
-{
-    return linear(Complex(0, 1 / bulge));
-}
+Complex dbs::Span::nadir() const { return linear(Complex(0, 1 / bulge)); }
 
-double dbs::Span::perimeter() const
-{
+double dbs::Span::perimeter() const {
   double res = abs(to_c());
-  if(ark())
-    res *= (atan(bulge) / bulge) * (1 + square(bulge));
+  if (ark()) res *= (atan(bulge) / bulge) * (1 + square(bulge));
   return res;
 }
 
-double dbs::Span::area() const
-{
+double dbs::Span::area() const {
   double res = (b.x * a.y - b.y * a.x) / 2;
-  if(ark())
-    res -= (atan(bulge) * square(1 + square(bulge)) - (1 - square(bulge)) * bulge) / square(bulge) / 8 *
-      square(abs(to_c()));
+  if (ark())
+    res -= (atan(bulge) * square(1 + square(bulge)) -
+            (1 - square(bulge)) * bulge) /
+           square(bulge) / 8 * square(abs(to_c()));
   return res;
 }

@@ -4,12 +4,9 @@
 using namespace dbs;
 
 // Calculate tan(arg(sqrt(pt)))
-static double tgq(const Complex& pt)
-{
-  return pt.real() < 0 ?
-    (abs(pt) - pt.real()) / pt.imag()
-    :
-    pt.imag() / (abs(pt) + pt.real());
+static double tgq(const Complex& pt) {
+  return pt.real() < 0 ? (abs(pt) - pt.real()) / pt.imag()
+                       : pt.imag() / (abs(pt) + pt.real());
 }
 
 /** \brief Find bulge for ark passing thru point
@@ -18,8 +15,7 @@ static double tgq(const Complex& pt)
  * \return double
  *
  */
-double dbs::Span::bulgeOf(const dbs::Complex& pt) const
-{
+double dbs::Span::bulgeOf(const dbs::Complex& pt) const {
   return tgq(conj(pt - a.to_c()) * (b.to_c() - pt));
 }
 
@@ -30,11 +26,10 @@ double dbs::Span::bulgeOf(const dbs::Complex& pt) const
  *
  * Reverse function for [] operator
  */
-double dbs::Span::indexOf(const dbs::Complex& pt) const
-{
-    auto da = abs(a.to_c() - pt);
-    auto db = abs(b.to_c() - pt);
-    return (da - db) / (da + db);
+double dbs::Span::indexOf(const dbs::Complex& pt) const {
+  auto da = abs(a.to_c() - pt);
+  auto db = abs(b.to_c() - pt);
+  return (da - db) / (da + db);
 }
 
 /** \brief Find bulge for right sub-ark
@@ -47,7 +42,6 @@ double dbs::Span::indexOf(const dbs::Complex& pt) const
  *
  * bulgeRight(pos) = bulgeLeft(-pos)
  */
-double dbs::Span::bulgeRight(float pos) const
-{
+double dbs::Span::bulgeRight(float pos) const {
   return tgq(Complex(1, bulge) * Complex(1, -bulge * pos));
 }
